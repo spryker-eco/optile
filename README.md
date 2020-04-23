@@ -7,7 +7,7 @@
 ## Installation
 
 ```
-composer require spryker/optile
+composer require spryker-eco/optile
 ```
 
 ## Documentation
