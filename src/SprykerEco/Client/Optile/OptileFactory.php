@@ -7,8 +7,11 @@
 
 namespace SprykerEco\Client\Optile;
 
-use Spryker\Client\Kernel\AbstractDependencyProvider;
+use Spryker\Client\Kernel\AbstractFactory;
 
-class OptileDependencyProvider extends AbstractDependencyProvider
+/**
+ * @method \SprykerEco\Client\Optile\OptileConfig getConfig()
+ */
+class OptileFactory extends AbstractFactory
 {
 }

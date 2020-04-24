@@ -5,10 +5,8 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Client\Optile;
+namespace SprykerEco\Zed\Optile;
 
-use Spryker\Client\Kernel\AbstractDependencyProvider;
-
-class OptileDependencyProvider extends AbstractDependencyProvider
+interface OptileConfigInterface
 {
 }
