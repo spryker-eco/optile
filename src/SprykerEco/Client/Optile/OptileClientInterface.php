@@ -7,8 +7,10 @@
 
 namespace SprykerEco\Client\Optile;
 
-use Generated\Shared\Transfer\OptileListResponseTransfer;
+use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
+use Generated\Shared\Transfer\OptileRequestTransfer;
+use Generated\Shared\Transfer\OptileResponseTransfer;
 
 interface OptileClientInterface
 {
@@ -18,11 +20,13 @@ interface OptileClientInterface
      *
      * @api
      *
-     * @param array $externalResponse
+     * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileNotificationResponseTransfer
      */
-    public function saveNotificationRequest(array $externalResponse): OptileNotificationResponseTransfer;
+    public function processNotificationRequest(
+        OptileNotificationRequestTransfer $optileNotificationRequestTransfer
+    ): OptileNotificationResponseTransfer;
 
     /**
      * Specification:
@@ -30,9 +34,9 @@ interface OptileClientInterface
      *
      * @api
      *
-     * @param array $externalResponse
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\OptileListResponseTransfer
+     * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    public function sendListRequest(array $externalResponse): OptileListResponseTransfer;
+    public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer;
 }

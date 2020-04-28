@@ -29,9 +29,9 @@ class OptileConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getApiUrl()
+    public function getApiListUrl()
     {
-        return $this->get(OptileConstants::CONFIG_API_URL);
+        return $this->get(OptileConstants::CONFIG_API_LIST_URL);
     }
 
     /**

@@ -8,10 +8,19 @@
 namespace SprykerEco\Client\Optile;
 
 use Spryker\Client\Kernel\AbstractFactory;
+use Spryker\Client\ZedRequest\ZedRequestClientFactoryTrait;
+use SprykerEco\Client\Optile\Zed\OptileStub;
+use SprykerEco\Client\Optile\Zed\OptileStubInterface;
 
-/**
- * @method \SprykerEco\Client\Optile\OptileConfig getConfig()
- */
 class OptileFactory extends AbstractFactory
 {
+    use ZedRequestClientFactoryTrait;
+
+    /**
+     * @return \SprykerEco\Client\Optile\Zed\OptileStubInterface
+     */
+    public function createZedStub(): OptileStubInterface
+    {
+        return new OptileStub($this->getZedRequestClient());
+    }
 }

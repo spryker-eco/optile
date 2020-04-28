@@ -5,24 +5,20 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Client\Optile;
+namespace SprykerEco\Client\Optile\Zed;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use Spryker\Client\Kernel\AbstractClient;
+use Spryker\Client\ZedRequest\Stub\ZedRequestStub;
 
-/**
- * @method \SprykerEco\Client\Optile\OptileFactory getFactory()
- */
-class OptileClient extends AbstractClient implements OptileClientInterface
+class OptileStub extends ZedRequestStub implements OptileStubInterface
 {
+    protected const ZED_GET_PROCESS_NOTIFICATION_REQUEST = '/optile/gateway/process-notification-request';
+    protected const ZED_GET_MAKE_LIST_REQUEST = '/optile/gateway/make-list-request';
+
     /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
      * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileNotificationResponseTransfer
@@ -30,24 +26,28 @@ class OptileClient extends AbstractClient implements OptileClientInterface
     public function processNotificationRequest(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): OptileNotificationResponseTransfer {
-        return $this->getFactory()
-            ->createZedStub()
-            ->processNotificationRequest($optileNotificationRequestTransfer);
+        /** @var \Generated\Shared\Transfer\OptileNotificationResponseTransfer $optileNotificationResponseTransfer */
+        $optileNotificationResponseTransfer = $this->zedStub->call(
+            static::ZED_GET_PROCESS_NOTIFICATION_REQUEST,
+            $optileNotificationRequestTransfer
+        );
+
+        return $optileNotificationResponseTransfer;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
     public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()
-            ->createZedStub()
-            ->makeListRequest($optileRequestTransfer);
+        /** @var \Generated\Shared\Transfer\OptileResponseTransfer $optileResponseTransfer */
+        $optileResponseTransfer = $this->zedStub->call(
+            static::ZED_GET_MAKE_LIST_REQUEST,
+            $optileRequestTransfer
+        );
+
+        return $optileResponseTransfer;
     }
 }

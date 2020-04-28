@@ -5,49 +5,28 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Client\Optile;
+namespace SprykerEco\Client\Optile\Zed;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use Spryker\Client\Kernel\AbstractClient;
 
-/**
- * @method \SprykerEco\Client\Optile\OptileFactory getFactory()
- */
-class OptileClient extends AbstractClient implements OptileClientInterface
+interface OptileStubInterface
 {
     /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
      * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileNotificationResponseTransfer
      */
     public function processNotificationRequest(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
-    ): OptileNotificationResponseTransfer {
-        return $this->getFactory()
-            ->createZedStub()
-            ->processNotificationRequest($optileNotificationRequestTransfer);
-    }
+    ): OptileNotificationResponseTransfer;
 
     /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
-    {
-        return $this->getFactory()
-            ->createZedStub()
-            ->makeListRequest($optileRequestTransfer);
-    }
+    public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer;
 }

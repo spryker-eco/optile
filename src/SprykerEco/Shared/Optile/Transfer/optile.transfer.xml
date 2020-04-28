@@ -6,22 +6,70 @@
     <transfer name="OptileNotificationResponse">
         <property name="isSuccess" type="bool"/>
         <property name="isError" type="bool"/>
-        <property name="idSalesOrder" type="int"/>
+        <property name="notificationId" type="string"/>
         <property name="error" type="OptileResponseError"/>
     </transfer>
 
-    <transfer name="OptileListResponse">
+    <transfer name="OptileNotificationRequest">
+        <property name="idPaymentOptileNotification" type="string"/>
+        <property name="transactionId" type="string"/>
+        <property name="notificationId" type="string"/>
+        <property name="rejectionCount" type="int"/>
+        <property name="currency" type="string"/>
+        <property name="amount" type="decimal"/>
+        <property name="customerRegistrationPassword" type="string"/>
+        <property name="customerRegistrationId" type="string"/>
+        <property name="longId" type="string"/>
+        <property name="shortId" type="string"/>
+        <property name="entity" type="string"/>
+        <property name="statusCode" type="string"/>
+        <property name="reasonCode" type="string"/>
+        <property name="timestamp" type="string"/>
+    </transfer>
+
+    <transfer name="OptileRequest">
+        <property name="transactionId" type="string"/>
+        <property name="integration" type="string"/>
+        <property name="country" type="string"/>
+        <property name="presetFirst" type="bool"/>
+        <property name="idCustomer" type="int"/>
+        <property name="customerEmail" type="string"/>
+        <property name="paymentAmount" type="float"/>
+        <property name="paymentCurrency" type="string"/>
+        <property name="paymentReference" type="string"/>
+        <property name="callbackCancelUrl" type="string"/>
+        <property name="callbackSummaryUrl" type="string"/>
+        <property name="callbackNotificationUrl" type="string"/>
+        <property name="requestUrl" type="string"/>
+    </transfer>
+
+    <transfer name="OptileResponse">
         <property name="isSuccess" type="bool"/>
         <property name="isError" type="bool"/>
         <property name="idSalesOrder" type="int"/>
         <property name="error" type="OptileResponseError"/>
         <property name="idPaymentReference" type="string"/>
+        <property name="selfLink" type="string"/>
+        <property name="operation" type="string"/>
+        <property name="longId" type="string"/>
     </transfer>
 
     <transfer name="OptileResponseError">
         <property name="code" type="string"/>
         <property name="internalMessage" type="string"/>
         <property name="customerMessage" type="string"/>
+    </transfer>
+
+    <transfer name="OptileTransactionLog">
+        <property name="idPaymentOptileTransactionId" type="int"/>
+        <property name="fkSalesOrder" type="int"/>
+        <property name="idTransactionUnique" type="string"/>
+        <property name="operation" type="string"/>
+        <property name="returnCode" type="string"/>
+        <property name="responseCode" type="string"/>
+        <property name="requestPayload" type="string"/>
+        <property name="requestUrl" type="string"/>
+        <property name="responsePayload" type="string"/>
     </transfer>
 
 </transfers>
