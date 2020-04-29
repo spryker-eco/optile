@@ -24,11 +24,6 @@ class OptileItInitializeStep extends AbstractBaseStep
     protected $optileClient;
 
     /**
-     * @var \SprykerEco\Yves\Optile\OptileConfigInterface
-     */
-    protected $optileConfig;
-
-    /**
      * @param string $stepRoute
      * @param string $escapeRoute
      * @param \SprykerEco\Client\Optile\OptileClientInterface $optileClient
@@ -54,7 +49,7 @@ class OptileItInitializeStep extends AbstractBaseStep
     }
 
     /**
-     * Empty quote transfer and mark logged in customer as "dirty" to force update it in the next request.
+     * Populate Quote with Optile payment needed data.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
@@ -63,11 +58,9 @@ class OptileItInitializeStep extends AbstractBaseStep
      */
     public function execute(Request $request, AbstractTransfer $quoteTransfer)
     {
-        $optileResponseTransfer = $this->optileClient->makeListRequest(
+        $quoteTransfer->setOptileInitResponse($this->optileClient->makeListRequest(
             $this->buildOptileRequestTransfer($quoteTransfer)
-        );
-
-        dd($optileResponseTransfer);
+        ));
 
         return $quoteTransfer;
     }
@@ -93,9 +86,10 @@ class OptileItInitializeStep extends AbstractBaseStep
             ->setTransactionId($quoteTransfer->getUuid())
             ->setCountry($quoteTransfer->getBillingAddress()->getIso2Code())
             ->setCustomerEmail($quoteTransfer->getCustomer()->getEmail())
-            ->setIdCustomer($quoteTransfer->getIdCustomer())
+            ->setIdCustomer($quoteTransfer->getCustomer()->getIdCustomer())
             ->setPaymentAmount($quoteTransfer->getTotals()->getGrandTotal())
             ->setPaymentCurrency($quoteTransfer->getCurrency()->getCode())
-            ->setPaymentReference($quoteTransfer->getUuid());
+            ->setPaymentReference($quoteTransfer->getUuid())
+            ->setCustomerScore($quoteTransfer->getCustomerScore());
     }
 }

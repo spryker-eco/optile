@@ -36,9 +36,9 @@ class OptileDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addQuoteClient(Container $container): Container
     {
-        $container[static::CLIENT_QUOTE] = function (Container $container) {
+        $container->set(static::CLIENT_QUOTE, function (Container $container) {
             return new OptileToQuoteClientBridge($container->getLocator()->quote()->client());
-        };
+        });
 
         return $container;
     }

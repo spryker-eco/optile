@@ -23,11 +23,6 @@ interface OptileConstants
     public const CONFIG_MERCHANT_CODE = 'CONFIG_MERCHANT_CODE';
 
     /**
-     * Return url callback
-     */
-    public const CONFIG_YVES_CHECKOUT_PAYMENT_RETURN_URL = 'CONFIG_YVES_CHECKOUT_PAYMENT_RETURN_URL';
-
-    /**
      * Cancel url callback
      */
     public const CONFIG_YVES_CHECKOUT_PAYMENT_CANCEL_URL = 'CONFIG_YVES_CHECKOUT_PAYMENT_FAILED_URL';
@@ -51,4 +46,9 @@ interface OptileConstants
      * Integration type (ex. Hosted, Select Native ...)
      */
     public const CONFIG_YVES_CHECKOUT_INTEGRATION_TYPE = 'CONFIG_YVES_CHECKOUT_INTEGRATION_TYPE';
+
+    /**
+     * Is preset flow enabled
+     */
+    public const IS_PRESET_ENABLED = 'IS_PRESET_ENABLED';
 }

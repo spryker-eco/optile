@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerEco\Zed\Heidelpay;
+namespace SprykerEco\Zed\Optile;
 
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 

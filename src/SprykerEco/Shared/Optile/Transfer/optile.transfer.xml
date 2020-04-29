@@ -40,24 +40,18 @@
         <property name="callbackCancelUrl" type="string"/>
         <property name="callbackSummaryUrl" type="string"/>
         <property name="callbackNotificationUrl" type="string"/>
+        <property name="customerScore" type="int"/>
         <property name="requestUrl" type="string"/>
     </transfer>
 
     <transfer name="OptileResponse">
         <property name="isSuccess" type="bool"/>
-        <property name="isError" type="bool"/>
         <property name="idSalesOrder" type="int"/>
-        <property name="error" type="OptileResponseError"/>
-        <property name="idPaymentReference" type="string"/>
+        <property name="error" type="string"/>
+        <property name="paymentReference" type="string"/>
         <property name="selfLink" type="string"/>
         <property name="operation" type="string"/>
         <property name="longId" type="string"/>
-    </transfer>
-
-    <transfer name="OptileResponseError">
-        <property name="code" type="string"/>
-        <property name="internalMessage" type="string"/>
-        <property name="customerMessage" type="string"/>
     </transfer>
 
     <transfer name="OptileTransactionLog">
@@ -70,6 +64,11 @@
         <property name="requestPayload" type="string"/>
         <property name="requestUrl" type="string"/>
         <property name="responsePayload" type="string"/>
+        <property name="paymentReference" type="string"/>
     </transfer>
 
+    <transfer name="Quote">
+        <property name="customerScore" type="int" />
+        <property name="optileInitResponse" type="OptileResponse" />
+    </transfer>
 </transfers>

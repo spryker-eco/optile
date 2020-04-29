@@ -44,23 +44,24 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
     }
 
     /**
-     * @param \Generated\Shared\Transfer\OptileTransactionLogTransfer $optileNotificationRequestTransfer
+     * @param \Generated\Shared\Transfer\OptileTransactionLogTransfer $optileTransactionLogTransfer
      *
      * @return \Generated\Shared\Transfer\OptileTransactionLogTransfer
+     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function saveTransactionLog(
-        OptileTransactionLogTransfer $optileNotificationRequestTransfer
+        OptileTransactionLogTransfer $optileTransactionLogTransfer
     ): OptileTransactionLogTransfer {
         $spyTransactionLog = new SpyPaymentOptileTransactionLog();
 
-        $spyTransactionLog->fromArray($optileNotificationRequestTransfer->toArray());
+        $spyTransactionLog->fromArray($optileTransactionLogTransfer->toArray());
 
         $spyTransactionLog->save();
 
-        $optileNotificationRequestTransfer->setIdPaymentOptileTransactionId(
+        $optileTransactionLogTransfer->setIdPaymentOptileTransactionId(
             $spyTransactionLog->getIdPaymentOptileTransactionLog()
         );
 
-        return $optileNotificationRequestTransfer;
+        return $optileTransactionLogTransfer;
     }
 }

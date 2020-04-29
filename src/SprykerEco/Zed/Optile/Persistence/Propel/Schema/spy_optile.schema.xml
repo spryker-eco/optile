@@ -49,22 +49,17 @@
     <table name="spy_payment_optile_transaction_log">
         <column name="id_payment_optile_transaction_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_sales_order" type="INTEGER"/>
-        <column name="id_transaction_unique" type="VARCHAR"/>
-        <column name="operation" type="VARCHAR"/>
-        <column name="return_code" type="VARCHAR"/>
+        <column name="payment_reference" type="VARCHAR"/>
         <column name="response_code" type="VARCHAR"/>
         <column name="request_payload" type="LONGVARCHAR"/>
         <column name="request_url" type="LONGVARCHAR"/>
-        <column name="response_payload" required="true" type="LONGVARCHAR"/>
+        <column name="response_payload" type="LONGVARCHAR"/>
 
         <foreign-key name="spy_optile_transaction_log-fk_sales_order" foreignTable="spy_sales_order">
             <reference foreign="id_sales_order" local="fk_sales_order"/>
         </foreign-key>
         <behavior name="timestampable"/>
         <id-method-parameter value="spy_payment_optile_transaction_log_pk_seq"/>
-        <index name="spy_payment_optile_transaction_log-operation">
-            <index-column name="operation"/>
-        </index>
     </table>
 
     <table name="spy_payment_optile_notification">
