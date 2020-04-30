@@ -23,7 +23,7 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     public const IFRAME_SRC_VAR_NAME = 'iframe_src';
 
     /**
-     * @inheritDoc
+     * @return string
      */
     protected function getTemplatePath()
     {
@@ -31,7 +31,7 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getPropertyPath()
     {
@@ -39,7 +39,7 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getName()
     {
@@ -47,7 +47,7 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getProviderName()
     {

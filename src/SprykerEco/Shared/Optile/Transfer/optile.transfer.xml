@@ -16,7 +16,7 @@
         <property name="notificationId" type="string"/>
         <property name="rejectionCount" type="int"/>
         <property name="currency" type="string"/>
-        <property name="amount" type="decimal"/>
+        <property name="amount" type="float"/>
         <property name="customerRegistrationPassword" type="string"/>
         <property name="customerRegistrationId" type="string"/>
         <property name="longId" type="string"/>
@@ -25,6 +25,7 @@
         <property name="statusCode" type="string"/>
         <property name="reasonCode" type="string"/>
         <property name="timestamp" type="string"/>
+        <property name="paymentReference" type="string"/>
     </transfer>
 
     <transfer name="OptileRequest">
@@ -41,7 +42,9 @@
         <property name="callbackSummaryUrl" type="string"/>
         <property name="callbackNotificationUrl" type="string"/>
         <property name="customerScore" type="int"/>
+        <property name="longId" type="string"/>
         <property name="requestUrl" type="string"/>
+        <property name="requestPayload" type="array"/>
     </transfer>
 
     <transfer name="OptileResponse">
@@ -70,5 +73,13 @@
     <transfer name="Quote">
         <property name="customerScore" type="int" />
         <property name="optileInitResponse" type="OptileResponse" />
+    </transfer>
+
+    <transfer name="PaymentOptile">
+        <property name="idPaymentOptile" type="int" />
+        <property name="fkSalesOrder" type="int" />
+        <property name="paymentReference" type="string" />
+        <property name="paymentMethod" type="string" />
+        <property name="longId" type="string" />
     </transfer>
 </transfers>

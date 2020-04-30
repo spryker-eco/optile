@@ -11,6 +11,8 @@ use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use Generated\Shared\Transfer\PaymentOptileTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -60,7 +62,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeChargeRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        // TODO: Implement makeChargeRequest() method.
+        return $this->getFactory()->createChargeRequest()->request($optileRequestTransfer);
     }
 
     /**
@@ -74,6 +76,58 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeCloseRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        // TODO: Implement makeCloseRequest() method.
+        return $this->getFactory()->createCloseRequest()->request($optileRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileResponseTransfer
+     */
+    public function makeCancelRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
+    {
+        return $this->getFactory()->createCancelRequest()->request($optileRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileResponseTransfer
+     */
+    public function makeRefundRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
+    {
+        return $this->getFactory()->createRefundRequest()->request($optileRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param int $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function getOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
+    {
+        return $this->getFactory()->createPaymentOptileReader()->getOptilePaymentByIdSalesOrder($optileRequestTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param int $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer): PaymentOptileTransfer
+    {
+        return $this->getFactory()->createPostSaveHook()->execute($quoteTransfer);
     }
 }

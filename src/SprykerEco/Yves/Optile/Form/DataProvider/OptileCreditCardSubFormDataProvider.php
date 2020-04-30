@@ -13,7 +13,9 @@ use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 class OptileCreditCardSubFormDataProvider implements StepEngineFormDataProviderInterface
 {
     /**
-     * @inheritDoc
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function getData(AbstractTransfer $quoteTransfer)
     {
@@ -21,7 +23,9 @@ class OptileCreditCardSubFormDataProvider implements StepEngineFormDataProviderI
     }
 
     /**
-     * @inheritDoc
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return array
      */
     public function getOptions(AbstractTransfer $quoteTransfer)
     {

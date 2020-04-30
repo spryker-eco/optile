@@ -10,10 +10,13 @@ namespace SprykerEco\Zed\Optile\Business;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerEco\Zed\Optile\Business\Mapper\OptileListsRequestToTransactionLog;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface;
+use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLog;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
+use SprykerEco\Zed\Optile\Business\Request\ChargeRequest;
 use SprykerEco\Zed\Optile\Business\Request\ListRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\NotificationWriter;
@@ -45,8 +48,29 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileListsRequestToTransactionLogMapper()
+            $this->createOptileRequestToTransactionLogMapper()
         );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\RequestInterface
+     */
+    public function createChargeRequest(): RequestInterface
+    {
+        return new ChargeRequest(
+            $this->createHttpClient(),
+            $this->getConfig(),
+            $this->createTransactionLogWriter(),
+            $this->createOptileRequestToTransactionLogMapper()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface
+     */
+    public function createPostSaveHook(): CheckoutPostSaveHookInterface
+    {
+        return new CheckoutPostSaveHook();
     }
 
     /**
@@ -68,9 +92,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface
      */
-    protected function createOptileListsRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
+    protected function createOptileRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
     {
-        return new OptileListsRequestToTransactionLog();
+        return new OptileRequestToTransactionLog();
     }
 
     /**

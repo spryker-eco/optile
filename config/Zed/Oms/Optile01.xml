@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<statemachine
+        xmlns="spryker:oms-01"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
+
+    <process name="Optile01" main="true">
+        <states>
+            <state name="new"/>
+            <state name="ready for shipment"/>
+            <state name="shipped"/>
+        </states>
+
+        <transitions>
+            <transition>
+                <source>new</source>
+                <target>ready for shipment</target>
+                <event>start shipment process</event>
+            </transition>
+            <transition>
+                <source>new</source>
+                <target>cancel</target>
+                <event>cancel</event>
+            </transition>
+            <transition>
+                <source>ready for shipment</source>
+                <target>shipped</target>
+                <event>ship</event>
+            </transition>
+            <transition>
+                <source>shipped</source>
+                <target>closed</target>
+                <event>close</event>
+            </transition>
+            <transition>
+                <source>closed</source>
+                <target>refund</target>
+                <event>refund</event>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="start shipment process" manual="true"/>
+            <event name="ship" manual="true"/>
+            <event name="close" manual="true" command="Optile/PaymentClose"/>
+            <event name="cancel" manual="true" command="Optile/PaymentCancel"/>
+            <event name="refund" manual="true" command="Optile/PaymentRefund"/>
+        </events>
+    </process>
+
+    <process name="Authorization" file="HeidelpaySubprocesses/Authorization.xml"/>
+
+</statemachine>

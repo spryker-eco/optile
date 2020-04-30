@@ -20,11 +20,4 @@ interface OptileRequestToTransactionLogInterface
     public function map(
         OptileRequestTransfer $optileRequestTransfer
     ): OptileTransactionLogTransfer;
-
-    /**
-     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
-     *
-     * @return array
-     */
-    public function getPayload(OptileRequestTransfer $optileRequestTransfer): array;
 }
