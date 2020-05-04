@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Optile\Persistence;
 
+use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -14,4 +15,19 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
  */
 class OptileRepository extends AbstractRepository implements OptileRepositoryInterface
 {
+    /**
+     * @param int $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function getOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
+    {
+        $paymentOptileEntity = $this->getFactory()
+            ->createOptilePaymentQuery()
+            ->filterByFkSalesOrder($optileRequestTransfer)
+            ->findOne();
+
+        return $this->getFactory()->createPaymentOptileMapper()
+            ->mapPaymentOptileEntityToTransfer(new PaymentOptileTransfer(), $paymentOptileEntity);
+    }
 }

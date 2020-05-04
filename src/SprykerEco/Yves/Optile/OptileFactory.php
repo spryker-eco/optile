@@ -12,7 +12,12 @@ use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use SprykerEco\Yves\Optile\Form\DataProvider\OptileCreditCardSubFormDataProvider;
 use SprykerEco\Yves\Optile\Form\OptileCreditCardSubForm;
+use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransfer;
+use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransferInterface;
 
+/**
+ * @method \SprykerEco\Yves\Optile\OptileConfigInterface getConfig()
+ */
 class OptileFactory extends AbstractFactory
 {
     /**
@@ -29,5 +34,13 @@ class OptileFactory extends AbstractFactory
     public function createOptileCreditCardSubFormDataProvider(): StepEngineFormDataProviderInterface
     {
         return new OptileCreditCardSubFormDataProvider();
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransferInterface
+     */
+    public function createOptileNotificationRequestToOptileNotificationTransferMapper(): OptileNotificationRequestToOptileNotificationTransferInterface
+    {
+        return new OptileNotificationRequestToOptileNotificationTransfer();
     }
 }

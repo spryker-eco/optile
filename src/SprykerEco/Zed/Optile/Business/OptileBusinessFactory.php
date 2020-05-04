@@ -16,6 +16,8 @@ use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLog;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
+use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReader;
+use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReaderInterface;
 use SprykerEco\Zed\Optile\Business\Request\ChargeRequest;
 use SprykerEco\Zed\Optile\Business\Request\ListRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
@@ -105,6 +107,14 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     protected function createOptileRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
     {
         return new OptileRequestToTransactionLog();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReaderInterface
+     */
+    public function createPaymentOptileReader(): PaymentOptileReaderInterface
+    {
+        return new PaymentOptileReader($this->getRepository());
     }
 
     /**

@@ -38,6 +38,11 @@ interface OptileConstants
     public const CONFIG_YVES_CHECKOUT_NOTIFICATION_URL = 'CONFIG_YVES_CHECKOUT_NOTIFICATION_URL';
 
     /**
+     * Url for success payment.
+     */
+    public const CONFIG_YVES_PAYMENT_SUCCESS_URL = 'CONFIG_YVES_CHECKOUT_NOTIFICATION_URL';
+
+    /**
      * Main lists url
      */
     public const CONFIG_BASE_API_URL = 'CONFIG_API_LIST_URL';

@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\SaveOrderTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -128,10 +129,14 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer): PaymentOptileTransfer
-    {
-        return $this->getFactory()->createPostSaveHook()->execute($quoteTransfer);
+    public function checkoutDoSaveHook(
+        QuoteTransfer $quoteTransfer,
+        SaveOrderTransfer $saveOrderTransfer
+    ): PaymentOptileTransfer {
+        return $this->getFactory()->createPostSaveHook()->execute($quoteTransfer, $saveOrderTransfer);
     }
 }

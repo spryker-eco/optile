@@ -7,6 +7,14 @@
 
 namespace SprykerEco\Zed\Optile\Persistence;
 
+use Generated\Shared\Transfer\PaymentOptileTransfer;
+
 interface OptileRepositoryInterface
 {
+    /**
+     * @param int $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function getOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer;
 }
