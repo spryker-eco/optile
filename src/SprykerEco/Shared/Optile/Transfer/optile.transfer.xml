@@ -70,6 +70,15 @@
         <property name="paymentReference" type="string"/>
     </transfer>
 
+    <transfer name="Payment">
+        <property name="optileHosted" type="OptileHostedPayment"/>
+    </transfer>
+
+    <transfer name="OptileHostedPayment">
+        <property name="fkSalesOrder" type="int" />
+        <property name="paymentMethod" type="string" />
+    </transfer>
+
     <transfer name="Quote">
         <property name="customerScore" type="int" />
         <property name="optileInitResponse" type="OptileResponse" />

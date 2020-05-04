@@ -12,6 +12,7 @@ use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()()
@@ -21,6 +22,14 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     public const PAYMENT_METHOD = 'OptileHosted';
     public const PAYMENT_PROVIDER = 'Optile';
     public const LONG_ID = 'longId';
+
+    /**
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([SubFormInterface::OPTIONS_FIELD_NAME => []]);
+    }
 
     /**
      * @return string
@@ -65,6 +74,6 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars[static::LONG_ID] = $options[static::LONG_ID];
+        $view->vars[static::LONG_ID] = $options[static::OPTIONS_FIELD_NAME][static::LONG_ID];
     }
 }
