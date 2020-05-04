@@ -6,9 +6,10 @@
 } %}
 
 {#{% define data = {#}
-    {#form: form,#}
+    {#scriptSrc: '../../../third-party/op-payment-widget/op-payment-widget-v3.js',#}
 {#} %}#}
 
 {% block body %}
     <h1>hello</h1>
+    <div class="{{ config.jsName }}__form"></div>
 {% endblock %}
