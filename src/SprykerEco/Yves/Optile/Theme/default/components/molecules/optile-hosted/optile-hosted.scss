@@ -1,0 +1,11 @@
+//@import '../../../third-party/op-payment-widget/op-payment-widget-v3.css';
+
+@mixin optile-optile-hosted($name: '.optile-hosted') {
+    #{$name} {
+
+
+        @content;
+    }
+}
+
+@include optile-optile-hosted();

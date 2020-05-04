@@ -1,9 +1,17 @@
 {% extends model('template') %}
 
-{#{% define data = {#}
-    {#form: form,#}
-{#} %}#}
+{% define data = {
+    longId: longId,
+    baseUrl: 'https://api.sandbox.oscato.com/pci/v1/',
+    submitId: 'payment-submit-button',
+} %}
 
 {% block body %}
-    {% include molecule('optile-hosted', 'Optile') only %}
+    {% include molecule('optile-hosted', 'Optile') with {
+        data: {
+            longId: data.longId,
+            baseUrl: data.baseUrl,
+            submitId: data.submitId,
+        },
+    } only %}
 {% endblock %}

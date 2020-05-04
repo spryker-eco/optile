@@ -280,7 +280,7 @@
     width: 18px;
     height: 18px;
     vertical-align: middle;
-    background: url(img/hint.png);
+    /*background: url(img/hint.png);*/
     background-size: cover;
 }
 
@@ -461,7 +461,7 @@
     content: '';
     position: absolute;
     left: 16px;
-    background-image: url(img/ic-error@2x.png);
+    /*background-image: url(img/ic-error@2x.png);*/
     background-size: 20px 20px;
     width: 20px;
     height: 20px;
@@ -530,7 +530,7 @@
     text-indent: -1000000000px;
     width: 14px;
     height: 14px;
-    background-image: url(img/ic-x-default-14p@2x.png);
+    /*background-image: url(img/ic-x-default-14p@2x.png);*/
     background-size: 14px 14px;
     background-repeat: no-repeat;
     border-radius: 0;
@@ -541,7 +541,7 @@
     cursor: pointer;
 }
 .op-payment-widget-container .dialog-inside .close-modal:hover {
-    background-image: url(img/ic-x-hover-14p@2x.png);
+    /*background-image: url(img/ic-x-hover-14p@2x.png);*/
 }
 
 .op-payment-widget-container .flex-center {
@@ -606,7 +606,7 @@
     text-indent: -1000000000px;
     width: 10px;
     height: 13px;
-    background-image: url(img/ic-delete-default-10p@2x.png);
+    /*background-image: url(img/ic-delete-default-10p@2x.png);*/
     background-size: 10px 13px;
     background-repeat: no-repeat;
     border-radius: 0;
@@ -618,7 +618,7 @@
     display: none;
 }
 .op-payment-widget-container .delete-account:hover {
-    background-image: url(img/ic-delete-hover-10p@2x.png);
+    /*background-image: url(img/ic-delete-hover-10p@2x.png);*/
 }
 .delete-tooltip {
     display: none;
@@ -700,7 +700,7 @@
     right: 28px;
     width: 14px;
     height: 14px;
-    background-image: url(img/ic-x-default-14p@2x.png);
+    /*background-image: url(img/ic-x-default-14p@2x.png);*/
     background-size: 14px 14px;
     z-index: 3;
     display: none;
@@ -1095,7 +1095,7 @@
     padding: 0;
     top: 50%;
     right: 10px;
-    background-image: url(img/ic-delete-default-14p@2x.png);
+    /*background-image: url(img/ic-delete-default-14p@2x.png);*/
     width: 14px;
     height: 19px;
     background-size: 14px 19px;
@@ -1110,7 +1110,7 @@
 }
 
 .op-payment-widget-container.card-view .delete-account:hover::after {
-    background-image: url(img/ic-delete-hover-10p@2x.png);
+    /*background-image: url(img/ic-delete-hover-10p@2x.png);*/
 }
 
 .op-payment-widget-container.card-view .delete-account:hover .delete-tooltip {

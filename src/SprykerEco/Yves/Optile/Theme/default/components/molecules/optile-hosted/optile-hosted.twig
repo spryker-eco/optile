@@ -5,11 +5,15 @@
     tag: 'optile-hosted',
 } %}
 
-{#{% define data = {#}
-    {#scriptSrc: '../../../third-party/op-payment-widget/op-payment-widget-v3.js',#}
-{#} %}#}
+{% define data = {
+    longId: required,
+    baseUrl: required,
+    submitId: required,
+} %}
 
-{% block body %}
-    <h1>hello</h1>
-    <div class="{{ config.jsName }}__form"></div>
-{% endblock %}
+{% define attributes = {
+    id: config.name,
+    'data-long-id': data.longId,
+    'data-base-url': data.baseUrl,
+    'data-submit-id': data.submitId,
+} %}
