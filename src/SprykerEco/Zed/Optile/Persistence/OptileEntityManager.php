@@ -9,6 +9,8 @@ namespace SprykerEco\Zed\Optile\Persistence;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
+use Generated\Shared\Transfer\PaymentOptileTransfer;
+use Orm\Zed\Optile\Persistence\SpyPaymentOptile;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLog;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
@@ -44,10 +46,30 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
     }
 
     /**
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function savePaymentOptile(
+        PaymentOptileTransfer $paymentOptileTransfer
+    ): PaymentOptileTransfer {
+        $spyPaymentOptile = $this->getFactory()
+            ->createPaymentOptileMapper()
+            ->mapPaymentOptileTransferToEntity($paymentOptileTransfer, new SpyPaymentOptile());
+
+        $spyPaymentOptile->save();
+
+        $paymentOptileTransfer->setIdPaymentOptile(
+            $spyPaymentOptile->getIdPaymentOptileNotification()
+        );
+
+        return $paymentOptileTransfer;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\OptileTransactionLogTransfer $optileTransactionLogTransfer
      *
      * @return \Generated\Shared\Transfer\OptileTransactionLogTransfer
-     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function saveTransactionLog(
         OptileTransactionLogTransfer $optileTransactionLogTransfer

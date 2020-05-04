@@ -79,6 +79,8 @@ class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
     }
 
     /**
+     * @api
+     *
      * @return int
      */
     public function getMax3dSecureScore(): int
@@ -87,6 +89,8 @@ class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
     }
 
     /**
+     * @api
+     *
      * @return string
      */
     public function getPaymentProviderName(): string
@@ -95,6 +99,8 @@ class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
     }
 
     /**
+     * @api
+     *
      * @return bool
      */
     public function isPresetEnabled(): bool

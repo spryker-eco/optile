@@ -11,7 +11,7 @@
     </transfer>
 
     <transfer name="OptileNotificationRequest">
-        <property name="idPaymentOptileNotification" type="string"/>
+        <property name="idPaymentOptileNotification" type="int"/>
         <property name="transactionId" type="string"/>
         <property name="notificationId" type="string"/>
         <property name="rejectionCount" type="int"/>

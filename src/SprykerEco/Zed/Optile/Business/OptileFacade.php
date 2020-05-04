@@ -110,6 +110,8 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
     /**
      * {@inheritDoc}
      *
+     * @api
+     *
      * @param int $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
@@ -122,7 +124,9 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
     /**
      * {@inheritDoc}
      *
-     * @param int $optileRequestTransfer
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */

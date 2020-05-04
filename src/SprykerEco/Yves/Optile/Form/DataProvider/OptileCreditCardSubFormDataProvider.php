@@ -9,6 +9,7 @@ namespace SprykerEco\Yves\Optile\Form\DataProvider;
 
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
+use SprykerEco\Yves\Optile\Form\OptileCreditCardSubForm;
 
 class OptileCreditCardSubFormDataProvider implements StepEngineFormDataProviderInterface
 {
@@ -29,6 +30,8 @@ class OptileCreditCardSubFormDataProvider implements StepEngineFormDataProviderI
      */
     public function getOptions(AbstractTransfer $quoteTransfer)
     {
-        return [];
+        return [
+            OptileCreditCardSubForm::LONG_ID => $quoteTransfer->getOptileInitResponse()->getLongId()
+        ];
     }
 }

@@ -20,7 +20,7 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
 {
     public const PAYMENT_METHOD = 'OptileHosted';
     public const PAYMENT_PROVIDER = 'Optile';
-    public const IFRAME_SRC_VAR_NAME = 'iframe_src';
+    public const LONG_ID = 'longId';
 
     /**
      * @return string
@@ -65,8 +65,6 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
     {
         parent::buildView($view, $form, $options);
 
-        $this->getClient()->makeListRequest();
-
-        $view->vars[static::IFRAME_SRC_VAR_NAME] = $options[static::IFRAME_SRC_VAR_NAME];
+        $view->vars[static::LONG_ID] = $options[static::LONG_ID];
     }
 }

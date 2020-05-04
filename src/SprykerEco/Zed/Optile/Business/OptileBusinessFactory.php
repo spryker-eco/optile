@@ -21,6 +21,8 @@ use SprykerEco\Zed\Optile\Business\Request\ListRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\NotificationWriter;
 use SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface;
+use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriter;
+use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriter;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
 
@@ -70,7 +72,15 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createPostSaveHook(): CheckoutPostSaveHookInterface
     {
-        return new CheckoutPostSaveHook();
+        return new CheckoutPostSaveHook($this->createPaymentOptileWriter());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface
+     */
+    protected function createPaymentOptileWriter(): PaymentOptileWriterWriterInterface
+    {
+        return new PaymentOptileWriter($this->getEntityManager());
     }
 
     /**

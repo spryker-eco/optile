@@ -15,6 +15,8 @@ use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLogQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 use SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapper;
 use SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapperInterface;
+use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapper;
+use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapperInterface;
 
 /**
  * @method \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface getEntityManager()
@@ -64,10 +66,18 @@ class OptilePersistenceFactory extends AbstractPersistenceFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Merchant\Persistence\Mapper\NotificationRequestMapperInterface
+     * @return \SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapperInterface
      */
     public function createPropelNotificationRequestMapper(): NotificationRequestMapperInterface
     {
         return new NotificationRequestMapper();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapperInterface
+     */
+    public function createPaymentOptileMapper(): PaymentOptileMapperInterface
+    {
+        return new PaymentOptileMapper();
     }
 }

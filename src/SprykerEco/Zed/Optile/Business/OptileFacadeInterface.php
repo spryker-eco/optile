@@ -120,7 +120,7 @@ interface OptileFacadeInterface
      * - Fulfill payment optile entity with data from quote.
      * - Returns created optile payment transfer.
      *
-     *  @api
+     * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *

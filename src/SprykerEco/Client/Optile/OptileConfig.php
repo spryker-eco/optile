@@ -29,16 +29,6 @@ class OptileConfig extends AbstractBundleConfig
      *
      * @return string
      */
-    public function getApiListUrl()
-    {
-        return $this->get(OptileConstants::CONFIG_API_LIST_URL);
-    }
-
-    /**
-     * @api
-     *
-     * @return string
-     */
     public function getPaymentToken(): string
     {
         return $this->get(OptileConstants::CONFIG_OPTILE_PAYMENT_TOKEN);

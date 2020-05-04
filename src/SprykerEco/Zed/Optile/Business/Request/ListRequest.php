@@ -9,7 +9,6 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ListRequest extends AbstractBaseRequest
@@ -46,7 +45,7 @@ class ListRequest extends AbstractBaseRequest
             ->setCallbackNotificationUrl($this->optileConfig->getNotificationUrl())
             ->setCallbackSummaryUrl($this->optileConfig->getPaymentSummaryUrl())
             ->setCallbackCancelUrl('https://dev.oscato.com/shop/success.html')
-            ->setRequestUrl($this->optileConfig->getBaseApiUrl() .  static::LISTS_URL_PATH)
+            ->setRequestUrl($this->optileConfig->getBaseApiUrl() . static::LISTS_URL_PATH)
             ->setPresetFirst($this->optileConfig->isPresetEnabled());
 
         if (!$optileRequestTransfer->getCustomerScore()) {

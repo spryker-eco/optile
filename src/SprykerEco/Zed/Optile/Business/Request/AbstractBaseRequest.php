@@ -17,16 +17,18 @@ use SprykerEco\Zed\Optile\OptileConfigInterface;
 
 abstract class AbstractBaseRequest implements RequestInterface
 {
-    public const CHARGE_REQUEST_PATH_TEMPLATE = 'lists/%s/charge';
+    protected const SUCCESS_RESPONSE_CODE = 'OK';
 
     /**
      * @var \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface
      */
     protected $optileRequestToTransactionLog;
+
     /**
      * @var \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface
      */
     protected $transactionLogWriter;
+
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfigInterface
      */
@@ -37,6 +39,12 @@ abstract class AbstractBaseRequest implements RequestInterface
      */
     protected $client;
 
+    /**
+     * @param \GuzzleHttp\ClientInterface $client
+     * @param \SprykerEco\Zed\Optile\OptileConfigInterface $optileConfig
+     * @param \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface $transactionLogWriter
+     * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface $optileRequestToTransactionLog
+     */
     public function __construct(
         ClientInterface $client,
         OptileConfigInterface $optileConfig,
@@ -67,7 +75,7 @@ abstract class AbstractBaseRequest implements RequestInterface
                     $this->optileConfig->getPaymentToken(),
                 ],
                 'headers' => static::BASE_OPTILE_REQUEST_HEADERS,
-                'json' => $optileRequestTransfer->getRequestPayload()
+                'json' => $optileRequestTransfer->getRequestPayload(),
             ]
         );
 
