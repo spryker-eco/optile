@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
-    public const PAYMENT_METHOD = 'OptileHosted';
+    public const PAYMENT_METHOD = 'OptileSelectNative';
     public const PAYMENT_PROVIDER = 'Optile';
     public const LONG_ID = 'longId';
 
@@ -40,7 +40,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
      */
     protected function getTemplatePath()
     {
-        return 'optile/hosted';
+        return 'optile/select_native';
     }
 
     /**
