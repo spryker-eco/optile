@@ -10,6 +10,7 @@ namespace SprykerEco\Yves\Optile;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
+use SprykerEco\Yves\Optile\Dependency\Client\OptileToQuoteClientInterface;
 use SprykerEco\Yves\Optile\Form\DataProvider\OptileCreditCardSubFormDataProvider;
 use SprykerEco\Yves\Optile\Form\OptileCreditCardSubForm;
 use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransfer;
@@ -42,5 +43,13 @@ class OptileFactory extends AbstractFactory
     public function createOptileNotificationRequestToOptileNotificationTransferMapper(): OptileNotificationRequestToOptileNotificationTransferInterface
     {
         return new OptileNotificationRequestToOptileNotificationTransfer();
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Optile\Dependency\Client\OptileToQuoteClientInterface
+     */
+    public function getQuoteClient(): OptileToQuoteClientInterface
+    {
+        return $this->getProvidedDependency(OptileDependencyProvider::CLIENT_QUOTE);
     }
 }

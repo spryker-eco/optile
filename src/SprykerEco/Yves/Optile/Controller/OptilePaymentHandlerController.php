@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Yves\Optile\Controller;
 
+use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,15 @@ class OptilePaymentHandlerController extends AbstractController
     {
         $summaryStepUrl = $this->getFactory()->getConfig()->getYvesCheckoutSummaryStepUrl();
 
+        $quoteTransfer = $this->getFactory()->getQuoteClient()->getQuote();
+
+        $this->handlePayment($request, $quoteTransfer);
+
         return new RedirectResponse($summaryStepUrl);
+    }
+
+    protected function handlePayment(Request $request, QuoteTransfer $quoteTransfer)
+    {
+
     }
 }

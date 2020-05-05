@@ -12,9 +12,7 @@ use Generated\Shared\Transfer\QuoteTransfer;
 interface OptileToQuoteClientInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return void
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
-    public function setQuote(QuoteTransfer $quoteTransfer);
+    public function getQuote(): QuoteTransfer;
 }
