@@ -15,7 +15,6 @@ export default class OptileHosted extends Component {
 
     protected initPayment(): void {
         $(this.form).checkoutList({
-            payButton: this.submitId,
             baseUrl: this.baseUrl,
             listId: this.longId
         });
