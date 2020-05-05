@@ -64,19 +64,26 @@ abstract class AbstractBaseRequest implements RequestInterface
      */
     public function request(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        $this->configureRequest($optileRequestTransfer);
+        $optileRequestTransfer = $this->configureRequest($optileRequestTransfer);
+
+        $options =   [
+            'auth' => [
+                $this->optileConfig->getMerchantCode(),
+                $this->optileConfig->getPaymentToken(),
+            ],
+            'headers' => static::BASE_OPTILE_REQUEST_HEADERS,
+        ];
+
+        if (empty($optileRequestTransfer->getRequestPayload())) {
+            $options['body'] = '{}';
+        } else {
+            $options['json'] = $optileRequestTransfer->getRequestPayload();
+        }
 
         $response = $this->client->request(
             $this->getRequestMethod(),
             $optileRequestTransfer->getRequestUrl(),
-            [
-                'auth' => [
-                    $this->optileConfig->getMerchantCode(),
-                    $this->optileConfig->getPaymentToken(),
-                ],
-                'headers' => static::BASE_OPTILE_REQUEST_HEADERS,
-                'json' => $optileRequestTransfer->getRequestPayload(),
-            ]
+            $options
         );
 
         $this->logOptileTransaction($response, $optileRequestTransfer);

@@ -45,6 +45,7 @@
         <property name="longId" type="string"/>
         <property name="requestUrl" type="string"/>
         <property name="requestPayload" type="array"/>
+        <property name="fkSalesOrder" type="int"/>
     </transfer>
 
     <transfer name="OptileResponse">

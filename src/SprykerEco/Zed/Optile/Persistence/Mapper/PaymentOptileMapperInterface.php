@@ -22,4 +22,15 @@ interface PaymentOptileMapperInterface
         PaymentOptileTransfer $paymentOptileTransfer,
         SpyPaymentOptile $spyPaymentOptile
     ): SpyPaymentOptile;
+
+    /**
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param \Orm\Zed\Optile\Persistence\SpyPaymentOptile $spyPaymentOptile
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function mapPaymentOptileEntityToTransfer(
+        PaymentOptileTransfer $paymentOptileTransfer,
+        SpyPaymentOptile $spyPaymentOptile
+    ): PaymentOptileTransfer;
 }

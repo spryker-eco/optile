@@ -7,12 +7,14 @@
 
 namespace SprykerEco\Zed\Optile\Business;
 
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\SaveOrderTransfer;
 
 interface OptileFacadeInterface
 {
@@ -124,7 +126,12 @@ interface OptileFacadeInterface
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
+     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function checkoutPostSaveHook(QuoteTransfer $quoteTransfer): PaymentOptileTransfer;
+    public function checkoutDoSaveHook(
+        QuoteTransfer $quoteTransfer,
+        SaveOrderTransfer $saveOrderTransfer
+    ): PaymentOptileTransfer;
 }

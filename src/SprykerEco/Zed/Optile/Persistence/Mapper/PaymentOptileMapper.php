@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Optile\Persistence\Mapper;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptile;
 
-class PaymentOptileMapper
+class PaymentOptileMapper implements PaymentOptileMapperInterface
 {
     /**
      * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
@@ -27,5 +27,20 @@ class PaymentOptileMapper
         );
 
         return $spyPaymentOptile;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param \Orm\Zed\Optile\Persistence\SpyPaymentOptile $spyPaymentOptile
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function mapPaymentOptileEntityToTransfer(
+        PaymentOptileTransfer $paymentOptileTransfer,
+        SpyPaymentOptile $spyPaymentOptile
+    ): PaymentOptileTransfer {
+        return $paymentOptileTransfer->fromArray(
+            $spyPaymentOptile->toArray()
+        );
     }
 }

@@ -20,7 +20,7 @@ class OptileSubFormPlugin extends AbstractPlugin implements SubFormPluginInterfa
      */
     public function createSubForm()
     {
-        return $this->getFactory()->createOptileCreditCardSubForm();
+        return $this->getFactory()->createOptileSubForm();
     }
 
     /**
@@ -28,6 +28,6 @@ class OptileSubFormPlugin extends AbstractPlugin implements SubFormPluginInterfa
      */
     public function createSubFormDataProvider()
     {
-        return $this->getFactory()->createOptileCreditCardSubFormDataProvider();
+        return $this->getFactory()->createOptileSubFormDataProvider();
     }
 }

@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Yves\Optile\Form;
 
+use Generated\Shared\Transfer\OptileHostedPaymentTransfer;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()()
  */
-class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
+class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
     public const PAYMENT_METHOD = 'OptileHosted';
     public const PAYMENT_PROVIDER = 'Optile';
@@ -28,7 +29,10 @@ class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInte
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([SubFormInterface::OPTIONS_FIELD_NAME => []]);
+        $resolver->setDefaults([
+           'data_class' => OptileHostedPaymentTransfer::class,
+            SubFormInterface::OPTIONS_FIELD_NAME => []
+        ]);
     }
 
     /**

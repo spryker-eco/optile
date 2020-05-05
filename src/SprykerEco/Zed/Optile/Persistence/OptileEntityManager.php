@@ -60,7 +60,7 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $spyPaymentOptile->save();
 
         $paymentOptileTransfer->setIdPaymentOptile(
-            $spyPaymentOptile->getIdPaymentOptileNotification()
+            $spyPaymentOptile->getIdPaymentOptile()
         );
 
         return $paymentOptileTransfer;

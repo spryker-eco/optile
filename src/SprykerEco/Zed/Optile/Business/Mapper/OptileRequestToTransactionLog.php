@@ -20,6 +20,7 @@ class OptileRequestToTransactionLog implements OptileRequestToTransactionLogInte
         return (new OptileTransactionLogTransfer())
             ->setRequestPayload(json_encode($optileRequestTransfer->getRequestPayload()))
             ->setRequestUrl($optileRequestTransfer->getRequestUrl())
-            ->setPaymentReference($optileRequestTransfer->getPaymentReference());
+            ->setPaymentReference($optileRequestTransfer->getPaymentReference())
+            ->setFkSalesOrder($optileRequestTransfer->getFkSalesOrder());
     }
 }
