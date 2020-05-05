@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()()
  */
-class OptileCreditCardSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
+class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
     public const PAYMENT_METHOD = 'OptileHosted';
     public const PAYMENT_PROVIDER = 'Optile';
