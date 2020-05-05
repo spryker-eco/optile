@@ -7,8 +7,6 @@
 
 namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout;
 
-use Generated\Shared\Transfer\OptileRequestTransfer;
-use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Spryker\Zed\CheckoutExtension\Dependency\Plugin\CheckoutDoSaveOrderInterface;
@@ -22,6 +20,7 @@ class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements Ch
 {
     /**
      * {@inheritDoc}
+     *
      * Specification:
      * - This plugin is called after the order is placed.
      * - Set the success flag to false, if redirect should be headed to an error page afterwords
@@ -35,13 +34,6 @@ class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements Ch
      */
     public function saveOrder(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
     {
-        /** @var PaymentOptileTransfer $paymentOptileTransfer */
-        $paymentOptileTransfer = $this->getFacade()->checkoutDoSaveHook($quoteTransfer, $saveOrderTransfer);
-
-        $this->getFacade()->makeChargeRequest(
-            (new OptileRequestTransfer())->setLongId($paymentOptileTransfer->getLongId())
-                ->setPaymentReference($quoteTransfer->getUuid())
-                ->setFkSalesOrder($paymentOptileTransfer->getFkSalesOrder())
-        );
+         $this->getFacade()->checkoutDoSaveHook($quoteTransfer, $saveOrderTransfer);
     }
 }

@@ -14,12 +14,17 @@
         <transitions>
             <transition>
                 <source>new</source>
+                <target>charged</target>
+                <event>charge</event>
+            </transition>
+            <transition>
+                <source>charged</source>
                 <target>ready for shipment</target>
                 <event>start shipment process</event>
             </transition>
             <transition>
-                <source>new</source>
-                <target>cancel</target>
+                <source>charged</source>
+                <target>canceled</target>
                 <event>cancel</event>
             </transition>
             <transition>
@@ -34,7 +39,7 @@
             </transition>
             <transition>
                 <source>closed</source>
-                <target>refund</target>
+                <target>refunded</target>
                 <event>refund</event>
             </transition>
         </transitions>
@@ -42,6 +47,7 @@
         <events>
             <event name="start shipment process" manual="true"/>
             <event name="ship" manual="true"/>
+            <event name="charge" onEnter="true" command="Optile/PaymentChargePlugin"/>
             <event name="close" manual="true" command="Optile/PaymentClose"/>
             <event name="cancel" manual="true" command="Optile/PaymentCancel"/>
             <event name="refund" manual="true" command="Optile/PaymentRefund"/>
