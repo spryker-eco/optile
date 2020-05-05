@@ -1,44 +1,8 @@
-//@import '../../../third-party/op-payment-widget/op-payment-widget-v3.css';
+@import '../../../third-party/op-payment-widget/op-payment-widget-v3.css';
 
 @mixin optile-optile-hosted($name: '.optile-hosted') {
     #{$name} {
-        padding: 15px 0 0 15px;
-
-        .popup-dialog,
-        .clickable_cont {
-            display: none;
-        }
-
-        .available-network {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .payment-option-radio {
-            position: absolute;
-            top: 10px;
-        }
-
-        .imgLabel {
-            padding-left: 25px;
-            display: inline-block;
-            vertical-align: middle;
-
-            img {
-                margin-right: 5px;
-            }
-        }
-
-        .textLabel {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .registration {
-            input {
-                margin-right: 10px;
-            }
-        }
+        padding: 10px 0 0 15px;
 
         @content;
     }

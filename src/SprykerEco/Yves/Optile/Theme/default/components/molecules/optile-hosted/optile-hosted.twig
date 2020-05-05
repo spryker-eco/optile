@@ -5,15 +5,10 @@
     tag: 'optile-hosted',
 } %}
 
-{% define data = {
-    longId: required,
-    baseUrl: required,
-    submitId: required,
-} %}
-
 {% define attributes = {
     id: config.name,
-    'data-long-id': data.longId,
-    'data-base-url': data.baseUrl,
-    'data-submit-id': data.submitId,
+    'data-long-id': required,
+    'data-base-url': required,
+    'data-submit-id': required,
+    'data-submit-container-id': required,
 } %}

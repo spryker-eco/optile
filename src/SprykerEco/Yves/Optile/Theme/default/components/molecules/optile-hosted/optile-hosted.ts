@@ -15,6 +15,8 @@ export default class OptileHosted extends Component {
 
     protected initPayment(): void {
         $(this.form).checkoutList({
+            payButton: this.submitId,
+            payButtonContainer: this.submitContainerId,
             baseUrl: this.baseUrl,
             listId: this.longId
         });
@@ -22,6 +24,10 @@ export default class OptileHosted extends Component {
 
     protected get submitId(): string {
         return this.getAttribute('data-submit-id');
+    }
+
+    protected get submitContainerId(): string {
+        return this.getAttribute('data-submit-container-id');
     }
 
     protected get longId(): string {

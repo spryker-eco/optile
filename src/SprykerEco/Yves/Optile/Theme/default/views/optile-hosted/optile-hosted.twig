@@ -4,14 +4,16 @@
     longId: longId,
     baseUrl: 'https://api.sandbox.oscato.com/pci/v1/',
     submitId: 'payment-submit-button',
+    submitContainerId: 'payment-submit-button-container',
 } %}
 
 {% block body %}
     {% include molecule('optile-hosted', 'Optile') with {
-        data: {
-            longId: data.longId,
-            baseUrl: data.baseUrl,
-            submitId: data.submitId,
+        attributes: {
+            'data-long-id': data.longId,
+            'data-base-url': data.baseUrl,
+            'data-submit-id': data.submitId,
+            'data-submit-container-id': data.submitContainerId,
         },
     } only %}
 {% endblock %}
