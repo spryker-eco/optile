@@ -2,9 +2,9 @@ declare var $;
 import Component from 'ShopUi/models/component';
 import '../../../third-party/op-payment-widget/op-payment-widget-v3.js';
 
-export default class OptileHosted extends Component {
+export default class OptilePaymentForm extends Component {
     protected form: HTMLElement;
-    
+
     protected readyCallback(): void {}
 
     protected init(): void {

@@ -1,9 +1,9 @@
 import Component from 'ShopUi/models/component';
 
-export default class SubmitButtonReplacer extends Component {
+export default class SubmitButtonVisibilityToggler extends Component {
     protected triggers: HTMLInputElement[];
     protected targets: HTMLElement[];
-    
+
     protected readyCallback(): void {}
 
     protected init(): void {
@@ -20,21 +20,21 @@ export default class SubmitButtonReplacer extends Component {
 
     protected mapTriggerChangeEvent(): void {
         this.triggers.forEach((trigger: HTMLInputElement) => {
-           trigger.addEventListener('change', () => this.onTriggerChange(trigger));
+            trigger.addEventListener('change', () => this.onTriggerChange(trigger));
         });
     }
 
     protected onTriggerChange(trigger: HTMLInputElement): void {
-        this.toggleTargetsVisibility(trigger);
+        this.toggleTargetsClasses(trigger);
     }
 
     protected initTargetsState(): void {
         this.triggers.forEach((trigger: HTMLInputElement) => {
-            this.toggleTargetsVisibility(trigger);
+            this.toggleTargetsClasses(trigger);
         });
     }
 
-    protected toggleTargetsVisibility(trigger: HTMLInputElement): void {
+    protected toggleTargetsClasses(trigger: HTMLInputElement): void {
         const submitButtonContainerClassName = trigger.getAttribute('submit-button-container-class-name');
         const submitButtonContainer = <HTMLElement>document.getElementsByClassName(submitButtonContainerClassName)[0];
 
