@@ -1,0 +1,14 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'optile-payment-form',
+    tag: 'optile-payment-form',
+} %}
+
+{% define attributes = {
+    id: config.name,
+    'data-long-id': required,
+    'data-base-url': required,
+    'data-submit-id': required,
+    'data-submit-container-id': required,
+} %}
