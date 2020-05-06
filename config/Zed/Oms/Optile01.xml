@@ -7,8 +7,12 @@
     <process name="Optile01" main="true">
         <states>
             <state name="new"/>
+            <state name="charged"/>
             <state name="ready for shipment"/>
             <state name="shipped"/>
+            <state name="canceled"/>
+            <state name="closed"/>
+            <state name="refunded"/>
         </states>
 
         <transitions>
