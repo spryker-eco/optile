@@ -43,6 +43,7 @@ class OptilePaymentHandlerController extends AbstractController
                 ->setPaymentSelection(OptileConfig::PAYMENT_METHOD_NAME)
                 ->setPaymentProvider(OptileConfig::PAYMENT_PROVIDER_NAME)
                 ->setPaymentMethod(OptileConfig::PAYMENT_METHOD_NAME)
+                ->setAmount($request->get('amount'))
         );
 
          $quoteClient->setQuote($quoteTransfer);

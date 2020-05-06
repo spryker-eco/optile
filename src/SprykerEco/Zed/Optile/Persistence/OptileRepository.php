@@ -29,8 +29,6 @@ class OptileRepository extends AbstractRepository implements OptileRepositoryInt
 
         $paymentOptileTransfer = new PaymentOptileTransfer();
 
-        return $paymentOptileTransfer->fromArray(
-            $paymentOptileEntity->toArray()
-        );
+        return $paymentOptileTransfer->fromArray($paymentOptileEntity->toArray(), true);
     }
 }
