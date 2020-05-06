@@ -13,8 +13,6 @@ use Orm\Zed\Optile\Persistence\SpyPaymentOptileQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileRegistrationQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLogQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
-use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapper;
-use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapperInterface;
 
 /**
  * @method \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface getEntityManager()

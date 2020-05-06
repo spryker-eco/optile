@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Yves\Optile;
 
-use Spryker\Zed\Kernel\AbstractBundleConfig;
+use Spryker\Yves\Kernel\AbstractBundleConfig;
 
 class OptileConfig extends AbstractBundleConfig
 {

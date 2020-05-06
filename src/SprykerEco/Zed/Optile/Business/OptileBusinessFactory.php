@@ -160,7 +160,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createCloseRequest(): RequestInterface
     {
-        new CloseRequest();
+        return new CloseRequest();
     }
 
     /**
@@ -211,8 +211,11 @@ class OptileBusinessFactory extends AbstractBusinessFactory
         return new GuzzleHttpClient();
     }
 
+    /**
+     * @return \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
+     */
     public function createUtilEncodingService(): UtilEncodingServiceInterface
     {
-        return new UtilEncodingService;
+        return new UtilEncodingService();
     }
 }

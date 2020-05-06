@@ -62,7 +62,7 @@
         <property name="idTransactionUnique" type="string"/>
         <property name="operation" type="string"/>
         <property name="returnCode" type="string"/>
-        <property name="responseCode" type="string"/>
+        <property name="responseCode" type="int"/>
         <property name="requestPayload" type="string"/>
         <property name="requestUrl" type="string"/>
         <property name="responsePayload" type="string"/>

@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Yves\Optile\Controller;
 
-use Generated\Shared\Transfer\PaymentTransfer;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use SprykerEco\Shared\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -48,7 +47,6 @@ class OptilePaymentHandlerController extends AbstractController
                 ->setPaymentProvider(OptileConfig::PAYMENT_PROVIDER_NAME)
                 ->setPaymentMethod(OptileConfig::PAYMENT_METHOD_NAME)
                 ->setAmount($request->get('amount'));
-
 
          $quoteClient->setQuote($quoteTransfer);
     }
