@@ -10,6 +10,7 @@ namespace SprykerEco\Yves\Optile\Controller;
 use Generated\Shared\Transfer\PaymentTransfer;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use SprykerEco\Shared\Optile\OptileConfig;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -22,9 +23,9 @@ class OptilePaymentHandlerController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function handleAction(Request $request)
+    public function handleAction(Request $request): RedirectResponse
     {
         $this->handlePayment($request);
 
@@ -32,19 +33,22 @@ class OptilePaymentHandlerController extends AbstractController
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return void
      */
-    protected function handlePayment(Request $request)
+    protected function handlePayment(Request $request): void
     {
         $quoteClient = $this->getFactory()->getQuoteClient();
 
-        $quoteTransfer = $quoteClient->getQuote()->setPayment(
-            (new PaymentTransfer())
+        $quoteTransfer = $quoteClient->getQuote();
+
+        $quoteTransfer->getPayment()
                 ->setPaymentSelection(OptileConfig::PAYMENT_METHOD_NAME)
                 ->setPaymentProvider(OptileConfig::PAYMENT_PROVIDER_NAME)
                 ->setPaymentMethod(OptileConfig::PAYMENT_METHOD_NAME)
-                ->setAmount($request->get('amount'))
-        );
+                ->setAmount($request->get('amount'));
+
 
          $quoteClient->setQuote($quoteTransfer);
     }

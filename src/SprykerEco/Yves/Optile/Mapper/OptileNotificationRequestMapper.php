@@ -10,7 +10,7 @@ namespace SprykerEco\Yves\Optile\Mapper;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Symfony\Component\HttpFoundation\Request;
 
-class OptileNotificationRequestToOptileNotificationTransfer implements OptileNotificationRequestToOptileNotificationTransferInterface
+class OptileNotificationRequestMapper implements OptileNotificationRequestMapperInterface
 {
     protected const OPTILE_REFERENCE_KEY = 'reference';
     protected const OPTILE_NOTIFICATION_ID_KEY = 'notificationId';
@@ -29,7 +29,7 @@ class OptileNotificationRequestToOptileNotificationTransfer implements OptileNot
      *
      * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer
      */
-    public function map(Request $request): OptileNotificationRequestTransfer
+    public function mapExternalRequestToNotificationRequestTransfer(Request $request): OptileNotificationRequestTransfer
     {
         return (new OptileNotificationRequestTransfer())
             ->setPaymentReference($request->get(static::OPTILE_REFERENCE_KEY))

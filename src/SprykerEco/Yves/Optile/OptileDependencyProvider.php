@@ -14,7 +14,6 @@ use SprykerEco\Yves\Optile\Dependency\Client\OptileToQuoteClientBridge;
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const CLIENT_QUOTE = 'CLIENT_QUOTE';
-    public const CLIENT_OPTILE = 'CLIENT_OPTILE';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container

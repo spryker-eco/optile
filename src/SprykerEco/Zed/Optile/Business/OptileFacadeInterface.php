@@ -91,7 +91,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Sends "Cancel" request to the Optile api.
+     * - Sends "Refund" request to the Optile api.
      * - Logs request and response to the transaction log table.
      * - Returns api response.
      *

@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Yves\Optile\Form\DataProvider;
 
+use Generated\Shared\Transfer\OptileSelectNativeTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface;
 use SprykerEco\Yves\Optile\Form\OptileSubForm;
@@ -20,6 +22,12 @@ class OptileSubFormDataProvider implements StepEngineFormDataProviderInterface
      */
     public function getData(AbstractTransfer $quoteTransfer)
     {
+        if ($quoteTransfer->getPayment() === null) {
+            $quoteTransfer->setPayment(new PaymentTransfer());
+        }
+
+        $quoteTransfer->getPayment()->setOptileSelectNative(new OptileSelectNativeTransfer());
+
         return $quoteTransfer;
     }
 

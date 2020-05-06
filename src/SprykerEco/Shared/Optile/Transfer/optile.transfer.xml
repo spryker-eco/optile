@@ -17,7 +17,7 @@
         <property name="rejectionCount" type="int"/>
         <property name="currency" type="string"/>
         <property name="amount" type="float"/>
-        <property name="customerRegistrationPassword" type="string"/>
+        <property name="customerRegistrationHash" type="string"/>
         <property name="customerRegistrationId" type="string"/>
         <property name="longId" type="string"/>
         <property name="shortId" type="string"/>
@@ -45,7 +45,6 @@
         <property name="longId" type="string"/>
         <property name="requestUrl" type="string"/>
         <property name="requestPayload" type="array"/>
-        <property name="fkSalesOrder" type="int"/>
     </transfer>
 
     <transfer name="OptileResponse">
@@ -60,7 +59,6 @@
 
     <transfer name="OptileTransactionLog">
         <property name="idPaymentOptileTransactionId" type="int"/>
-        <property name="fkSalesOrder" type="int"/>
         <property name="idTransactionUnique" type="string"/>
         <property name="operation" type="string"/>
         <property name="returnCode" type="string"/>

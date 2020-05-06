@@ -10,19 +10,19 @@ namespace SprykerEco\Zed\Optile\Business\Mapper;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
 
-class OptileRequestToTransactionLog implements OptileRequestToTransactionLogInterface
+class OptileRequestMapper implements OptileRequestMapperInterface
 {
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileTransactionLogTransfer
      */
-    public function map(OptileRequestTransfer $optileRequestTransfer): OptileTransactionLogTransfer
-    {
+    public function mapOptileRequestToTransactionLog(
+        OptileRequestTransfer $optileRequestTransfer
+    ): OptileTransactionLogTransfer {
         return (new OptileTransactionLogTransfer())
             ->setRequestPayload(json_encode($optileRequestTransfer->getRequestPayload()))
             ->setRequestUrl($optileRequestTransfer->getRequestUrl())
-            ->setPaymentReference($optileRequestTransfer->getPaymentReference())
-            ->setFkSalesOrder($optileRequestTransfer->getFkSalesOrder());
+            ->setPaymentReference($optileRequestTransfer->getPaymentReference());
     }
 }

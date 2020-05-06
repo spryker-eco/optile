@@ -10,12 +10,12 @@ namespace SprykerEco\Yves\Optile\Mapper;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Symfony\Component\HttpFoundation\Request;
 
-interface OptileNotificationRequestToOptileNotificationTransferInterface
+interface OptileNotificationRequestMapperInterface
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer
      */
-    public function map(Request $request): OptileNotificationRequestTransfer;
+    public function mapExternalRequestToNotificationRequestTransfer(Request $request): OptileNotificationRequestTransfer;
 }

@@ -9,11 +9,13 @@ namespace SprykerEco\Zed\Optile\Business;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\ClientInterface as GuzzleHttpClientInterface;
+use Spryker\Service\UtilEncoding\UtilEncodingService;
+use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
-use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLog;
-use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface;
+use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapper;
+use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
 use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReader;
@@ -55,8 +57,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper(),
-            $this->createListRequest()
+            $this->createOptileRequestMapper(),
+            $this->createListRequest(),
+            $this->createUtilEncodingService()
         );
     }
 
@@ -77,8 +80,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper(),
-            $this->createChargeRequest()
+            $this->createOptileRequestMapper(),
+            $this->createChargeRequest(),
+            $this->createUtilEncodingService()
         );
     }
 
@@ -99,8 +103,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper(),
-            $this->createCancelRequest()
+            $this->createOptileRequestMapper(),
+            $this->createCancelRequest(),
+            $this->createUtilEncodingService()
         );
     }
 
@@ -121,8 +126,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper(),
-            $this->createRefundRequest()
+            $this->createOptileRequestMapper(),
+            $this->createRefundRequest(),
+            $this->createUtilEncodingService()
         );
     }
 
@@ -143,8 +149,9 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper(),
-            $this->createCloseRequest()
+            $this->createOptileRequestMapper(),
+            $this->createCloseRequest(),
+            $this->createUtilEncodingService()
         );
     }
 
@@ -181,11 +188,11 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface
+     * @return \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface
      */
-    public function createOptileRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
+    public function createOptileRequestMapper(): OptileRequestMapperInterface
     {
-        return new OptileRequestToTransactionLog();
+        return new OptileRequestMapper();
     }
 
     /**
@@ -202,5 +209,10 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     public function createHttpClient(): GuzzleHttpClientInterface
     {
         return new GuzzleHttpClient();
+    }
+
+    public function createUtilEncodingService(): UtilEncodingServiceInterface
+    {
+        return new UtilEncodingService;
     }
 }

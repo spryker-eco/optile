@@ -25,14 +25,15 @@ class NotificationController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function processNotificationAction(Request $request)
+    public function processNotificationAction(Request $request): Response
     {
         if (!$request->isMethod(Request::METHOD_POST)) {
             throw new NotFoundHttpException();
         }
 
         $optileNotificationRequestTransfer = $this->getFactory()
-            ->createOptileNotificationRequestToOptileNotificationTransferMapper()->map($request);
+            ->createOptileNotificationRequestMapper()
+            ->mapExternalRequestToNotificationRequestTransfer($request);
 
         $this->getClient()->processNotificationRequest($optileNotificationRequestTransfer);
 

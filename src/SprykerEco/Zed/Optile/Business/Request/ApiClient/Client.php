@@ -11,7 +11,8 @@ use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use GuzzleHttp\ClientInterface as GuzzleHttpClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface;
+use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
+use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
@@ -21,7 +22,7 @@ class Client implements ClientInterface
     protected const SUCCESS_RESPONSE_CODE = 'OK';
 
     /**
-     * @var \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface
+     * @var \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface
      */
     protected $optileRequestToTransactionLog;
 
@@ -43,27 +44,35 @@ class Client implements ClientInterface
     /**
      * @var \SprykerEco\Zed\Optile\Business\Request\RequestInterface
      */
-    private $request;
+    protected $request;
+
+    /**
+     * @var \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
+     */
+    protected $utilEncoding;
 
     /**
      * @param \GuzzleHttp\ClientInterface $guzzleHttpClient
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
      * @param \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface $transactionLogWriter
-     * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface $optileRequestToTransactionLog
+     * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface $optileRequestToTransactionLog
      * @param \SprykerEco\Zed\Optile\Business\Request\RequestInterface $request
+     * @param \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface $utilEncoding
      */
     public function __construct(
         GuzzleHttpClientInterface $guzzleHttpClient,
         OptileConfig $optileConfig,
         TransactionLogWriterInterface $transactionLogWriter,
-        OptileRequestToTransactionLogInterface $optileRequestToTransactionLog,
-        RequestInterface $request
+        OptileRequestMapperInterface $optileRequestToTransactionLog,
+        RequestInterface $request,
+        UtilEncodingServiceInterface $utilEncoding
     ) {
         $this->guzzleHttpClient = $guzzleHttpClient;
         $this->optileConfig = $optileConfig;
         $this->transactionLogWriter = $transactionLogWriter;
         $this->optileRequestToTransactionLog = $optileRequestToTransactionLog;
         $this->request = $request;
+        $this->utilEncoding = $utilEncoding;
     }
 
     /**
@@ -96,7 +105,7 @@ class Client implements ClientInterface
         );
 
         $this->logOptileTransaction($response, $optileRequestTransfer);
-        $responseData = json_decode($response->getBody(), true);
+        $responseData = $this->utilEncoding->decodeJson($response->getBody(), true);
 
         if ($response->getStatusCode() >= 300 || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE) {
             return (new OptileResponseTransfer())
@@ -118,7 +127,9 @@ class Client implements ClientInterface
         ResponseInterface $response,
         OptileRequestTransfer $optileRequestTransfer
     ): void {
-        $optileTransactionLogTransfer = $this->optileRequestToTransactionLog->map($optileRequestTransfer);
+        $optileTransactionLogTransfer = $this->optileRequestToTransactionLog
+            ->mapOptileRequestToTransactionLog($optileRequestTransfer);
+
         $optileTransactionLogTransfer->setResponsePayload($response->getBody())
             ->setResponseCode($response->getStatusCode());
 

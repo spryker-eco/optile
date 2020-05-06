@@ -10,14 +10,14 @@ namespace SprykerEco\Zed\Optile\Business\Mapper;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
 
-interface OptileRequestToTransactionLogInterface
+interface OptileRequestMapperInterface
 {
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileTransactionLogTransfer
      */
-    public function map(
+    public function mapOptileRequestToTransactionLog(
         OptileRequestTransfer $optileRequestTransfer
     ): OptileTransactionLogTransfer;
 }

@@ -13,8 +13,8 @@ use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use SprykerEco\Yves\Optile\Dependency\Client\OptileToQuoteClientInterface;
 use SprykerEco\Yves\Optile\Form\DataProvider\OptileSubFormDataProvider;
 use SprykerEco\Yves\Optile\Form\OptileSubForm;
-use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransfer;
-use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransferInterface;
+use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestMapper;
+use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestMapperInterface;
 
 /**
  * @method \SprykerEco\Yves\Optile\OptileConfig getConfig()
@@ -38,11 +38,11 @@ class OptileFactory extends AbstractFactory
     }
 
     /**
-     * @return \SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestToOptileNotificationTransferInterface
+     * @return \SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestMapperInterface
      */
-    public function createOptileNotificationRequestToOptileNotificationTransferMapper(): OptileNotificationRequestToOptileNotificationTransferInterface
+    public function createOptileNotificationRequestMapper(): OptileNotificationRequestMapperInterface
     {
-        return new OptileNotificationRequestToOptileNotificationTransfer();
+        return new OptileNotificationRequestMapper();
     }
 
     /**
