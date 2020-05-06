@@ -1,19 +1,33 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class ListRequest extends AbstractBaseRequest
+class ListRequest implements RequestInterface
 {
-    protected const LISTS_URL_PATH = '/lists';
+    protected const LISTS_URL_PATH = '%s/lists';
+
+    /**
+     * @var \SprykerEco\Zed\Optile\OptileConfig
+     */
+    protected $optileConfig;
+
+    /**
+     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     */
+    public function __construct(OptileConfig $optileConfig)
+    {
+        $this->optileConfig = $optileConfig;
+    }
 
     /**
      * @param array $responseData
@@ -21,7 +35,7 @@ class ListRequest extends AbstractBaseRequest
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    protected function handleResponse(
+    public function handleResponse(
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
@@ -38,14 +52,14 @@ class ListRequest extends AbstractBaseRequest
      *
      * @return \Generated\Shared\Transfer\OptileRequestTransfer
      */
-    protected function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
+    public function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
         $optileRequestTransfer
             ->setIntegration($this->optileConfig->getIntegrationType())
             ->setCallbackNotificationUrl($this->optileConfig->getNotificationUrl())
-            ->setCallbackSummaryUrl($this->optileConfig->getPaymentSummaryUrl())
+            ->setCallbackPaymentHandlerUrl($this->optileConfig->getPaymentHandlerStepUrl())
             ->setCallbackCancelUrl('https://dev.oscato.com/shop/success.html')
-            ->setRequestUrl($this->optileConfig->getBaseApiUrl() . static::LISTS_URL_PATH)
+            ->setRequestUrl(sprintf(static::LISTS_URL_PATH, $this->optileConfig->getBaseApiUrl()))
             ->setPresetFirst($this->optileConfig->isPresetEnabled());
 
         if (!$optileRequestTransfer->getCustomerScore()) {
@@ -58,6 +72,14 @@ class ListRequest extends AbstractBaseRequest
     }
 
     /**
+     * @return string
+     */
+    public function getRequestMethod(): string
+    {
+        return Request::METHOD_POST;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileRequestTransfer
@@ -65,33 +87,25 @@ class ListRequest extends AbstractBaseRequest
     protected function prepareRequestBody(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
         return $optileRequestTransfer->setRequestPayload([
-            'transactionId' => $optileRequestTransfer->getTransactionId(),
-            'integration' => $optileRequestTransfer->getIntegration(),
-            'presetFirst' => $optileRequestTransfer->getPresetFirst(),
-            'country' => $optileRequestTransfer->getCountry(),
-            'customer' => [
-                'number' => $optileRequestTransfer->getIdCustomer(),
-                'email' => $optileRequestTransfer->getCustomerEmail(),
-            ],
-            'payment' => [
-                'amount' => $optileRequestTransfer->getPaymentAmount(),
-                'currency' => $optileRequestTransfer->getPaymentCurrency(),
-                'reference' => $optileRequestTransfer->getPaymentReference(),
-            ],
-            'callback' => [
-                'returnUrl' => $optileRequestTransfer->getCallbackSummaryUrl(),
-                'cancelUrl' => $optileRequestTransfer->getCallbackCancelUrl(),
-                'summaryUrl' => $optileRequestTransfer->getCallbackSummaryUrl(),
-                'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
-            ],
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRequestMethod(): string
-    {
-        return Request::METHOD_POST;
+                 'transactionId' => $optileRequestTransfer->getTransactionId(),
+                 'integration' => $optileRequestTransfer->getIntegration(),
+                 'presetFirst' => $optileRequestTransfer->getPresetFirst(),
+                 'country' => $optileRequestTransfer->getCountry(),
+                 'customer' => [
+                     'number' => $optileRequestTransfer->getIdCustomer(),
+                     'email' => $optileRequestTransfer->getCustomerEmail(),
+                 ],
+                 'payment' => [
+                     'amount' => $optileRequestTransfer->getPaymentAmount(),
+                     'currency' => $optileRequestTransfer->getPaymentCurrency(),
+                     'reference' => $optileRequestTransfer->getPaymentReference(),
+                 ],
+                 'callback' => [
+                     'returnUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
+                     'cancelUrl' => $optileRequestTransfer->getCallbackCancelUrl(),
+                     'summaryUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
+                     'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
+                 ],
+             ]);
     }
 }

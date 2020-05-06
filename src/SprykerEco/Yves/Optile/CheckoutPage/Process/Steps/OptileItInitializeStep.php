@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Optile\CheckoutPage\Process\Steps;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
-use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use SprykerEco\Client\Optile\OptileClientInterface;
 use SprykerShop\Yves\CheckoutPage\Process\Steps\AbstractBaseStep;
@@ -16,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OptileItInitializeStep extends AbstractBaseStep
 {
-    protected const LISTS_URL_PATH = 'lists';
-
     /**
      * @var \SprykerEco\Client\Optile\OptileClientInterface
      */
@@ -49,18 +46,26 @@ class OptileItInitializeStep extends AbstractBaseStep
     }
 
     /**
-     * Populate Quote with Optile payment needed data.
-     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
-     * @return \Generated\Shared\Transfer\QuoteTransfer|\Spryker\Shared\Kernel\Transfer\AbstractTransfer
+     * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function execute(Request $request, AbstractTransfer $quoteTransfer)
     {
-        $quoteTransfer->setOptileInitResponse($this->optileClient->makeListRequest(
-            $this->buildOptileRequestTransfer($quoteTransfer)
-        ));
+        $optileInitResponseTransfer = $this->optileClient->makeListRequest(
+            (new OptileRequestTransfer())
+                ->setTransactionId($quoteTransfer->getUuid())
+                ->setCountry($quoteTransfer->getBillingAddress()->getIso2Code())
+                ->setCustomerEmail($quoteTransfer->getCustomer()->getEmail())
+                ->setIdCustomer($quoteTransfer->getCustomer()->getIdCustomer())
+                ->setPaymentAmount($quoteTransfer->getTotals()->getGrandTotal())
+                ->setPaymentCurrency($quoteTransfer->getCurrency()->getCode())
+                ->setPaymentReference($quoteTransfer->getUuid())
+                ->setCustomerScore($quoteTransfer->getCustomerScore())
+        );
+
+        $quoteTransfer->setOptileInitResponse($optileInitResponseTransfer);
 
         return $quoteTransfer;
     }
@@ -73,23 +78,5 @@ class OptileItInitializeStep extends AbstractBaseStep
     public function postCondition(AbstractTransfer $quoteTransfer)
     {
         return true;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
-     * @return \Generated\Shared\Transfer\OptileRequestTransfer
-     */
-    protected function buildOptileRequestTransfer(QuoteTransfer $quoteTransfer)
-    {
-        return (new OptileRequestTransfer())
-            ->setTransactionId($quoteTransfer->getUuid())
-            ->setCountry($quoteTransfer->getBillingAddress()->getIso2Code())
-            ->setCustomerEmail($quoteTransfer->getCustomer()->getEmail())
-            ->setIdCustomer($quoteTransfer->getCustomer()->getIdCustomer())
-            ->setPaymentAmount($quoteTransfer->getTotals()->getGrandTotal())
-            ->setPaymentCurrency($quoteTransfer->getCurrency()->getCode())
-            ->setPaymentReference($quoteTransfer->getUuid())
-            ->setCustomerScore($quoteTransfer->getCustomerScore());
     }
 }

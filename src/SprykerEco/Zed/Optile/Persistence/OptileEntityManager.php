@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Persistence;
@@ -32,9 +32,9 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
             ->filterByNotificationId($optileNotificationRequestTransfer->getNotificationId())
             ->findOneOrCreate();
 
-        $spyNotification = $this->getFactory()
-            ->createPropelNotificationRequestMapper()
-            ->mapNotificationRequestTransferToEntity($optileNotificationRequestTransfer, $spyNotification);
+        $spyNotification->fromArray(
+            $optileNotificationRequestTransfer->modifiedToArray(false)
+        );
 
         $spyNotification->save();
 
@@ -53,9 +53,11 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
     public function savePaymentOptile(
         PaymentOptileTransfer $paymentOptileTransfer
     ): PaymentOptileTransfer {
-        $spyPaymentOptile = $this->getFactory()
-            ->createPaymentOptileMapper()
-            ->mapPaymentOptileTransferToEntity($paymentOptileTransfer, new SpyPaymentOptile());
+        $spyPaymentOptile = new SpyPaymentOptile();
+
+        $spyPaymentOptile->fromArray(
+            $paymentOptileTransfer->toArray()
+        );
 
         $spyPaymentOptile->save();
 

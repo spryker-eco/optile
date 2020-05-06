@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout;
@@ -20,10 +20,6 @@ class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements Ch
 {
     /**
      * {@inheritDoc}
-     *
-     * Specification:
-     * - This plugin is called after the order is placed.
-     * - Set the success flag to false, if redirect should be headed to an error page afterwords
      *
      * @api
      *

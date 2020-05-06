@@ -1,29 +1,29 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business\Processor;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
-use SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface;
+use SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface;
 
 class NotificationProcessor implements NotificationProcessorInterface
 {
     /**
-     * @var \SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface
+     * @var \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface
      */
-    protected $notificationWriter;
+    protected $optileEntityManager;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface $notificationWriter
+     * @param \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface $optileEntityManager
      */
-    public function __construct(NotificationWriterInterface $notificationWriter)
+    public function __construct(OptileEntityManagerInterface $optileEntityManager)
     {
-        $this->notificationWriter = $notificationWriter;
+        $this->optileEntityManager = $optileEntityManager;
     }
 
     /**
@@ -34,21 +34,8 @@ class NotificationProcessor implements NotificationProcessorInterface
     public function process(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): OptileNotificationResponseTransfer {
-        $optileNotificationRequestTransfer = $this->notificationWriter->saveNotification(
-            $optileNotificationRequestTransfer
-        );
+        $this->optileEntityManager->saveNotification($optileNotificationRequestTransfer);
 
-        return $this->createOptileNotificationResponse($optileNotificationRequestTransfer);
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OptileNotificationResponseTransfer
-     */
-    protected function createOptileNotificationResponse(
-        OptileNotificationRequestTransfer $optileNotificationRequestTransfer
-    ): OptileNotificationResponseTransfer {
-        return new OptileNotificationResponseTransfer();
+        return (new OptileNotificationResponseTransfer())->setIsSuccess(true);
     }
 }

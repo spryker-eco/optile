@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Persistence;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
+use Generated\Shared\Transfer\PaymentOptileTransfer;
 
 interface OptileEntityManagerInterface
 {
     /**
      * Specification:
-     * - Save a notification.
      *
      * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
      *
@@ -32,4 +32,13 @@ interface OptileEntityManagerInterface
     public function saveTransactionLog(
         OptileTransactionLogTransfer $optileNotificationRequestTransfer
     ): OptileTransactionLogTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     */
+    public function savePaymentOptile(
+        PaymentOptileTransfer $paymentOptileTransfer
+    ): PaymentOptileTransfer;
 }

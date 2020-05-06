@@ -1,28 +1,31 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\ClientInterface as GuzzleHttpClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
-use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLog;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
 use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReader;
 use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReaderInterface;
+use SprykerEco\Zed\Optile\Business\Request\ApiClient\Client;
+use SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface;
+use SprykerEco\Zed\Optile\Business\Request\CancelRequest;
 use SprykerEco\Zed\Optile\Business\Request\ChargeRequest;
+use SprykerEco\Zed\Optile\Business\Request\CloseRequest;
 use SprykerEco\Zed\Optile\Business\Request\ListRequest;
+use SprykerEco\Zed\Optile\Business\Request\RefundRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
-use SprykerEco\Zed\Optile\Business\Writer\NotificationWriter;
-use SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface;
 use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriter;
 use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriter;
@@ -40,7 +43,21 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createNotificationProcessor(): NotificationProcessorInterface
     {
-        return new NotificationProcessor($this->createNotificationWriter());
+        return new NotificationProcessor($this->getEntityManager());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     */
+    public function createListClient(): ClientInterface
+    {
+        return new Client(
+            $this->createHttpClient(),
+            $this->getConfig(),
+            $this->createTransactionLogWriter(),
+            $this->createOptileRequestToTransactionLogMapper(),
+            $this->createListRequest()
+        );
     }
 
     /**
@@ -48,11 +65,20 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createListRequest(): RequestInterface
     {
-        return new ListRequest(
+        return new ListRequest($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     */
+    public function createChargeClient(): ClientInterface
+    {
+        return new Client(
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper()
+            $this->createOptileRequestToTransactionLogMapper(),
+            $this->createChargeRequest()
         );
     }
 
@@ -61,42 +87,95 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createChargeRequest(): RequestInterface
     {
-        return new ChargeRequest(
+        return new ChargeRequest($this->getConfig());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     */
+    public function createCancelClient(): ClientInterface
+    {
+        return new Client(
             $this->createHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
-            $this->createOptileRequestToTransactionLogMapper()
+            $this->createOptileRequestToTransactionLogMapper(),
+            $this->createCancelRequest()
         );
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\RequestInterface
      */
-    public function createPostSaveHook(): CheckoutPostSaveHookInterface
+    public function createCancelRequest(): RequestInterface
     {
-        return new CheckoutPostSaveHook($this->createPaymentOptileWriter());
+        return new CancelRequest();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     */
+    public function createRefundClient(): ClientInterface
+    {
+        return new Client(
+            $this->createHttpClient(),
+            $this->getConfig(),
+            $this->createTransactionLogWriter(),
+            $this->createOptileRequestToTransactionLogMapper(),
+            $this->createRefundRequest()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\RequestInterface
+     */
+    public function createRefundRequest(): RequestInterface
+    {
+        return new RefundRequest();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     */
+    public function createCloseClient(): ClientInterface
+    {
+        return new Client(
+            $this->createHttpClient(),
+            $this->getConfig(),
+            $this->createTransactionLogWriter(),
+            $this->createOptileRequestToTransactionLogMapper(),
+            $this->createCloseRequest()
+        );
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Request\RequestInterface
+     */
+    public function createCloseRequest(): RequestInterface
+    {
+        new CloseRequest();
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface
+     */
+    public function createDoSaveHook(): CheckoutDoSaveHookInterface
+    {
+        return new CheckoutDoSaveHook($this->createPaymentOptileWriter());
     }
 
     /**
      * @return \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface
      */
-    protected function createPaymentOptileWriter(): PaymentOptileWriterWriterInterface
+    public function createPaymentOptileWriter(): PaymentOptileWriterWriterInterface
     {
         return new PaymentOptileWriter($this->getEntityManager());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Writer\NotificationWriterInterface
-     */
-    protected function createNotificationWriter(): NotificationWriterInterface
-    {
-        return new NotificationWriter($this->getEntityManager());
-    }
-
-    /**
      * @return \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface
      */
-    protected function createTransactionLogWriter(): TransactionLogWriterInterface
+    public function createTransactionLogWriter(): TransactionLogWriterInterface
     {
         return new TransactionLogWriter($this->getEntityManager());
     }
@@ -104,7 +183,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestToTransactionLogInterface
      */
-    protected function createOptileRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
+    public function createOptileRequestToTransactionLogMapper(): OptileRequestToTransactionLogInterface
     {
         return new OptileRequestToTransactionLog();
     }
@@ -120,8 +199,8 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \GuzzleHttp\ClientInterface
      */
-    protected function createHttpClient(): ClientInterface
+    public function createHttpClient(): GuzzleHttpClientInterface
     {
-        return new Client();
+        return new GuzzleHttpClient();
     }
 }

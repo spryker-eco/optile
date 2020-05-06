@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\Optile;
@@ -31,7 +31,7 @@ class OptileClient extends AbstractClient implements OptileClientInterface
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): OptileNotificationResponseTransfer {
         return $this->getFactory()
-            ->createZedStub()
+            ->createOptileZedStub()
             ->processNotificationRequest($optileNotificationRequestTransfer);
     }
 
@@ -47,7 +47,7 @@ class OptileClient extends AbstractClient implements OptileClientInterface
     public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
         return $this->getFactory()
-            ->createZedStub()
+            ->createOptileZedStub()
             ->makeListRequest($optileRequestTransfer);
     }
 }

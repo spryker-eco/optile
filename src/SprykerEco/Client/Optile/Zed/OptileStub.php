@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\Optile\Zed;
@@ -11,12 +11,25 @@ use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use Spryker\Client\ZedRequest\Stub\ZedRequestStub;
+use SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface;
 
-class OptileStub extends ZedRequestStub implements OptileStubInterface
+class OptileStub implements OptileStubInterface
 {
     protected const ZED_GET_PROCESS_NOTIFICATION_REQUEST = '/optile/gateway/process-notification-request';
     protected const ZED_GET_MAKE_LIST_REQUEST = '/optile/gateway/make-list-request';
+
+    /**
+     * @var \SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface
+     */
+    protected $zedRequestClient;
+
+    /**
+     * @param \SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface $zedRequestClient
+     */
+    public function __construct(OptileToZedRequestClientInterface $zedRequestClient)
+    {
+        $this->zedRequestClient = $zedRequestClient;
+    }
 
     /**
      * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
@@ -27,7 +40,7 @@ class OptileStub extends ZedRequestStub implements OptileStubInterface
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): OptileNotificationResponseTransfer {
         /** @var \Generated\Shared\Transfer\OptileNotificationResponseTransfer $optileNotificationResponseTransfer */
-        $optileNotificationResponseTransfer = $this->zedStub->call(
+        $optileNotificationResponseTransfer = $this->zedRequestClient->call(
             static::ZED_GET_PROCESS_NOTIFICATION_REQUEST,
             $optileNotificationRequestTransfer
         );
@@ -43,7 +56,7 @@ class OptileStub extends ZedRequestStub implements OptileStubInterface
     public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
         /** @var \Generated\Shared\Transfer\OptileResponseTransfer $optileResponseTransfer */
-        $optileResponseTransfer = $this->zedStub->call(
+        $optileResponseTransfer = $this->zedRequestClient->call(
             static::ZED_GET_MAKE_LIST_REQUEST,
             $optileRequestTransfer
         );

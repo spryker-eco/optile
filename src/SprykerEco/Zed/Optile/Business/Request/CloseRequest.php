@@ -9,25 +9,11 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class ChargeRequest implements RequestInterface
+class CloseRequest implements RequestInterface
 {
-    public const CHARGE_REQUEST_PATH_TEMPLATE = '%s/lists/%s/charge';
-
-    /**
-     * @var \SprykerEco\Zed\Optile\OptileConfig
-     */
-    private $optileConfig;
-
-    /**
-     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
-     */
-    public function __construct(OptileConfig $optileConfig)
-    {
-        $this->optileConfig = $optileConfig;
-    }
+    public const CLOSE_REQUEST_PATH_TEMPLATE = '%s/charges/%s/closing';
 
     /**
      * @param array $responseData
@@ -39,10 +25,7 @@ class ChargeRequest implements RequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
-        return (new OptileResponseTransfer())
-            ->setPaymentReference($optileRequestTransfer->getPaymentReference())
-            ->setOperation($responseData['operation'])
-            ->setLongId($responseData['identification']['longId']);
+        return (new OptileResponseTransfer())->setIsSuccess(true);
     }
 
     /**
@@ -53,13 +36,8 @@ class ChargeRequest implements RequestInterface
     public function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
         $optileRequestTransfer->setRequestUrl(
-            sprintf(
-                static::CHARGE_REQUEST_PATH_TEMPLATE,
-                $this->optileConfig->getBaseApiUrl(),
-                $optileRequestTransfer->getLongId()
-            )
+            sprintf(static::CLOSE_REQUEST_PATH_TEMPLATE, $optileRequestTransfer->getLongId())
         );
-        $optileRequestTransfer->setRequestPayload($optileRequestTransfer->getRequestPayload());
 
         return $optileRequestTransfer;
     }

@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Optile\Controller;
 
-use Generated\Shared\Transfer\QuoteTransfer;
+use Generated\Shared\Transfer\PaymentTransfer;
 use Spryker\Yves\Kernel\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use SprykerEco\Shared\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -17,26 +17,34 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OptilePaymentHandlerController extends AbstractController
 {
+    protected const SUMMARY_STEP_URL = 'checkout-summary';
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleAction(Request $request)
     {
-        $summaryStepUrl = $this->getFactory()->getConfig()->getYvesCheckoutSummaryStepUrl();
+        $this->handlePayment($request);
 
-        $quoteTransfer = $this->getFactory()->getQuoteClient()->getQuote();
-
-        $this->handlePayment($request, $quoteTransfer);
-
-        return new RedirectResponse($summaryStepUrl);
+        return $this->redirectResponseInternal(static::SUMMARY_STEP_URL);
     }
 
-    protected function handlePayment(Request $request, QuoteTransfer $quoteTransfer)
+    /**
+     * @return void
+     */
+    protected function handlePayment(Request $request)
     {
+        $quoteClient = $this->getFactory()->getQuoteClient();
 
+        $quoteTransfer = $quoteClient->getQuote()->setPayment(
+            (new PaymentTransfer())
+                ->setPaymentSelection(OptileConfig::PAYMENT_METHOD_NAME)
+                ->setPaymentProvider(OptileConfig::PAYMENT_PROVIDER_NAME)
+                ->setPaymentMethod(OptileConfig::PAYMENT_METHOD_NAME)
+        );
+
+         $quoteClient->setQuote($quoteTransfer);
     }
 }

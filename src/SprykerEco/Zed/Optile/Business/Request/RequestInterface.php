@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business\Request;
@@ -12,17 +12,26 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 
 interface RequestInterface
 {
-    public const BASE_OPTILE_REQUEST_HEADERS = [
-        'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
-        'Accept' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
-    ];
-
     /**
+     * @param array $responseData
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    public function request(
+    public function handleResponse(
+        array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileRequestTransfer
+     */
+    public function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer;
+
+    /**
+     * @return string
+     */
+    public function getRequestMethod(): string;
 }
