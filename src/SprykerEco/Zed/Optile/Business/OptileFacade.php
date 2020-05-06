@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business;
@@ -49,7 +49,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()->createListRequest()->request($optileRequestTransfer);
+        return $this->getFactory()->createListClient()->request($optileRequestTransfer);
     }
 
     /**
@@ -63,7 +63,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeChargeRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()->createChargeRequest()->request($optileRequestTransfer);
+        return $this->getFactory()->createChargeClient()->request($optileRequestTransfer);
     }
 
     /**
@@ -77,7 +77,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeCloseRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()->createCloseRequest()->request($optileRequestTransfer);
+        return $this->getFactory()->createCloseClient()->request($optileRequestTransfer);
     }
 
     /**
@@ -91,7 +91,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeCancelRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()->createCancelRequest()->request($optileRequestTransfer);
+        return $this->getFactory()->createCancelClient()->request($optileRequestTransfer);
     }
 
     /**
@@ -105,7 +105,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function makeRefundRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        return $this->getFactory()->createRefundRequest()->request($optileRequestTransfer);
+        return $this->getFactory()->createRefundClient()->request($optileRequestTransfer);
     }
 
     /**
@@ -117,9 +117,9 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function getOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
+    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
     {
-        return $this->getFactory()->createPaymentOptileReader()->getOptilePaymentByIdSalesOrder($optileRequestTransfer);
+        return $this->getFactory()->createPaymentOptileReader()->findOptilePaymentByIdSalesOrder($optileRequestTransfer);
     }
 
     /**
@@ -128,7 +128,6 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
@@ -137,6 +136,6 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
         QuoteTransfer $quoteTransfer,
         SaveOrderTransfer $saveOrderTransfer
     ): PaymentOptileTransfer {
-        return $this->getFactory()->createPostSaveHook()->execute($quoteTransfer, $saveOrderTransfer);
+        return $this->getFactory()->createDoSaveHook()->execute($quoteTransfer, $saveOrderTransfer);
     }
 }

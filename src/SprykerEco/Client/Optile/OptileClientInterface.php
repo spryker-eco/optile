@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\Optile;
@@ -16,7 +16,9 @@ interface OptileClientInterface
 {
     /**
      * Specification:
-     *  - Save the external Optile notification request, transforming it to the transfer object.
+     * - Save the external Optile notification request, transforming it to the transfer object.
+     * - Make Zed call to process notification.
+     * - Save notification to the DB.
      *
      * @api
      *
@@ -30,7 +32,9 @@ interface OptileClientInterface
 
     /**
      * Specification:
-     *  - Send initial Optile payment request.
+     * - Send initial Optile payment request.
+     * - Make Zed call to proceed with api call.
+     * - Save api request and api response to the as transaction to the DB.
      *
      * @api
      *

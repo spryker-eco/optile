@@ -1,26 +1,23 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\Optile;
 
 use Spryker\Client\Kernel\AbstractFactory;
-use Spryker\Client\ZedRequest\ZedRequestClientFactoryTrait;
 use SprykerEco\Client\Optile\Zed\OptileStub;
 use SprykerEco\Client\Optile\Zed\OptileStubInterface;
 
 class OptileFactory extends AbstractFactory
 {
-    use ZedRequestClientFactoryTrait;
-
     /**
      * @return \SprykerEco\Client\Optile\Zed\OptileStubInterface
      */
-    public function createZedStub(): OptileStubInterface
+    public function createOptileZedStub(): OptileStubInterface
     {
-        return new OptileStub($this->getZedRequestClient());
+        return new OptileStub($this->getProvidedDependency(OptileDependencyProvider::CLIENT_ZED_REQUEST));
     }
 }

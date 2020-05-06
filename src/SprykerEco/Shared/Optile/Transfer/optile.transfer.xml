@@ -39,7 +39,7 @@
         <property name="paymentCurrency" type="string"/>
         <property name="paymentReference" type="string"/>
         <property name="callbackCancelUrl" type="string"/>
-        <property name="callbackSummaryUrl" type="string"/>
+        <property name="callbackPaymentHandlerUrl" type="string"/>
         <property name="callbackNotificationUrl" type="string"/>
         <property name="customerScore" type="int"/>
         <property name="longId" type="string"/>
@@ -72,24 +72,23 @@
     </transfer>
 
     <transfer name="Payment">
-        <property name="optileHosted" type="OptileHostedPayment"/>
+        <property name="optileSelectNative" type="OptileSelectNative"/>
     </transfer>
 
-    <transfer name="OptileHostedPayment">
-        <property name="fkSalesOrder" type="int" />
-        <property name="paymentMethod" type="string" />
+    <transfer name="OptileSelectNative">
+        <property name="paymentMethod" type="string"/>
     </transfer>
 
     <transfer name="Quote">
-        <property name="customerScore" type="int" />
-        <property name="optileInitResponse" type="OptileResponse" />
+        <property name="customerScore" type="int"/>
+        <property name="optileInitResponse" type="OptileResponse"/>
     </transfer>
 
     <transfer name="PaymentOptile">
-        <property name="idPaymentOptile" type="int" />
-        <property name="fkSalesOrder" type="int" />
-        <property name="paymentReference" type="string" />
-        <property name="paymentMethod" type="string" />
-        <property name="longId" type="string" />
+        <property name="idPaymentOptile" type="int"/>
+        <property name="fkSalesOrder" type="int"/>
+        <property name="paymentReference" type="string"/>
+        <property name="paymentMethod" type="string"/>
+        <property name="longId" type="string"/>
     </transfer>
 </transfers>

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Client\Optile;
@@ -10,6 +10,7 @@ namespace SprykerEco\Client\Optile;
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Client\Kernel\Container;
 use Spryker\Client\ZedRequest\ServiceProvider\ZedRequestClientServiceProvider;
+use SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientBridge;
 
 class OptileDependencyProvider extends AbstractDependencyProvider
 {
@@ -22,9 +23,22 @@ class OptileDependencyProvider extends AbstractDependencyProvider
      */
     public function provideServiceLayerDependencies(Container $container): Container
     {
-        $container[static::CLIENT_ZED_REQUEST] = function (Container $container) {
-            return $container->getLocator()->zedRequest()->client();
-        };
+        $container = parent::provideServiceLayerDependencies($container);
+        $container = $this->addZedRequestClient($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Client\Kernel\Container $container
+     *
+     * @return \Spryker\Client\Kernel\Container
+     */
+    protected function addZedRequestClient(Container $container): Container
+    {
+        $container->set(static::CLIENT_ZED_REQUEST, function (Container $container) {
+            return new OptileToZedRequestClientBridge($container->getLocator()->zedRequest()->client());
+        });
 
         return $container;
     }

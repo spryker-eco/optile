@@ -1,37 +1,38 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Optile\Form;
 
-use Generated\Shared\Transfer\OptileHostedPaymentTransfer;
+use Generated\Shared\Transfer\OptileSelectNativeTransfer;
 use Spryker\Yves\StepEngine\Dependency\Form\AbstractSubFormType;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface;
 use Spryker\Yves\StepEngine\Dependency\Form\SubFormProviderNameInterface;
+use SprykerEco\Shared\Optile\OptileConfig;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()()
+ * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()
  */
 class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
-    public const PAYMENT_METHOD = 'OptileSelectNative';
-    public const PAYMENT_PROVIDER = 'Optile';
     public const LONG_ID = 'longId';
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     *
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-           'data_class' => OptileHostedPaymentTransfer::class,
-            SubFormInterface::OPTIONS_FIELD_NAME => []
+           'data_class' => OptileSelectNativeTransfer::class,
+            SubFormInterface::OPTIONS_FIELD_NAME => [],
         ]);
     }
 
@@ -48,7 +49,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
      */
     public function getPropertyPath()
     {
-        return static::PAYMENT_METHOD;
+        return OptileConfig::PAYMENT_METHOD_NAME;
     }
 
     /**
@@ -56,7 +57,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
      */
     public function getName()
     {
-        return static::PAYMENT_METHOD;
+        return OptileConfig::PAYMENT_METHOD_NAME;
     }
 
     /**
@@ -64,7 +65,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
      */
     public function getProviderName()
     {
-        return static::PAYMENT_PROVIDER;
+        return OptileConfig::PAYMENT_PROVIDER_NAME;
     }
 
     /**

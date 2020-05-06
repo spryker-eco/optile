@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business;
 
-use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
@@ -20,7 +19,7 @@ interface OptileFacadeInterface
 {
     /**
      * Specification:
-     * - Handles process based on the notification type.
+     * - Process external notification request based on the notification type.
      * - Saves notification request data.
      * - Returns response with result code.
      *
@@ -114,7 +113,7 @@ interface OptileFacadeInterface
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function getOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer;
+    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer;
 
     /**
      * Specification:
@@ -125,7 +124,6 @@ interface OptileFacadeInterface
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer

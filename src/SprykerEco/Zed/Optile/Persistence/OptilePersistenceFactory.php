@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Persistence;
@@ -13,8 +13,6 @@ use Orm\Zed\Optile\Persistence\SpyPaymentOptileQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileRegistrationQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLogQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
-use SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapper;
-use SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapperInterface;
 use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapper;
 use SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapperInterface;
 
@@ -63,21 +61,5 @@ class OptilePersistenceFactory extends AbstractPersistenceFactory
     public function createOptileTransactionLogQuery(): SpyPaymentOptileTransactionLogQuery
     {
         return SpyPaymentOptileTransactionLogQuery::create();
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Optile\Persistence\Mapper\NotificationRequestMapperInterface
-     */
-    public function createPropelNotificationRequestMapper(): NotificationRequestMapperInterface
-    {
-        return new NotificationRequestMapper();
-    }
-
-    /**
-     * @return \SprykerEco\Zed\Optile\Persistence\Mapper\PaymentOptileMapperInterface
-     */
-    public function createPaymentOptileMapper(): PaymentOptileMapperInterface
-    {
-        return new PaymentOptileMapper();
     }
 }

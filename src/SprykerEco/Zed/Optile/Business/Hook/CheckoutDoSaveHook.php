@@ -1,36 +1,34 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business\Hook;
 
-use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface;
 
-class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
+class CheckoutDoSaveHook implements CheckoutDoSaveHookInterface
 {
     /**
      * @var \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface
      */
-    protected $paymentOptileWriterWriter;
+    protected $paymentOptileWriter;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface $paymentOptileWriterWriter
+     * @param \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface $paymentOptileWriter
      */
-    public function __construct(PaymentOptileWriterWriterInterface $paymentOptileWriterWriter)
+    public function __construct(PaymentOptileWriterWriterInterface $paymentOptileWriter)
     {
-        $this->paymentOptileWriterWriter = $paymentOptileWriterWriter;
+        $this->paymentOptileWriter = $paymentOptileWriter;
     }
 
     /**
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     *
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
@@ -41,12 +39,12 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
     ): PaymentOptileTransfer {
         $optileInitResponse = $quoteTransfer->getOptileInitResponse();
 
-        return $this->paymentOptileWriterWriter->savePaymentOptile(
-            (new PaymentOptileTransfer())
+        $paymentOptileTransfer = (new PaymentOptileTransfer())
                 ->setLongId($optileInitResponse->getLongId())
                 ->setPaymentReference($optileInitResponse->getPaymentReference())
                 ->setFkSalesOrder($saveOrderTransfer->getIdSalesOrder())
-                ->setPaymentMethod($quoteTransfer->getPayment()->getPaymentMethod())
-        );
+                ->setPaymentMethod($quoteTransfer->getPayment()->getPaymentMethod());
+
+        return $this->paymentOptileWriter->savePaymentOptile($paymentOptileTransfer);
     }
 }

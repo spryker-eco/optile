@@ -5,7 +5,7 @@
   "require": {
     "php": ">=7.2",
     "spryker/kernel": "^3.30.0",
-    "guzzlehttp/guzzle": "~6.0"
+    "spryker/guzzle": "^2.0.0"
   },
   "require-dev": {
     "spryker/code-sniffer": "*",

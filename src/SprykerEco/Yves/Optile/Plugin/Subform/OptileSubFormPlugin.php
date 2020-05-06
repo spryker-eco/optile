@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Optile\Plugin\Subform;
@@ -16,7 +16,7 @@ use Spryker\Yves\StepEngine\Dependency\Plugin\Form\SubFormPluginInterface;
 class OptileSubFormPlugin extends AbstractPlugin implements SubFormPluginInterface
 {
     /**
-     * @inheritDoc
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\SubFormInterface
      */
     public function createSubForm()
     {
@@ -24,7 +24,7 @@ class OptileSubFormPlugin extends AbstractPlugin implements SubFormPluginInterfa
     }
 
     /**
-     * @inheritDoc
+     * @return \Spryker\Yves\StepEngine\Dependency\Form\StepEngineFormDataProviderInterface
      */
     public function createSubFormDataProvider()
     {

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile;
 
 use Spryker\Zed\Kernel\AbstractBundleConfig;
+use SprykerEco\Shared\Optile\OptileConfig as SharedOptileConfig;
 use SprykerEco\Shared\Optile\OptileConstants;
 
-class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
+class OptileConfig extends AbstractBundleConfig
 {
-    public const PAYMENT_PROVIDER_NAME = 'Optile';
     /**
      * Max value in Optile system.
      */
-    public const MAX_3D_SECURE_CUSTOMER_SCORE = 1000;
+    protected const MAX_3D_SECURE_CUSTOMER_SCORE = 1000;
 
     /**
      * @api
@@ -43,9 +43,9 @@ class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
      *
      * @return string
      */
-    public function getPaymentSummaryUrl(): string
+    public function getPaymentHandlerStepUrl(): string
     {
-        return $this->get(OptileConstants::CONFIG_YVES_CHECKOUT_SUMMARY_STEP_URL);
+        return $this->get(OptileConstants::CONFIG_YVES_CHECKOUT_PAYMENT_HANDLER_STEP_URL);
     }
 
     /**
@@ -95,7 +95,7 @@ class OptileConfig extends AbstractBundleConfig implements OptileConfigInterface
      */
     public function getPaymentProviderName(): string
     {
-        return static::PAYMENT_PROVIDER_NAME;
+        return SharedOptileConfig::PAYMENT_PROVIDER_NAME;
     }
 
     /**

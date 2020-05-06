@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Zed\Optile\Business\Request;
@@ -11,9 +11,9 @@ use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Symfony\Component\HttpFoundation\Request;
 
-class CancelRequest extends AbstractBaseRequest
+class CancelRequest implements RequestInterface
 {
-    public const CANCEL_REQUEST_PATH_TEMPLATE = '/charges/%s';
+    public const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
 
     /**
      * @param array $responseData
@@ -21,7 +21,7 @@ class CancelRequest extends AbstractBaseRequest
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    protected function handleResponse(
+    public function handleResponse(
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
@@ -33,7 +33,7 @@ class CancelRequest extends AbstractBaseRequest
      *
      * @return \Generated\Shared\Transfer\OptileRequestTransfer
      */
-    protected function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
+    public function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
         $optileRequestTransfer->setRequestUrl(
             sprintf(static::CANCEL_REQUEST_PATH_TEMPLATE, $optileRequestTransfer->getLongId())
@@ -45,7 +45,7 @@ class CancelRequest extends AbstractBaseRequest
     /**
      * @return string
      */
-    protected function getRequestMethod(): string
+    public function getRequestMethod(): string
     {
         return Request::METHOD_DELETE;
     }

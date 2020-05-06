@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * MIT License
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Yves\Optile\Controller;
@@ -31,9 +31,10 @@ class NotificationController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $this->getClient()->processNotificationRequest(
-            $this->getFactory()->createOptileNotificationRequestToOptileNotificationTransferMapper()->map($request)
-        );
+        $optileNotificationRequestTransfer = $this->getFactory()
+            ->createOptileNotificationRequestToOptileNotificationTransferMapper()->map($request);
+
+        $this->getClient()->processNotificationRequest($optileNotificationRequestTransfer);
 
         return new Response();
     }
