@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <statemachine
-        xmlns="spryker:oms-01"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
+    xmlns="spryker:oms-01"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="spryker:oms-01 http://static.spryker.com/oms-01.xsd">
 
     <process name="Optile01" main="true">
         <states>
@@ -12,6 +12,14 @@
             <state name="canceled"/>
             <state name="closed"/>
             <state name="refunded"/>
+            <state name="refunded fail"/>
+            <state name="refund request sent"/>
+            <state name="close request sent"/>
+            <state name="closing fail"/>
+            <state name="cancellation fail"/>
+            <state name="cancel request sent"/>
+            <state name="charge fail"/>
+            <state name="charge request sent"/>
         </states>
 
         <transitions>
@@ -82,13 +90,13 @@
             </transition>
 
             <transition happy="true" condition="Optile/IsRefunded">
-                <source>send refund request</source>
+                <source>refund request sent</source>
                 <target>refunded</target>
                 <event>refund</event>
             </transition>
 
             <transition>
-                <source>send refund request</source>
+                <source>refund request sent</source>
                 <target>refunded fail</target>
                 <event>refund</event>
             </transition>
