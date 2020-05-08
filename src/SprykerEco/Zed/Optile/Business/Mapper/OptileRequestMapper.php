@@ -9,9 +9,23 @@ namespace SprykerEco\Zed\Optile\Business\Mapper;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
+use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
 
 class OptileRequestMapper implements OptileRequestMapperInterface
 {
+    /**
+     * @var \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
+     */
+    protected $utilEncoding;
+
+    /**
+     * @param \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface $utilEncoding
+     */
+    public function __construct(UtilEncodingServiceInterface $utilEncoding)
+    {
+        $this->utilEncoding = $utilEncoding;
+    }
+
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
@@ -21,7 +35,7 @@ class OptileRequestMapper implements OptileRequestMapperInterface
         OptileRequestTransfer $optileRequestTransfer
     ): OptileTransactionLogTransfer {
         return (new OptileTransactionLogTransfer())
-            ->setRequestPayload(json_encode($optileRequestTransfer->getRequestPayload()))
+            ->setRequestPayload($this->utilEncoding->encodeJson($optileRequestTransfer->getRequestPayload()))
             ->setRequestUrl($optileRequestTransfer->getRequestUrl())
             ->setPaymentReference($optileRequestTransfer->getPaymentReference());
     }

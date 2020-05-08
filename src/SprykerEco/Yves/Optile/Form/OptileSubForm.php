@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
-    public const LONG_ID = 'longId';
+    public const FORM_FIELD_LONG_ID = 'longId';
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
@@ -41,7 +41,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
      */
     protected function getTemplatePath()
     {
-        return 'optile/select_native';
+        return 'optile/select-native';
     }
 
     /**
@@ -79,6 +79,6 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars[static::LONG_ID] = $options[static::OPTIONS_FIELD_NAME][static::LONG_ID];
+        $view->vars[static::FORM_FIELD_LONG_ID] = $options[static::OPTIONS_FIELD_NAME][static::FORM_FIELD_LONG_ID];
     }
 }

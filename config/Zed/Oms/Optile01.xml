@@ -8,7 +8,6 @@
         <states>
             <state name="new"/>
             <state name="charged"/>
-            <state name="ready for shipment"/>
             <state name="shipped"/>
             <state name="canceled"/>
             <state name="closed"/>
@@ -18,43 +17,93 @@
         <transitions>
             <transition>
                 <source>new</source>
+                <target>charge request sent</target>
+                <event>send charge request</event>
+            </transition>
+
+            <transition happy="true" condition="Optile/IsCharged">
+                <source>charge request sent</source>
                 <target>charged</target>
                 <event>charge</event>
             </transition>
+
             <transition>
-                <source>charged</source>
-                <target>ready for shipment</target>
-                <event>start shipment process</event>
+                <source>charge request sent</source>
+                <target>charge fail</target>
+                <event>charge</event>
             </transition>
+
             <transition>
                 <source>charged</source>
+                <target>cancel request sent</target>
+                <event>send cancel request</event>
+            </transition>
+
+            <transition happy="true" condition="Optile/IsCanceled">
+                <source>cancel request sent</source>
                 <target>canceled</target>
                 <event>cancel</event>
             </transition>
+
             <transition>
-                <source>ready for shipment</source>
+                <source>cancel request sent</source>
+                <target>cancellation fail</target>
+                <event>cancel</event>
+            </transition>
+
+            <transition>
+                <source>charged</source>
                 <target>shipped</target>
                 <event>ship</event>
             </transition>
+
             <transition>
                 <source>shipped</source>
+                <target>close request sent</target>
+                <event>send close request</event>
+            </transition>
+
+            <transition happy="true" condition="Optile/IsClosed">
+                <source>close request sent</source>
                 <target>closed</target>
                 <event>close</event>
             </transition>
+
+            <transition happy="true" condition="Optile/IsClosed">
+                <source>close request sent</source>
+                <target>closing fail</target>
+                <event>close</event>
+            </transition>
+
             <transition>
                 <source>closed</source>
+                <target>refund request sent</target>
+                <event>send refund request</event>
+            </transition>
+
+            <transition happy="true" condition="Optile/IsRefunded">
+                <source>send refund request</source>
                 <target>refunded</target>
+                <event>refund</event>
+            </transition>
+
+            <transition>
+                <source>send refund request</source>
+                <target>refunded fail</target>
                 <event>refund</event>
             </transition>
         </transitions>
 
         <events>
-            <event name="start shipment process" manual="true"/>
+            <event name="send charge request" onEnter="true"/>
+            <event name="charge" manual="true" timeout="3minutes"/>
+            <event name="send cancel request" manual="true" command="Optile/PaymentCancel"/>
+            <event name="cancel" manual="true" timeout="3minutes"/>
             <event name="ship" manual="true"/>
-            <event name="charge" onEnter="true" command="Optile/PaymentChargePlugin"/>
-            <event name="close" manual="true" command="Optile/PaymentClose"/>
-            <event name="cancel" manual="true" command="Optile/PaymentCancel"/>
-            <event name="refund" manual="true" command="Optile/PaymentRefund"/>
+            <event name="send close request" manual="true" command="Optile/PaymentClose"/>
+            <event name="close" timeout="3minutes"/>
+            <event name="send refund request" manual="true" command="Optile/PaymentRefund"/>
+            <event name="refund" timeout="3minutes"/>
         </events>
     </process>
 </statemachine>

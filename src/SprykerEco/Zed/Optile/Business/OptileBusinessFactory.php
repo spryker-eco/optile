@@ -7,13 +7,14 @@
 
 namespace SprykerEco\Zed\Optile\Business;
 
-use GuzzleHttp\Client as GuzzleHttpClient;
-use GuzzleHttp\ClientInterface as GuzzleHttpClientInterface;
-use Spryker\Service\UtilEncoding\UtilEncodingService;
 use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
+use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface;
+use SprykerEco\Zed\Optile\Business\HttpClient\OptileGuzzleHttpClient;
+use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapper;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
@@ -28,10 +29,9 @@ use SprykerEco\Zed\Optile\Business\Request\CloseRequest;
 use SprykerEco\Zed\Optile\Business\Request\ListRequest;
 use SprykerEco\Zed\Optile\Business\Request\RefundRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
-use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriter;
-use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriter;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
+use SprykerEco\Zed\Optile\OptileDependencyProvider;
 
 /**
  * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
@@ -59,7 +59,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createListRequest(),
-            $this->createUtilEncodingService()
+            $this->getUtilEncodingService()
         );
     }
 
@@ -82,7 +82,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createChargeRequest(),
-            $this->createUtilEncodingService()
+            $this->getUtilEncodingService()
         );
     }
 
@@ -105,7 +105,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createCancelRequest(),
-            $this->createUtilEncodingService()
+            $this->getUtilEncodingService()
         );
     }
 
@@ -114,7 +114,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createCancelRequest(): RequestInterface
     {
-        return new CancelRequest();
+        return new CancelRequest($this->getConfig());
     }
 
     /**
@@ -128,7 +128,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createRefundRequest(),
-            $this->createUtilEncodingService()
+            $this->getUtilEncodingService()
         );
     }
 
@@ -137,7 +137,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createRefundRequest(): RequestInterface
     {
-        return new RefundRequest();
+        return new RefundRequest($this->getConfig());
     }
 
     /**
@@ -151,7 +151,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createCloseRequest(),
-            $this->createUtilEncodingService()
+            $this->getUtilEncodingService()
         );
     }
 
@@ -160,23 +160,31 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createCloseRequest(): RequestInterface
     {
-        return new CloseRequest();
+        return new CloseRequest($this->getConfig());
     }
 
     /**
      * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface
      */
-    public function createDoSaveHook(): CheckoutDoSaveHookInterface
+    public function createCheckoutDoSaveHook(): CheckoutDoSaveHookInterface
     {
-        return new CheckoutDoSaveHook($this->createPaymentOptileWriter());
+        return new CheckoutDoSaveHook($this->getEntityManager());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface
+     * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface
      */
-    public function createPaymentOptileWriter(): PaymentOptileWriterWriterInterface
+    public function createPostSaveHook(): CheckoutPostSaveHookInterface
     {
-        return new PaymentOptileWriter($this->getEntityManager());
+        return new CheckoutPostSaveHook($this->createChargeClient());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface
+     */
+    public function createHttpClient(): OptileHttpClientInterface
+    {
+        return new OptileGuzzleHttpClient($this->getProvidedDependency(OptileDependencyProvider::GUZZLE_CLIENT));
     }
 
     /**
@@ -192,7 +200,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createOptileRequestMapper(): OptileRequestMapperInterface
     {
-        return new OptileRequestMapper();
+        return new OptileRequestMapper($this->getUtilEncodingService());
     }
 
     /**
@@ -204,18 +212,10 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \GuzzleHttp\ClientInterface
-     */
-    public function createHttpClient(): GuzzleHttpClientInterface
-    {
-        return new GuzzleHttpClient();
-    }
-
-    /**
      * @return \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
      */
-    public function createUtilEncodingService(): UtilEncodingServiceInterface
+    public function getUtilEncodingService(): UtilEncodingServiceInterface
     {
-        return new UtilEncodingService();
+        return $this->getProvidedDependency(OptileDependencyProvider::UTIL_ENCODING_SERVICE);
     }
 }

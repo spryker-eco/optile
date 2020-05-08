@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Optile\Business;
 
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
@@ -46,20 +47,6 @@ interface OptileFacadeInterface
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
     public function makeListRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer;
-
-    /**
-     * Specification:
-     * - Sends "Charge" request to the Optile api.
-     * - Logs request and response to the transaction log table.
-     * - Returns api response.
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OptileResponseTransfer
-     */
-    public function makeChargeRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer;
 
     /**
      * Specification:
@@ -105,15 +92,15 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Returns optile payment transfer by the foreign sales order id.
+     * - Returns optile payment transfer by the foreign sales order id or null if not found.
      *
      * @api
      *
      * @param int $optileRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer|null
      */
-    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer;
+    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): ?PaymentOptileTransfer;
 
     /**
      * Specification:
@@ -128,8 +115,26 @@ interface OptileFacadeInterface
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function checkoutDoSaveHook(
+    public function executeCheckoutDoSaveHook(
         QuoteTransfer $quoteTransfer,
         SaveOrderTransfer $saveOrderTransfer
     ): PaymentOptileTransfer;
+
+    /**
+     * Specification:
+     * - Sends "Charge" request to the Optile api.
+     * - Logs request and response to the transaction log table.
+     * - Returns api response.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     *
+     * @return void
+     */
+    public function executeOrderPostSaveHook(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponse
+    ): void;
 }

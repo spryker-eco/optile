@@ -12,9 +12,9 @@ use Generated\Shared\Transfer\PaymentOptileTransfer;
 interface OptileRepositoryInterface
 {
     /**
-     * @param int $optileRequestTransfer
+     * @param int $salesOrderId
      *
-     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer|null
      */
-    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer;
+    public function findOptilePaymentByIdSalesOrder(int $salesOrderId): ?PaymentOptileTransfer;
 }

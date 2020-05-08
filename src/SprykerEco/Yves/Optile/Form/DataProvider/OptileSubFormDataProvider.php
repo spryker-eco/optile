@@ -39,7 +39,7 @@ class OptileSubFormDataProvider implements StepEngineFormDataProviderInterface
     public function getOptions(AbstractTransfer $quoteTransfer)
     {
         return [
-            OptileSubForm::LONG_ID => $quoteTransfer->getOptileInitResponse()->getLongId(),
+            OptileSubForm::FORM_FIELD_LONG_ID => $quoteTransfer->getOptileInitResponse()->getLongId(),
         ];
     }
 }

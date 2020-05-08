@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OptilePaymentHandlerController extends AbstractController
 {
+    /**
+     * @uses \SprykerShop\Yves\CheckoutPage\Plugin\Router\CheckoutPageRouteProviderPlugin::CHECKOUT_SUMMARY
+     */
     protected const SUMMARY_STEP_URL = 'checkout-summary';
 
     /**

@@ -7,16 +7,16 @@
 
 namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout;
 
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use Generated\Shared\Transfer\SaveOrderTransfer;
-use Spryker\Zed\CheckoutExtension\Dependency\Plugin\CheckoutDoSaveOrderInterface;
+use Spryker\Zed\Checkout\Dependency\Plugin\CheckoutPostSaveHookInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
  */
-class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements CheckoutDoSaveOrderInterface
+class OptileChargeRequestPostSavePlugin extends AbstractPlugin implements CheckoutPostSaveHookInterface
 {
     /**
      * {@inheritDoc}
@@ -24,12 +24,12 @@ class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements Ch
      * @api
      *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
-     * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
      *
      * @return void
      */
-    public function saveOrder(QuoteTransfer $quoteTransfer, SaveOrderTransfer $saveOrderTransfer)
+    public function executeHook(QuoteTransfer $quoteTransfer, CheckoutResponseTransfer $checkoutResponse)
     {
-         $this->getFacade()->executeCheckoutDoSaveHook($quoteTransfer, $saveOrderTransfer);
+        $this->getFacade()->executeOrderPostSaveHook($quoteTransfer, $checkoutResponse);
     }
 }

@@ -39,9 +39,14 @@ class ChargeRequest implements RequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
+        if (empty($responseData['identification']['longId'])) {
+            return (new OptileResponseTransfer())->setIsSuccess(false)
+                ->setError('Required field "longId" can\'t be empty');
+        }
+
         return (new OptileResponseTransfer())
             ->setPaymentReference($optileRequestTransfer->getPaymentReference())
-            ->setOperation($responseData['operation'])
+            ->setOperation($responseData['operation'] ?? '')
             ->setLongId($responseData['identification']['longId']);
     }
 
@@ -59,7 +64,6 @@ class ChargeRequest implements RequestInterface
                 $optileRequestTransfer->getLongId()
             )
         );
-        $optileRequestTransfer->setRequestPayload($optileRequestTransfer->getRequestPayload());
 
         return $optileRequestTransfer;
     }

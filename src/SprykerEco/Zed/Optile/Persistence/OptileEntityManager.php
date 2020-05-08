@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptile;
+use Orm\Zed\Optile\Persistence\SpyPaymentOptileNotification;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLog;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
@@ -27,10 +28,7 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
     public function saveNotification(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): OptileNotificationRequestTransfer {
-        $spyNotification = $this->getFactory()
-            ->createOptileNotificationQuery()
-            ->filterByNotificationId($optileNotificationRequestTransfer->getNotificationId())
-            ->findOneOrCreate();
+        $spyNotification = new SpyPaymentOptileNotification();
 
         $spyNotification->fromArray(
             $optileNotificationRequestTransfer->modifiedToArray(false)

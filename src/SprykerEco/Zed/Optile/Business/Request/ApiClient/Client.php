@@ -9,9 +9,10 @@ namespace SprykerEco\Zed\Optile\Business\Request\ApiClient;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
-use GuzzleHttp\ClientInterface as GuzzleHttpClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
+use SprykerEco\Zed\Optile\Business\HttpClient\Exception\OptileHttpRequestException;
+use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
@@ -37,9 +38,9 @@ class Client implements ClientInterface
     protected $optileConfig;
 
     /**
-     * @var \GuzzleHttp\ClientInterface
+     * @var \SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface
      */
-    protected $guzzleHttpClient;
+    protected $optileHttpClient;
 
     /**
      * @var \SprykerEco\Zed\Optile\Business\Request\RequestInterface
@@ -52,7 +53,7 @@ class Client implements ClientInterface
     protected $utilEncoding;
 
     /**
-     * @param \GuzzleHttp\ClientInterface $guzzleHttpClient
+     * @param \SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface $optileHttpClient
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
      * @param \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface $transactionLogWriter
      * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface $optileRequestToTransactionLog
@@ -60,14 +61,14 @@ class Client implements ClientInterface
      * @param \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface $utilEncoding
      */
     public function __construct(
-        GuzzleHttpClientInterface $guzzleHttpClient,
+        OptileHttpClientInterface $optileHttpClient,
         OptileConfig $optileConfig,
         TransactionLogWriterInterface $transactionLogWriter,
         OptileRequestMapperInterface $optileRequestToTransactionLog,
         RequestInterface $request,
         UtilEncodingServiceInterface $utilEncoding
     ) {
-        $this->guzzleHttpClient = $guzzleHttpClient;
+        $this->optileHttpClient = $optileHttpClient;
         $this->optileConfig = $optileConfig;
         $this->transactionLogWriter = $transactionLogWriter;
         $this->optileRequestToTransactionLog = $optileRequestToTransactionLog;
@@ -83,7 +84,36 @@ class Client implements ClientInterface
     public function request(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
         $optileRequestTransfer = $this->request->configureRequest($optileRequestTransfer);
+        $options = $this->buildRequestOptions($optileRequestTransfer);
+        $optileResponseTransfer = (new OptileResponseTransfer())->setIsSuccess(false);
 
+        try {
+            $response = $this->optileHttpClient->request(
+                $this->request->getRequestMethod(),
+                $optileRequestTransfer->getRequestUrl(),
+                $options
+            );
+        } catch (OptileHttpRequestException $exception) {
+            return $optileResponseTransfer->setError($exception->getMessage());
+        }
+
+        $this->logOptileTransaction($response, $optileRequestTransfer);
+        $responseData = $this->utilEncoding->decodeJson($response->getBody(), true);
+
+        if ($responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE) {
+            return $optileResponseTransfer->setError($response->getBody());
+        }
+
+        return $this->request->handleResponse($responseData, $optileRequestTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return array
+     */
+    protected function buildRequestOptions(OptileRequestTransfer $optileRequestTransfer): array
+    {
         $options = [
             'auth' => [
                 $this->optileConfig->getMerchantCode(),
@@ -94,27 +124,13 @@ class Client implements ClientInterface
 
         if (empty($optileRequestTransfer->getRequestPayload())) {
             $options['body'] = '{}';
-        } else {
-            $options['json'] = $optileRequestTransfer->getRequestPayload();
+
+            return $options;
         }
 
-        $response = $this->guzzleHttpClient->request(
-            $this->request->getRequestMethod(),
-            $optileRequestTransfer->getRequestUrl(),
-            $options
-        );
+        $options['json'] = $optileRequestTransfer->getRequestPayload();
 
-        $this->logOptileTransaction($response, $optileRequestTransfer);
-        $responseData = $this->utilEncoding->decodeJson($response->getBody(), true);
-
-        if ($response->getStatusCode() >= 300 || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE) {
-            return (new OptileResponseTransfer())
-                ->setError($response->getBody())
-                ->setIsSuccess(false)
-                ->setPaymentReference($optileRequestTransfer->getPaymentReference());
-        }
-
-        return $this->request->handleResponse($responseData, $optileRequestTransfer);
+        return $options;
     }
 
     /**

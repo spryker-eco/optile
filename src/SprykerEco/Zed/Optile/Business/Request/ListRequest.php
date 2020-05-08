@@ -39,10 +39,18 @@ class ListRequest implements RequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
+        if (
+            empty($responseData['identification']['longId']
+            || empty($responseData['links']['self']))
+        ) {
+            return (new OptileResponseTransfer())->setIsSuccess(false)
+                ->setError('Required fields can\'t be empty');
+        }
+
         return (new OptileResponseTransfer())
             ->setPaymentReference($optileRequestTransfer->getPaymentReference())
             ->setIsSuccess(true)
-            ->setOperation($responseData['operation'])
+            ->setOperation($responseData['operation'] ?? '')
             ->setLongId($responseData['identification']['longId'])
             ->setSelfLink($responseData['links']['self']);
     }
@@ -58,6 +66,7 @@ class ListRequest implements RequestInterface
             ->setIntegration($this->optileConfig->getIntegrationType())
             ->setCallbackNotificationUrl($this->optileConfig->getNotificationUrl())
             ->setCallbackPaymentHandlerUrl($this->optileConfig->getPaymentHandlerStepUrl())
+            //@TODO change url to the real one
             ->setCallbackCancelUrl('https://dev.oscato.com/shop/success.html')
             ->setRequestUrl(sprintf(static::LISTS_URL_PATH, $this->optileConfig->getBaseApiUrl()))
             ->setPresetFirst($this->optileConfig->isPresetEnabled());
@@ -66,7 +75,7 @@ class ListRequest implements RequestInterface
             $optileRequestTransfer->setCustomerScore($this->optileConfig->getMax3dSecureScore());
         }
 
-        $this->prepareRequestBody($optileRequestTransfer);
+        $this->setRequestPayload($optileRequestTransfer);
 
         return $optileRequestTransfer;
     }
@@ -84,28 +93,34 @@ class ListRequest implements RequestInterface
      *
      * @return \Generated\Shared\Transfer\OptileRequestTransfer
      */
-    protected function prepareRequestBody(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
+    protected function setRequestPayload(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
-        return $optileRequestTransfer->setRequestPayload([
-                 'transactionId' => $optileRequestTransfer->getTransactionId(),
-                 'integration' => $optileRequestTransfer->getIntegration(),
-                 'presetFirst' => $optileRequestTransfer->getPresetFirst(),
-                 'country' => $optileRequestTransfer->getCountry(),
-                 'customer' => [
-                     'number' => $optileRequestTransfer->getIdCustomer(),
-                     'email' => $optileRequestTransfer->getCustomerEmail(),
-                 ],
-                 'payment' => [
-                     'amount' => $optileRequestTransfer->getPaymentAmount(),
-                     'currency' => $optileRequestTransfer->getPaymentCurrency(),
-                     'reference' => $optileRequestTransfer->getPaymentReference(),
-                 ],
-                 'callback' => [
-                     'returnUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
-                     'cancelUrl' => $optileRequestTransfer->getCallbackCancelUrl(),
-                     'summaryUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
-                     'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
-                 ],
-             ]);
+        $payload = [
+            'transactionId' => $optileRequestTransfer->getTransactionId(),
+            'integration' => $optileRequestTransfer->getIntegration(),
+            'presetFirst' => $optileRequestTransfer->getPresetFirst(),
+            'country' => $optileRequestTransfer->getCountry(),
+            'customer' => [
+                'number' => $optileRequestTransfer->getIdCustomer(),
+                'email' => $optileRequestTransfer->getCustomerEmail(),
+            ],
+            'payment' => [
+                'amount' => $optileRequestTransfer->getPaymentAmount(),
+                'currency' => $optileRequestTransfer->getPaymentCurrency(),
+                'reference' => $optileRequestTransfer->getPaymentReference(),
+            ],
+            'callback' => [
+                'returnUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
+                'cancelUrl' => $optileRequestTransfer->getCallbackCancelUrl(),
+                'summaryUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
+                'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
+            ],
+        ];
+
+        if ($optileRequestTransfer->getCustomerScore()) {
+            $payload['customerScore'] = $optileRequestTransfer->getCustomerScore();
+        }
+
+        return $optileRequestTransfer->setRequestPayload($payload);
     }
 }

@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Optile\Business;
 
+use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
@@ -61,20 +62,6 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    public function makeChargeRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
-    {
-        return $this->getFactory()->createChargeClient()->request($optileRequestTransfer);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OptileResponseTransfer
-     */
     public function makeCloseRequest(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
         return $this->getFactory()->createCloseClient()->request($optileRequestTransfer);
@@ -115,11 +102,12 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @param int $optileRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer|null
      */
-    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
+    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): ?PaymentOptileTransfer
     {
-        return $this->getFactory()->createPaymentOptileReader()->findOptilePaymentByIdSalesOrder($optileRequestTransfer);
+        return $this->getFactory()->createPaymentOptileReader()
+            ->findOptilePaymentByIdSalesOrder($optileRequestTransfer);
     }
 
     /**
@@ -132,10 +120,27 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @return \Generated\Shared\Transfer\PaymentOptileTransfer
      */
-    public function checkoutDoSaveHook(
+    public function executeCheckoutDoSaveHook(
         QuoteTransfer $quoteTransfer,
         SaveOrderTransfer $saveOrderTransfer
     ): PaymentOptileTransfer {
-        return $this->getFactory()->createDoSaveHook()->execute($quoteTransfer, $saveOrderTransfer);
+        return $this->getFactory()->createCheckoutDoSaveHook()->execute($quoteTransfer, $saveOrderTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     * @param \Generated\Shared\Transfer\CheckoutResponseTransfer $checkoutResponse
+     *
+     * @return void
+     */
+    public function executeOrderPostSaveHook(
+        QuoteTransfer $quoteTransfer,
+        CheckoutResponseTransfer $checkoutResponse
+    ): void {
+        $this->getFactory()->createPostSaveHook()->execute($quoteTransfer, $checkoutResponse);
     }
 }

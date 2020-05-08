@@ -28,9 +28,9 @@ class PaymentOptileReader implements PaymentOptileReaderInterface
     /**
      * @param int $optileRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\PaymentOptileTransfer
+     * @return \Generated\Shared\Transfer\PaymentOptileTransfer|null
      */
-    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): PaymentOptileTransfer
+    public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): ?PaymentOptileTransfer
     {
         return $this->optileRepository->findOptilePaymentByIdSalesOrder($optileRequestTransfer);
     }

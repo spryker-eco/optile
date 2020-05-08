@@ -10,21 +10,21 @@ namespace SprykerEco\Zed\Optile\Business\Hook;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
-use SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface;
+use SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface;
 
 class CheckoutDoSaveHook implements CheckoutDoSaveHookInterface
 {
     /**
-     * @var \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface
+     * @var \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface
      */
-    protected $paymentOptileWriter;
+    protected $optileEntityManager;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Business\Writer\PaymentOptileWriterWriterInterface $paymentOptileWriter
+     * @param \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface $optileEntityManager
      */
-    public function __construct(PaymentOptileWriterWriterInterface $paymentOptileWriter)
+    public function __construct(OptileEntityManagerInterface $optileEntityManager)
     {
-        $this->paymentOptileWriter = $paymentOptileWriter;
+        $this->optileEntityManager = $optileEntityManager;
     }
 
     /**
@@ -45,6 +45,6 @@ class CheckoutDoSaveHook implements CheckoutDoSaveHookInterface
                 ->setFkSalesOrder($saveOrderTransfer->getIdSalesOrder())
                 ->setPaymentMethod($quoteTransfer->getPayment()->getPaymentMethod());
 
-        return $this->paymentOptileWriter->savePaymentOptile($paymentOptileTransfer);
+        return $this->optileEntityManager->savePaymentOptile($paymentOptileTransfer);
     }
 }

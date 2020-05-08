@@ -8,6 +8,7 @@
 namespace SprykerEco\Client\Optile;
 
 use Spryker\Client\Kernel\AbstractFactory;
+use SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface;
 use SprykerEco\Client\Optile\Zed\OptileStub;
 use SprykerEco\Client\Optile\Zed\OptileStubInterface;
 
@@ -18,6 +19,14 @@ class OptileFactory extends AbstractFactory
      */
     public function createOptileZedStub(): OptileStubInterface
     {
-        return new OptileStub($this->getProvidedDependency(OptileDependencyProvider::CLIENT_ZED_REQUEST));
+        return new OptileStub($this->getZedRequest());
+    }
+
+    /**
+     * @return \SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface
+     */
+    public function getZedRequest(): OptileToZedRequestClientInterface
+    {
+        return $this->getProvidedDependency(OptileDependencyProvider::CLIENT_ZED_REQUEST);
     }
 }

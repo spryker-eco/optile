@@ -9,11 +9,25 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
 class CancelRequest implements RequestInterface
 {
     public const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
+
+    /**
+     * @var \SprykerEco\Zed\Optile\OptileConfig
+     */
+    private $optileConfig;
+
+    /**
+     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     */
+    public function __construct(OptileConfig $optileConfig)
+    {
+        $this->optileConfig = $optileConfig;
+    }
 
     /**
      * @param array $responseData
@@ -36,7 +50,11 @@ class CancelRequest implements RequestInterface
     public function configureRequest(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
     {
         $optileRequestTransfer->setRequestUrl(
-            sprintf(static::CANCEL_REQUEST_PATH_TEMPLATE, $optileRequestTransfer->getLongId())
+            sprintf(
+                static::CANCEL_REQUEST_PATH_TEMPLATE,
+                $this->optileConfig->getBaseApiUrl(),
+                $optileRequestTransfer->getLongId()
+            )
         );
 
         return $optileRequestTransfer;
