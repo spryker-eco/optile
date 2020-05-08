@@ -53,6 +53,16 @@ class OptileConfig extends AbstractBundleConfig
      *
      * @return string
      */
+    public function getCheckoutCancelUrl(): string
+    {
+        return $this->get(OptileConstants::CONFIG_YVES_CHECKOUT_PAYMENT_CANCEL_URL);
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
     public function getNotificationUrl(): string
     {
         return $this->get(OptileConstants::CONFIG_YVES_CHECKOUT_NOTIFICATION_URL);

@@ -66,8 +66,7 @@ class ListRequest implements RequestInterface
             ->setIntegration($this->optileConfig->getIntegrationType())
             ->setCallbackNotificationUrl($this->optileConfig->getNotificationUrl())
             ->setCallbackPaymentHandlerUrl($this->optileConfig->getPaymentHandlerStepUrl())
-            //@TODO change url to the real one
-            ->setCallbackCancelUrl('https://dev.oscato.com/shop/success.html')
+            ->setCallbackCancelUrl($this->optileConfig->getCheckoutCancelUrl())
             ->setRequestUrl(sprintf(static::LISTS_URL_PATH, $this->optileConfig->getBaseApiUrl()))
             ->setPresetFirst($this->optileConfig->isPresetEnabled());
 
