@@ -141,6 +141,6 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponse
     ): void {
-        $this->getFactory()->createPostSaveHook()->execute($quoteTransfer, $checkoutResponse);
+        $this->getFactory()->createCheckoutPostSaveHook()->execute($quoteTransfer, $checkoutResponse);
     }
 }
