@@ -31,6 +31,7 @@ use SprykerEco\Zed\Optile\Business\Request\RefundRequest;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriter;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\OptileDependencyProvider;
 
 /**
@@ -209,18 +210,10 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReaderInterface
+     * @return \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
      */
-    public function createPaymentOptileReader(): PaymentOptileReaderInterface
+    public function getUtilEncodingService(): OptileToUtilEncodingServiceInterface
     {
-        return new PaymentOptileReader($this->getRepository());
-    }
-
-    /**
-     * @return \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
-     */
-    public function getUtilEncodingService(): UtilEncodingServiceInterface
-    {
-        return $this->getProvidedDependency(OptileDependencyProvider::UTIL_ENCODING_SERVICE);
+        return $this->getProvidedDependency(OptileDependencyProvider::SERVICE_UTIL_ENCODING);
     }
 }

@@ -106,7 +106,7 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      */
     public function findOptilePaymentByIdSalesOrder(int $optileRequestTransfer): ?PaymentOptileTransfer
     {
-        return $this->getFactory()->createPaymentOptileReader()
+        return $this->getRepository()
             ->findOptilePaymentByIdSalesOrder($optileRequestTransfer);
     }
 

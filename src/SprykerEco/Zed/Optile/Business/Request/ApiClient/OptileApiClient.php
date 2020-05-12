@@ -16,6 +16,7 @@ use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
 use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
 
 class OptileApiClient implements OptileApiClientInterface
@@ -48,7 +49,7 @@ class OptileApiClient implements OptileApiClientInterface
     protected $request;
 
     /**
-     * @var \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
+     * @var \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
      */
     protected $utilEncoding;
 
@@ -58,7 +59,7 @@ class OptileApiClient implements OptileApiClientInterface
      * @param \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface $transactionLogWriter
      * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface $optileRequestToTransactionLog
      * @param \SprykerEco\Zed\Optile\Business\Request\RequestInterface $request
-     * @param \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface $utilEncoding
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncoding
      */
     public function __construct(
         OptileHttpClientInterface $optileHttpClient,
@@ -66,7 +67,7 @@ class OptileApiClient implements OptileApiClientInterface
         TransactionLogWriterInterface $transactionLogWriter,
         OptileRequestMapperInterface $optileRequestToTransactionLog,
         RequestInterface $request,
-        UtilEncodingServiceInterface $utilEncoding
+        OptileToUtilEncodingServiceInterface $utilEncoding
     ) {
         $this->optileHttpClient = $optileHttpClient;
         $this->optileConfig = $optileConfig;
@@ -100,7 +101,9 @@ class OptileApiClient implements OptileApiClientInterface
         $this->logOptileTransaction($response, $optileRequestTransfer);
         $responseData = $this->utilEncoding->decodeJson($response->getBody(), true);
 
-        if ($responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE) {
+        if (empty($responseData['returnCode']['name'])
+            || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE
+        ) {
             return $optileResponseTransfer->setError($response->getBody());
         }
 

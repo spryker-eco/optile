@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CloseRequest implements RequestInterface
 {
-    public const CLOSE_REQUEST_PATH_TEMPLATE = '%s/charges/%s/closing';
+    protected const CLOSE_REQUEST_PATH_TEMPLATE = '%s/charges/%s/closing';
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig

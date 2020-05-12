@@ -11,10 +11,11 @@ use GuzzleHttp\Client as GuzzleHttpClient;
 use Spryker\Service\UtilEncoding\UtilEncodingService;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceBridge;
 
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const UTIL_ENCODING_SERVICE = 'UTIL_ENCODING_SERVICE';
+    public const SERVICE_UTIL_ENCODING = 'UTIL_ENCODING_SERVICE';
     public const GUZZLE_CLIENT = 'GUZZLE_CLIENT';
 
     /**
@@ -38,8 +39,8 @@ class OptileDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addUtilEncodingService(Container $container): Container
     {
-        $container->set(static::UTIL_ENCODING_SERVICE, function () {
-            return new UtilEncodingService();
+        $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
+            return new OptileToUtilEncodingServiceBridge($container->getLocator()->utilEncoding()->service());
         });
 
         return $container;

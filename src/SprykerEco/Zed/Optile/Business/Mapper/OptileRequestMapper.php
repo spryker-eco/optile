@@ -9,7 +9,7 @@ namespace SprykerEco\Zed\Optile\Business\Mapper;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
-use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 
 class OptileRequestMapper implements OptileRequestMapperInterface
 {
@@ -19,9 +19,9 @@ class OptileRequestMapper implements OptileRequestMapperInterface
     protected $utilEncoding;
 
     /**
-     * @param \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface $utilEncoding
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncoding
      */
-    public function __construct(UtilEncodingServiceInterface $utilEncoding)
+    public function __construct(OptileToUtilEncodingServiceInterface $utilEncoding)
     {
         $this->utilEncoding = $utilEncoding;
     }

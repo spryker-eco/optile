@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ChargeRequest implements RequestInterface
 {
-    public const CHARGE_REQUEST_PATH_TEMPLATE = '%s/lists/%s/charge';
+    protected const CHARGE_REQUEST_PATH_TEMPLATE = '%s/lists/%s/charge';
+    protected const ERROR_MESSAGE_LONG_ID_REQUIRED = 'Required field "longId" can\'t be empty';
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
@@ -41,7 +42,7 @@ class ChargeRequest implements RequestInterface
     ): OptileResponseTransfer {
         if (empty($responseData['identification']['longId'])) {
             return (new OptileResponseTransfer())->setIsSuccess(false)
-                ->setError('Required field "longId" can\'t be empty');
+                ->setError(static::ERROR_MESSAGE_LONG_ID_REQUIRED);
         }
 
         return (new OptileResponseTransfer())

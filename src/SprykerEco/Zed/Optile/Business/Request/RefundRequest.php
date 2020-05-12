@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RefundRequest implements RequestInterface
 {
-    public const REFUND_REQUEST_PATH_TEMPLATE = '%s/charges/%s/payout';
+    protected const REFUND_REQUEST_PATH_TEMPLATE = '%s/charges/%s/payout';
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig

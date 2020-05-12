@@ -8,22 +8,23 @@
 namespace SprykerEco\Zed\Optile\Business\Hook;
 
 use ArrayObject;
+use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
-use SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface;
+use SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface;
 
 class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
 {
     /**
-     * @var \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @var \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
     protected $client;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface $client
+     * @param \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface $client
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(OptileApiClientInterface $client)
     {
         $this->client = $client;
     }
@@ -42,7 +43,10 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
 
         $optileResponseTransfer = $this->client->request($optileRequestTransfer);
 
-        $checkoutResponse->setIsSuccess($optileResponseTransfer->getIsSuccess())
-            ->addError(new ArrayObject([$optileResponseTransfer->getError()]));
+        $checkoutResponse->setIsSuccess($optileResponseTransfer->getIsSuccess());
+
+        if (!$optileResponseTransfer->getIsSuccess()) {
+            $checkoutResponse->addError((new CheckoutErrorTransfer())->setMessage($optileResponseTransfer->getError()));
+        }
     }
 }

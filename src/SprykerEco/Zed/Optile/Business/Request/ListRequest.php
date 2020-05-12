@@ -44,7 +44,7 @@ class ListRequest implements RequestInterface
             || empty($responseData['links']['self']))
         ) {
             return (new OptileResponseTransfer())->setIsSuccess(false)
-                ->setError('Required fields can\'t be empty');
+                ->setError('Required fields: identification.longId, links.self  can\'t be empty');
         }
 
         return (new OptileResponseTransfer())

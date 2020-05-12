@@ -14,12 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CancelRequest implements RequestInterface
 {
-    public const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
+    protected const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
      */
-    private $optileConfig;
+    protected $optileConfig;
 
     /**
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig

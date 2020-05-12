@@ -14,8 +14,6 @@ use Generated\Shared\Transfer\PaymentOptileTransfer;
 interface OptileEntityManagerInterface
 {
     /**
-     * Specification:
-     *
      * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer
