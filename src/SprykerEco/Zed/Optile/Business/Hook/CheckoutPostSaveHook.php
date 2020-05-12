@@ -43,6 +43,6 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
         $optileResponseTransfer = $this->client->request($optileRequestTransfer);
 
         $checkoutResponse->setIsSuccess($optileResponseTransfer->getIsSuccess())
-            ->setErrors(new ArrayObject([$optileResponseTransfer->getError()]));
+            ->addError(new ArrayObject([$optileResponseTransfer->getError()]));
     }
 }

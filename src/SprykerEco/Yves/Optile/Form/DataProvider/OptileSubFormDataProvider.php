@@ -26,7 +26,9 @@ class OptileSubFormDataProvider implements StepEngineFormDataProviderInterface
             $quoteTransfer->setPayment(new PaymentTransfer());
         }
 
-        $quoteTransfer->getPayment()->setOptileSelectNative(new OptileSelectNativeTransfer());
+        if ($quoteTransfer->getPayment()->getOptileSelectNative() === null) {
+            $quoteTransfer->getPayment()->setOptileSelectNative(new OptileSelectNativeTransfer());
+        }
 
         return $quoteTransfer;
     }

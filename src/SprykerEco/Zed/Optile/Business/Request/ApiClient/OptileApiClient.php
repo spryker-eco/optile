@@ -18,7 +18,7 @@ use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
 
-class Client implements ClientInterface
+class OptileApiClient implements OptileApiClientInterface
 {
     protected const SUCCESS_RESPONSE_CODE = 'OK';
 

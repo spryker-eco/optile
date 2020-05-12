@@ -21,8 +21,8 @@ use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
 use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReader;
 use SprykerEco\Zed\Optile\Business\Reader\PaymentOptileReaderInterface;
-use SprykerEco\Zed\Optile\Business\Request\ApiClient\Client;
-use SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface;
+use SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClient;
+use SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface;
 use SprykerEco\Zed\Optile\Business\Request\CancelRequest;
 use SprykerEco\Zed\Optile\Business\Request\ChargeRequest;
 use SprykerEco\Zed\Optile\Business\Request\CloseRequest;
@@ -49,12 +49,12 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    public function createListClient(): ClientInterface
+    public function createListClient(): OptileApiClientInterface
     {
-        return new Client(
-            $this->createHttpClient(),
+        return new OptileApiClient(
+            $this->createGuzzleHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
@@ -68,16 +68,16 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createListRequest(): RequestInterface
     {
-        return new ListRequest($this->getConfig());
+        return new ListRequest($this->getConfig(), $this->getRepository());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    public function createChargeClient(): ClientInterface
+    public function createChargeClient(): OptileApiClientInterface
     {
-        return new Client(
-            $this->createHttpClient(),
+        return new OptileApiClient(
+            $this->createGuzzleHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
@@ -95,12 +95,12 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    public function createCancelClient(): ClientInterface
+    public function createCancelClient(): OptileApiClientInterface
     {
-        return new Client(
-            $this->createHttpClient(),
+        return new OptileApiClient(
+            $this->createGuzzleHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
@@ -118,12 +118,12 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    public function createRefundClient(): ClientInterface
+    public function createRefundClient(): OptileApiClientInterface
     {
-        return new Client(
-            $this->createHttpClient(),
+        return new OptileApiClient(
+            $this->createGuzzleHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
@@ -141,12 +141,12 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\ClientInterface
+     * @return \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    public function createCloseClient(): ClientInterface
+    public function createCloseClient(): OptileApiClientInterface
     {
-        return new Client(
-            $this->createHttpClient(),
+        return new OptileApiClient(
+            $this->createGuzzleHttpClient(),
             $this->getConfig(),
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
@@ -174,7 +174,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHookInterface
      */
-    public function createPostSaveHook(): CheckoutPostSaveHookInterface
+    public function createCheckoutPostSaveHook(): CheckoutPostSaveHookInterface
     {
         return new CheckoutPostSaveHook($this->createChargeClient());
     }
@@ -182,9 +182,14 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface
      */
-    public function createHttpClient(): OptileHttpClientInterface
+    public function createGuzzleHttpClient(): OptileHttpClientInterface
     {
-        return new OptileGuzzleHttpClient($this->getProvidedDependency(OptileDependencyProvider::GUZZLE_CLIENT));
+        return new OptileGuzzleHttpClient($this->getGuzzleClient());
+    }
+
+    public function getGuzzleClient()
+    {
+        return $this->getProvidedDependency(OptileDependencyProvider::GUZZLE_CLIENT);
     }
 
     /**

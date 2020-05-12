@@ -27,7 +27,7 @@ class OptileToQuoteClientBridge implements OptileToQuoteClientInterface
     /**
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
-    public function getQuote(): QuoteTransfer
+    public function getQuote()
     {
         return $this->quoteClient->getQuote();
     }

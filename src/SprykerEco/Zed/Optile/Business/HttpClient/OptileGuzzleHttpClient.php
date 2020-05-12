@@ -40,11 +40,11 @@ class OptileGuzzleHttpClient implements OptileHttpClientInterface
     {
         try {
             return $this->guzzleHttpClient->request($method, $uri, $options);
-        } catch (GuzzleException $e) {
+        } catch (GuzzleException $exception) {
             throw new OptileHttpRequestException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
+                $exception->getMessage(),
+                $exception->getCode(),
+                $exception
             );
         }
     }
