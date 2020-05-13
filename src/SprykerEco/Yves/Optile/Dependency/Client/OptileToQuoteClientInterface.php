@@ -12,17 +12,11 @@ use Generated\Shared\Transfer\QuoteTransfer;
 interface OptileToQuoteClientInterface
 {
     /**
-     * Specification:
-     * - Returns the stored quote from session.
-     *
      * @return \Generated\Shared\Transfer\QuoteTransfer
      */
     public function getQuote();
 
     /**
-     * Specification:
-     * - Set quote in session.
-     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      *
      * @return void

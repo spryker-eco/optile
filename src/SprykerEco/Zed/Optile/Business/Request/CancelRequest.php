@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class CancelRequest implements RequestInterface
+class CancelRequest implements OptileApiRequestInterface
 {
     protected const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
 

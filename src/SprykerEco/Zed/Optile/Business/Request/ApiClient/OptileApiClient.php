@@ -10,11 +10,10 @@ namespace SprykerEco\Zed\Optile\Business\Request\ApiClient;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Psr\Http\Message\ResponseInterface;
-use Spryker\Service\UtilEncoding\UtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\Business\HttpClient\Exception\OptileHttpRequestException;
 use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
-use SprykerEco\Zed\Optile\Business\Request\RequestInterface;
+use SprykerEco\Zed\Optile\Business\Request\OptileApiRequestInterface;
 use SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface;
 use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
@@ -22,6 +21,10 @@ use SprykerEco\Zed\Optile\OptileConfig;
 class OptileApiClient implements OptileApiClientInterface
 {
     protected const SUCCESS_RESPONSE_CODE = 'OK';
+    protected const BASE_OPTILE_REQUEST_HEADERS = [
+        'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
+        'Accept' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
+    ];
 
     /**
      * @var \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface
@@ -44,37 +47,37 @@ class OptileApiClient implements OptileApiClientInterface
     protected $optileHttpClient;
 
     /**
-     * @var \SprykerEco\Zed\Optile\Business\Request\RequestInterface
+     * @var \SprykerEco\Zed\Optile\Business\Request\OptileApiRequestInterface
      */
-    protected $request;
+    protected $optileApiRequest;
 
     /**
      * @var \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
      */
-    protected $utilEncoding;
+    protected $utilEncodingService;
 
     /**
      * @param \SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface $optileHttpClient
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
      * @param \SprykerEco\Zed\Optile\Business\Writer\TransactionLogWriterInterface $transactionLogWriter
      * @param \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface $optileRequestToTransactionLog
-     * @param \SprykerEco\Zed\Optile\Business\Request\RequestInterface $request
-     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncoding
+     * @param \SprykerEco\Zed\Optile\Business\Request\OptileApiRequestInterface $optileApiRequest
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
      */
     public function __construct(
         OptileHttpClientInterface $optileHttpClient,
         OptileConfig $optileConfig,
         TransactionLogWriterInterface $transactionLogWriter,
         OptileRequestMapperInterface $optileRequestToTransactionLog,
-        RequestInterface $request,
-        OptileToUtilEncodingServiceInterface $utilEncoding
+        OptileApiRequestInterface $optileApiRequest,
+        OptileToUtilEncodingServiceInterface $utilEncodingService
     ) {
         $this->optileHttpClient = $optileHttpClient;
         $this->optileConfig = $optileConfig;
         $this->transactionLogWriter = $transactionLogWriter;
         $this->optileRequestToTransactionLog = $optileRequestToTransactionLog;
-        $this->request = $request;
-        $this->utilEncoding = $utilEncoding;
+        $this->optileApiRequest = $optileApiRequest;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
@@ -84,13 +87,13 @@ class OptileApiClient implements OptileApiClientInterface
      */
     public function request(OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
     {
-        $optileRequestTransfer = $this->request->configureRequest($optileRequestTransfer);
+        $optileRequestTransfer = $this->optileApiRequest->configureRequest($optileRequestTransfer);
         $options = $this->buildRequestOptions($optileRequestTransfer);
         $optileResponseTransfer = (new OptileResponseTransfer())->setIsSuccess(false);
 
         try {
             $response = $this->optileHttpClient->request(
-                $this->request->getRequestMethod(),
+                $this->optileApiRequest->getRequestMethod(),
                 $optileRequestTransfer->getRequestUrl(),
                 $options
             );
@@ -99,15 +102,16 @@ class OptileApiClient implements OptileApiClientInterface
         }
 
         $this->logOptileTransaction($response, $optileRequestTransfer);
-        $responseData = $this->utilEncoding->decodeJson($response->getBody(), true);
+        $responseData = $this->utilEncodingService->decodeJson($response->getBody(), true);
 
-        if (empty($responseData['returnCode']['name'])
+        if (
+            empty($responseData['returnCode']['name'])
             || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE
         ) {
             return $optileResponseTransfer->setError($response->getBody());
         }
 
-        return $this->request->handleResponse($responseData, $optileRequestTransfer);
+        return $this->optileApiRequest->handleResponse($responseData, $optileRequestTransfer);
     }
 
     /**

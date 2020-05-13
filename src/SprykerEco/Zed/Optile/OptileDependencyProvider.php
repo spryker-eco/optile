@@ -8,14 +8,13 @@
 namespace SprykerEco\Zed\Optile;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
-use Spryker\Service\UtilEncoding\UtilEncodingService;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceBridge;
 
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const SERVICE_UTIL_ENCODING = 'UTIL_ENCODING_SERVICE';
+    public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
     public const GUZZLE_CLIENT = 'GUZZLE_CLIENT';
 
     /**

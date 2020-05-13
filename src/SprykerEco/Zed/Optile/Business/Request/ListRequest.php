@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class ListRequest implements RequestInterface
+class ListRequest implements OptileApiRequestInterface
 {
     protected const LISTS_URL_PATH = '%s/lists';
 

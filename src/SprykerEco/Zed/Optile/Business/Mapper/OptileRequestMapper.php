@@ -14,16 +14,16 @@ use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterfac
 class OptileRequestMapper implements OptileRequestMapperInterface
 {
     /**
-     * @var \Spryker\Service\UtilEncoding\UtilEncodingServiceInterface
+     * @var \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
      */
-    protected $utilEncoding;
+    protected $utilEncodingService;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncoding
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
      */
-    public function __construct(OptileToUtilEncodingServiceInterface $utilEncoding)
+    public function __construct(OptileToUtilEncodingServiceInterface $utilEncodingService)
     {
-        $this->utilEncoding = $utilEncoding;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
@@ -35,7 +35,7 @@ class OptileRequestMapper implements OptileRequestMapperInterface
         OptileRequestTransfer $optileRequestTransfer
     ): OptileTransactionLogTransfer {
         return (new OptileTransactionLogTransfer())
-            ->setRequestPayload($this->utilEncoding->encodeJson($optileRequestTransfer->getRequestPayload()))
+            ->setRequestPayload($this->utilEncodingService->encodeJson($optileRequestTransfer->getRequestPayload()))
             ->setRequestUrl($optileRequestTransfer->getRequestUrl())
             ->setPaymentReference($optileRequestTransfer->getPaymentReference());
     }

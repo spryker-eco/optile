@@ -12,7 +12,7 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class ChargeRequest implements RequestInterface
+class ChargeRequest implements OptileApiRequestInterface
 {
     protected const CHARGE_REQUEST_PATH_TEMPLATE = '%s/lists/%s/charge';
     protected const ERROR_MESSAGE_LONG_ID_REQUIRED = 'Required field "longId" can\'t be empty';
@@ -20,7 +20,7 @@ class ChargeRequest implements RequestInterface
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
      */
-    private $optileConfig;
+    protected $optileConfig;
 
     /**
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig

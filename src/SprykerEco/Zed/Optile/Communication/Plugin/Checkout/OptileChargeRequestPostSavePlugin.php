@@ -19,6 +19,8 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 class OptileChargeRequestPostSavePlugin extends AbstractPlugin implements CheckoutPostSaveHookInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * Specification:
      * - Makes Charge Request to Optile remote.
      * - Set success or error response to the Checkout response transfer.

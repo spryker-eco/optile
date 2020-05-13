@@ -12,11 +12,6 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 
 interface OptileApiClientInterface
 {
-    public const BASE_OPTILE_REQUEST_HEADERS = [
-        'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
-        'Accept' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
-    ];
-
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *

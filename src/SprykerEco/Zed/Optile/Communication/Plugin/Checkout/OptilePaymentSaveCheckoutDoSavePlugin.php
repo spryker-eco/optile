@@ -19,6 +19,8 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 class OptilePaymentSaveCheckoutDoSavePlugin extends AbstractPlugin implements CheckoutDoSaveOrderInterface
 {
     /**
+     * {@inheritDoc}
+     *
      * Specification:
      * - Creates Payment optile entity based on optile response from quote transfer.
      * - Returns newly created payment optile transfer.

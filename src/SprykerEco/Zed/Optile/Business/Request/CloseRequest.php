@@ -12,14 +12,14 @@ use Generated\Shared\Transfer\OptileResponseTransfer;
 use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
-class CloseRequest implements RequestInterface
+class CloseRequest implements OptileApiRequestInterface
 {
     protected const CLOSE_REQUEST_PATH_TEMPLATE = '%s/charges/%s/closing';
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
      */
-    private $optileConfig;
+    protected $optileConfig;
 
     /**
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig

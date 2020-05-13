@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Optile\Business\Hook;
 
-use ArrayObject;
 use Generated\Shared\Transfer\CheckoutErrorTransfer;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
@@ -19,14 +18,14 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
     /**
      * @var \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface
      */
-    protected $client;
+    protected $optileApiClient;
 
     /**
-     * @param \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface $client
+     * @param \SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClientInterface $optileApiClient
      */
-    public function __construct(OptileApiClientInterface $client)
+    public function __construct(OptileApiClientInterface $optileApiClient)
     {
-        $this->client = $client;
+        $this->optileApiClient = $optileApiClient;
     }
 
     /**
@@ -41,12 +40,14 @@ class CheckoutPostSaveHook implements CheckoutPostSaveHookInterface
             ->setLongId($quoteTransfer->getOptileInitResponse()->getLongId())
             ->setPaymentReference($quoteTransfer->getOptileInitResponse()->getPaymentReference());
 
-        $optileResponseTransfer = $this->client->request($optileRequestTransfer);
+        $optileResponseTransfer = $this->optileApiClient->request($optileRequestTransfer);
 
         $checkoutResponse->setIsSuccess($optileResponseTransfer->getIsSuccess());
 
         if (!$optileResponseTransfer->getIsSuccess()) {
-            $checkoutResponse->addError((new CheckoutErrorTransfer())->setMessage($optileResponseTransfer->getError()));
+            $checkoutResponse->addError(
+                (new CheckoutErrorTransfer())->setMessage($optileResponseTransfer->getError())
+            );
         }
     }
 }

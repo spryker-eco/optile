@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 
-interface RequestInterface
+interface OptileApiRequestInterface
 {
     /**
      * @param array $responseData
