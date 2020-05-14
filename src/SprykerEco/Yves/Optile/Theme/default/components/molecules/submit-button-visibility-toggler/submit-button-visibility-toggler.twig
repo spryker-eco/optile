@@ -1,0 +1,11 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'submit-button-visibility-toggler',
+    tag: 'submit-button-visibility-toggler',
+} %}
+
+{% define attributes = {
+    'trigger-class-name': required,
+    'class-to-toggle': 'is-hidden',
+} %}

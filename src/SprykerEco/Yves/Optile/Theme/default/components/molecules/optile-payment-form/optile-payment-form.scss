@@ -1,0 +1,11 @@
+@import '../../../third-party/op-payment-widget/op-payment-widget-v3.css';
+
+@mixin optile-optile-payment-form($name: '.optile-payment-form') {
+    #{$name} {
+        padding: 10px 0 0 15px;
+
+        @content;
+    }
+}
+
+@include optile-optile-payment-form();

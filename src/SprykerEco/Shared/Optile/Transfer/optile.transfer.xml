@@ -2,4 +2,90 @@
 <transfers xmlns="spryker:transfer-01"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="OptileNotificationResponse">
+        <property name="isSuccess" type="bool"/>
+        <property name="notificationId" type="string"/>
+        <property name="error" type="OptileResponseError"/>
+    </transfer>
+
+    <transfer name="OptileNotificationRequest">
+        <property name="idPaymentOptileNotification" type="int"/>
+        <property name="transactionId" type="string"/>
+        <property name="notificationId" type="string"/>
+        <property name="rejectionCount" type="int"/>
+        <property name="currency" type="string"/>
+        <property name="amount" type="int"/>
+        <property name="customerRegistrationHash" type="string"/>
+        <property name="customerRegistrationId" type="string"/>
+        <property name="longId" type="string"/>
+        <property name="shortId" type="string"/>
+        <property name="entity" type="string"/>
+        <property name="statusCode" type="string"/>
+        <property name="reasonCode" type="string"/>
+        <property name="timestamp" type="string"/>
+        <property name="paymentReference" type="string"/>
+    </transfer>
+
+    <transfer name="OptileRequest">
+        <property name="transactionId" type="string"/>
+        <property name="integration" type="string"/>
+        <property name="country" type="string"/>
+        <property name="presetFirst" type="bool"/>
+        <property name="idCustomer" type="int"/>
+        <property name="customerEmail" type="string"/>
+        <property name="paymentAmount" type="int"/>
+        <property name="paymentCurrency" type="string"/>
+        <property name="paymentReference" type="string"/>
+        <property name="callbackCancelUrl" type="string"/>
+        <property name="callbackPaymentHandlerUrl" type="string"/>
+        <property name="callbackNotificationUrl" type="string"/>
+        <property name="customerScore" type="int"/>
+        <property name="longId" type="string"/>
+        <property name="requestUrl" type="string"/>
+        <property name="requestPayload" type="array"/>
+    </transfer>
+
+    <transfer name="OptileResponse">
+        <property name="isSuccess" type="bool"/>
+        <property name="idSalesOrder" type="int"/>
+        <property name="error" type="string"/>
+        <property name="paymentReference" type="string"/>
+        <property name="selfLink" type="string"/>
+        <property name="operation" type="string"/>
+        <property name="longId" type="string"/>
+    </transfer>
+
+    <transfer name="OptileTransactionLog">
+        <property name="idPaymentOptileTransactionId" type="int"/>
+        <property name="idTransactionUnique" type="string"/>
+        <property name="operation" type="string"/>
+        <property name="returnCode" type="string"/>
+        <property name="responseCode" type="int"/>
+        <property name="requestPayload" type="string"/>
+        <property name="requestUrl" type="string"/>
+        <property name="responsePayload" type="string"/>
+        <property name="paymentReference" type="string"/>
+    </transfer>
+
+    <transfer name="Payment">
+        <property name="optileSelectNative" type="OptileSelectNative"/>
+    </transfer>
+
+    <transfer name="OptileSelectNative">
+        <property name="paymentMethod" type="string"/>
+    </transfer>
+
+    <transfer name="Quote">
+        <property name="customerScore" type="int"/>
+        <property name="optileInitResponse" type="OptileResponse"/>
+    </transfer>
+
+    <transfer name="PaymentOptile">
+        <property name="idPaymentOptile" type="int"/>
+        <property name="fkSalesOrder" type="int"/>
+        <property name="paymentReference" type="string"/>
+        <property name="paymentMethod" type="string"/>
+        <property name="longId" type="string"/>
+    </transfer>
 </transfers>

@@ -7,10 +7,8 @@
 
 namespace SprykerEco\Shared\Optile;
 
-/**
- * Declares global environment configuration keys. Do not use it for other class constants.
- */
-interface OptileConstants
+interface OptileConfig
 {
-
+    public const PAYMENT_PROVIDER_NAME = 'Optile';
+    public const PAYMENT_METHOD_NAME = 'OptileSelectNative';
 }

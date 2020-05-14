@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="zed" defaultIdMethod="native" xsi:noNamespaceSchemaLocation="http://static.spryker.com/schema-01.xsd" namespace="Orm\Zed\Optile\Persistence" package="src.Orm.Zed.Optile.Persistence">
+    <table name="spy_payment_optile" phpName="SpyPaymentOptile">
+        <column name="id_payment_optile" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+        <column name="fk_sales_order" required="true" type="INTEGER"/>
+        <column name="payment_reference" type="VARCHAR"/>
+        <column name="payment_method" required="true" type="VARCHAR"/>
+        <column name="long_id" type="VARCHAR"/>
+
+        <foreign-key name="spy_payment_optile-fk_sales_order" foreignTable="spy_sales_order" phpName="SpySalesOrder">
+            <reference foreign="id_sales_order" local="fk_sales_order"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+        <id-method-parameter value="spy_payment_optile_pk_seq"/>
+    </table>
+
+    <table name="spy_payment_optile_registration">
+        <column name="id_registration" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+        <column name="email" type="VARCHAR" />
+        <column name="customer_registration_password" type="VARCHAR"/>
+        <column name="customer_registration_id" type="VARCHAR"/>
+
+        <behavior name="timestampable">
+            <parameter name="disable_updated_at" value="true"/>
+        </behavior>
+        <unique name="spy_optile_registration_id-customer_address">
+            <unique-column name="email"/>
+            <unique-column name="customer_registration_id"/>
+        </unique>
+        <id-method-parameter value="spy_payment_optile_registration_pk_seq"/>
+    </table>
+
+    <table name="spy_payment_optile_transaction_log">
+        <column name="id_payment_optile_transaction_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="payment_reference" type="VARCHAR"/>
+        <column name="response_code" type="VARCHAR"/>
+        <column name="request_payload" type="LONGVARCHAR"/>
+        <column name="request_url" type="LONGVARCHAR"/>
+        <column name="response_payload" type="LONGVARCHAR"/>
+
+        <behavior name="timestampable"/>
+        <id-method-parameter value="spy_payment_optile_transaction_log_pk_seq"/>
+    </table>
+
+    <table name="spy_payment_optile_notification">
+        <column name="id_payment_optile_notification" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="transaction_id" type="VARCHAR"/>
+        <column name="notification_id" type="VARCHAR"/>
+        <column name="currency" type="VARCHAR"/>
+        <column name="rejection_count" type="INTEGER"/>
+        <column name="amount" type="INTEGER"/>
+        <column name="customer_registration_hash" type="VARCHAR"/>
+        <column name="customer_registration_id" type="VARCHAR"/>
+        <column name="long_id" type="VARCHAR"/>
+        <column name="short_id" type="VARCHAR"/>
+        <column name="entity" type="VARCHAR"/>
+        <column name="status_code" type="VARCHAR"/>
+        <column name="timestamp" type="VARCHAR"/>
+        <column name="reason_code" type="VARCHAR"/>
+        <column name="payment_reference" type="VARCHAR"/>
+
+        <behavior name="timestampable"/>
+    <id-method-parameter value="spy_payment_optile_notification_pk_seq"/></table>
+</database>

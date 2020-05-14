@@ -1,0 +1,19 @@
+{% extends model('template') %}
+
+{% define data = {
+    longId: longId,
+    baseUrl: 'https://api.sandbox.oscato.com/pci/v1/',
+    submitId: 'payment-submit-button',
+    submitContainerId: 'payment-submit-button-container',
+} %}
+
+{% block body %}
+    {% include molecule('optile-payment-form', 'Optile') with {
+        attributes: {
+            'data-long-id': data.longId,
+            'data-base-url': data.baseUrl,
+            'data-submit-id': data.submitId,
+            'data-submit-container-id': data.submitContainerId,
+        },
+    } only %}
+{% endblock %}
