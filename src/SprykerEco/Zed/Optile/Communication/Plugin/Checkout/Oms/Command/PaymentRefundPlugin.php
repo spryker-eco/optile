@@ -37,7 +37,7 @@ class PaymentRefundPlugin extends AbstractPlugin implements CommandByOrderInterf
         $this->getFacade()->makeRefundRequest(
             (new OptileRequestTransfer())->setLongId($optilePaymentTransfer->getChargeLongId())
                 ->setPaymentReference($optilePaymentTransfer->getPaymentReference())
-                ->setRequestPayload(["payment" => ["amount" => $refundableAmount]])
+                ->setOrderItems($orderItems)
         );
 
         return [];
