@@ -143,4 +143,60 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
     ): void {
         $this->getFactory()->createCheckoutPostSaveHook()->execute($quoteTransfer, $checkoutResponse);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderCharged(PaymentOptileTransfer $paymentOptileTransfer): bool
+    {
+        return $this->getFactory()->createIsOrderChargedCondition()->check($paymentOptileTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderCanceled(PaymentOptileTransfer $paymentOptileTransfer): bool
+    {
+        return $this->getFactory()->createIsOrderCanceledCondition()->check($paymentOptileTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderRefunded(PaymentOptileTransfer $paymentOptileTransfer): bool
+    {
+        return $this->getFactory()->createIsOrderRefundedCondition()->check($paymentOptileTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderClosed(PaymentOptileTransfer $paymentOptileTransfer): bool
+    {
+        return $this->getFactory()->createIsOrderClosedCondition()->check($paymentOptileTransfer);
+    }
 }

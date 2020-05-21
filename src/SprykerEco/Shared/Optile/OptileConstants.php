@@ -81,4 +81,11 @@ interface OptileConstants
      * @api
      */
     public const IS_PRESET_ENABLED = 'IS_PRESET_ENABLED';
+
+    /**
+     * Is preselect flow enabled.
+     *
+     * @api
+     */
+    public const IS_PRESELECT_ENABLED = 'IS_PRESELECT_ENABLED';
 }

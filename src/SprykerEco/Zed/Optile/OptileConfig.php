@@ -117,4 +117,14 @@ class OptileConfig extends AbstractBundleConfig
     {
         return $this->get(OptileConstants::IS_PRESET_ENABLED);
     }
+
+    /**
+     * @api
+     *
+     * @return bool
+     */
+    public function isPreselectEnabled(): bool
+    {
+        return $this->get(OptileConstants::IS_PRESELECT_ENABLED);
+    }
 }

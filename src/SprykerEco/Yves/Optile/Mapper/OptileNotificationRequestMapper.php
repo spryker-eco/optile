@@ -23,6 +23,9 @@ class OptileNotificationRequestMapper implements OptileNotificationRequestMapper
     protected const OPTILE_LONG_ID_KEY = 'longId';
     protected const OPTILE_TRANSACTION_ID_KEY = 'transactionId';
     protected const OPTILE_CURRENCY_ID_KEY = 'currency';
+    protected const OPTILE_CUSTOMER_REGISTRATION_ID_KEY = 'customerRegistrationId';
+    protected const OPTILE_CUSTOMER_REGISTRATION_PASSWORD_KEY = 'customerRegistrationPassword';
+    protected const OPTILE_CUSTOMER_REGISTRATION_EMAIL_KEY = 'customerEmail';
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -41,7 +44,10 @@ class OptileNotificationRequestMapper implements OptileNotificationRequestMapper
             ->setTimestamp($request->get(static::OPTILE_TIMESTAMP_KEY))
             ->setStatusCode($request->get(static::OPTILE_STATUS_CODE_KEY))
             ->setLongId($request->get(static::OPTILE_LONG_ID_KEY))
-            ->setTransactionId($request->get(static::OPTILE_LONG_ID_KEY))
+            ->setTransactionId($request->get(static::OPTILE_TRANSACTION_ID_KEY))
+            ->setCustomerRegistrationHash($request->get(static::OPTILE_CUSTOMER_REGISTRATION_PASSWORD_KEY))
+            ->setCustomerRegistrationId($request->get(static::OPTILE_CUSTOMER_REGISTRATION_ID_KEY))
+            ->setCustomerRegistrationEmail($request->get(static::OPTILE_CUSTOMER_REGISTRATION_EMAIL_KEY))
             ->setCurrency($request->get(static::OPTILE_CURRENCY_ID_KEY));
     }
 }

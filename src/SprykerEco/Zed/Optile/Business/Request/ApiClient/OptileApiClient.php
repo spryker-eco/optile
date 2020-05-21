@@ -25,6 +25,7 @@ class OptileApiClient implements OptileApiClientInterface
         'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
         'Accept' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
     ];
+    protected const ERROR_MESSAGE_WRONG_RESPONSE_CODE = 'Optile response code is not correct';
 
     /**
      * @var \SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface
@@ -108,7 +109,7 @@ class OptileApiClient implements OptileApiClientInterface
             empty($responseData['returnCode']['name'])
             || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE
         ) {
-            return $optileResponseTransfer->setError($response->getBody());
+            return $optileResponseTransfer->setError(static::ERROR_MESSAGE_WRONG_RESPONSE_CODE);
         }
 
         return $this->optileApiRequest->handleResponse($responseData, $optileRequestTransfer);

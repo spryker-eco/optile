@@ -16,6 +16,8 @@ interface OptileHttpClientInterface
      * @param string $uri
      * @param array $options
      *
+     * @throws \SprykerEco\Zed\Optile\Business\HttpClient\Exception\OptileHttpRequestException
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function request(string $method, string $uri, array $options = []): ResponseInterface;

@@ -63,6 +63,9 @@ class OptileItInitializeStep extends AbstractBaseStep
                 ->setPaymentCurrency($quoteTransfer->getCurrency()->getCode())
                 ->setPaymentReference($quoteTransfer->getUuid())
                 ->setCustomerScore($quoteTransfer->getCustomerScore())
+                ->setCustomerIp($request->getClientIp())
+                ->setClientUserAgent($request->headers->get('User-Agent'))
+                ->setClientAcceptableContentTypes($request->getAcceptableContentTypes())
         );
 
         $quoteTransfer->setOptileInitResponse($optileInitResponseTransfer);

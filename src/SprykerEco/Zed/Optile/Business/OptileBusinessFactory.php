@@ -9,6 +9,11 @@ namespace SprykerEco\Zed\Optile\Business;
 
 use GuzzleHttp\ClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
+use SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface;
+use SprykerEco\Zed\Optile\Business\Conditions\IsOrderCanceledCondition;
+use SprykerEco\Zed\Optile\Business\Conditions\IsOrderChargedCondition;
+use SprykerEco\Zed\Optile\Business\Conditions\IsOrderClosedCondition;
+use SprykerEco\Zed\Optile\Business\Conditions\IsOrderRefundedCondition;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
@@ -67,7 +72,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createListRequest(): OptileApiRequestInterface
     {
-        return new ListRequest($this->getConfig());
+        return new ListRequest($this->getConfig(), $this->getRepository(), $this->getUtilEncodingService());
     }
 
     /**
@@ -208,6 +213,38 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     public function createOptileRequestMapper(): OptileRequestMapperInterface
     {
         return new OptileRequestMapper($this->getUtilEncodingService());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     */
+    public function createIsOrderChargedCondition(): ConditionInterface
+    {
+        return new IsOrderChargedCondition($this->getRepository());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     */
+    public function createIsOrderClosedCondition(): ConditionInterface
+    {
+        return new IsOrderClosedCondition($this->getRepository());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     */
+    public function createIsOrderCanceledCondition(): ConditionInterface
+    {
+        return new IsOrderCanceledCondition($this->getRepository());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     */
+    public function createIsOrderRefundedCondition(): ConditionInterface
+    {
+        return new IsOrderRefundedCondition($this->getRepository());
     }
 
     /**

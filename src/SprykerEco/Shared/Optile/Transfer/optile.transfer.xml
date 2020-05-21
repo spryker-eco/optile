@@ -18,6 +18,7 @@
         <property name="amount" type="int"/>
         <property name="customerRegistrationHash" type="string"/>
         <property name="customerRegistrationId" type="string"/>
+        <property name="customerRegistrationEmail" type="string"/>
         <property name="longId" type="string"/>
         <property name="shortId" type="string"/>
         <property name="entity" type="string"/>
@@ -44,6 +45,10 @@
         <property name="longId" type="string"/>
         <property name="requestUrl" type="string"/>
         <property name="requestPayload" type="array"/>
+        <property name="customerIp" type="string"/>
+        <property name="clientUserAgent" type="string"/>
+        <property name="clientAcceptableContentTypes" type="array"/>
+        <property name="orderItems" type="array"/>
     </transfer>
 
     <transfer name="OptileResponse">
@@ -68,6 +73,13 @@
         <property name="paymentReference" type="string"/>
     </transfer>
 
+    <transfer name="OptileCustomerRegistration">
+        <property name="idRegistration" type="int"/>
+        <property name="customerRegistrationHash" type="string"/>
+        <property name="customerRegistrationId" type="string"/>
+        <property name="email" type="string"/>
+    </transfer>
+
     <transfer name="Payment">
         <property name="optileSelectNative" type="OptileSelectNative"/>
     </transfer>
@@ -87,5 +99,6 @@
         <property name="paymentReference" type="string"/>
         <property name="paymentMethod" type="string"/>
         <property name="longId" type="string"/>
+        <property name="chargeLongId" type="string"/>
     </transfer>
 </transfers>

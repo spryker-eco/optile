@@ -9,7 +9,9 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
+use SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ListRequest implements OptileApiRequestInterface
@@ -22,11 +24,28 @@ class ListRequest implements OptileApiRequestInterface
     protected $optileConfig;
 
     /**
-     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @var \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface
      */
-    public function __construct(OptileConfig $optileConfig)
-    {
+    protected $optileRepository;
+
+    /**
+     * @var \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
+     */
+    private $utilEncodingService;
+
+    /**
+     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @param \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface $optileRepository
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
+     */
+    public function __construct(
+        OptileConfig $optileConfig,
+        OptileRepositoryInterface $optileRepository,
+        OptileToUtilEncodingServiceInterface $utilEncodingService
+    ) {
         $this->optileConfig = $optileConfig;
+        $this->optileRepository = $optileRepository;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
@@ -74,7 +93,10 @@ class ListRequest implements OptileApiRequestInterface
             $optileRequestTransfer->setCustomerScore($this->optileConfig->getMax3dSecureScore());
         }
 
-        $this->setRequestPayload($optileRequestTransfer);
+        $optileRequestTransfer = $this->setRequestPayload($optileRequestTransfer);
+        $optileRequestTransfer = $this->addScoreToRequestPayload($optileRequestTransfer);
+        $optileRequestTransfer = $this->addPreselectToRequestPayload($optileRequestTransfer);
+        $optileRequestTransfer = $this->addRegistrationToRequestPayload($optileRequestTransfer);
 
         return $optileRequestTransfer;
     }
@@ -104,7 +126,7 @@ class ListRequest implements OptileApiRequestInterface
                 'email' => $optileRequestTransfer->getCustomerEmail(),
             ],
             'payment' => [
-                'amount' => $optileRequestTransfer->getPaymentAmount(),
+                'amount' => $optileRequestTransfer->getPaymentAmount() / 100,
                 'currency' => $optileRequestTransfer->getPaymentCurrency(),
                 'reference' => $optileRequestTransfer->getPaymentReference(),
             ],
@@ -114,10 +136,71 @@ class ListRequest implements OptileApiRequestInterface
                 'summaryUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
                 'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
             ],
+
+            "clientInfo" => [
+                    "ip" => $optileRequestTransfer->getCustomerIp(),
+                    "userAgent" => $optileRequestTransfer->getClientUserAgent(),
+                    "acceptHeader" => $this->utilEncodingService->encodeJson(
+                        $optileRequestTransfer->getClientAcceptableContentTypes()
+                    ),
+              ],
         ];
+
+        return $optileRequestTransfer->setRequestPayload($payload);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileRequestTransfer
+     */
+    protected function addScoreToRequestPayload(OptileRequestTransfer $optileRequestTransfer)
+    {
+        $payload = $optileRequestTransfer->getRequestPayload();
 
         if ($optileRequestTransfer->getCustomerScore()) {
             $payload['customerScore'] = $optileRequestTransfer->getCustomerScore();
+        }
+
+        return $optileRequestTransfer->setRequestPayload($payload);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileRequestTransfer
+     */
+    protected function addPreselectToRequestPayload(OptileRequestTransfer $optileRequestTransfer)
+    {
+        $payload = $optileRequestTransfer->getRequestPayload();
+
+        if ($this->optileConfig->isPreselectEnabled()) {
+            $payload['preselection'] = [
+                "deferral" => "DEFERRED",
+                "direction" => "CHARGE",
+            ];
+        }
+
+        return $optileRequestTransfer->setRequestPayload($payload);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileRequestTransfer
+     */
+    protected function addRegistrationToRequestPayload(OptileRequestTransfer $optileRequestTransfer)
+    {
+        $payload = $optileRequestTransfer->getRequestPayload();
+
+        $customerRegistration = $this->optileRepository
+            ->findCustomerRegistrationTransferByEmail($optileRequestTransfer->getCustomerEmail());
+
+        if ($customerRegistration) {
+            $payload['customer']['registration'] = [
+                "id" => $customerRegistration->getCustomerRegistrationId(),
+                "password" => $customerRegistration->getCustomerRegistrationHash(),
+            ];
         }
 
         return $optileRequestTransfer->setRequestPayload($payload);

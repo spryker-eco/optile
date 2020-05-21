@@ -23,6 +23,15 @@ interface OptileEntityManagerInterface
     ): OptileNotificationRequestTransfer;
 
     /**
+     * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer
+     */
+    public function saveRegistration(
+        OptileNotificationRequestTransfer $optileNotificationRequestTransfer
+    ): OptileNotificationRequestTransfer;
+
+    /**
      * @param \Generated\Shared\Transfer\OptileTransactionLogTransfer $optileNotificationRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileTransactionLogTransfer

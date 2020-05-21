@@ -48,7 +48,8 @@ class ChargeRequest implements OptileApiRequestInterface
         return (new OptileResponseTransfer())
             ->setPaymentReference($optileRequestTransfer->getPaymentReference())
             ->setOperation($responseData['operation'] ?? '')
-            ->setLongId($responseData['identification']['longId']);
+            ->setLongId($responseData['identification']['longId'])
+            ->setIsSuccess(true);
     }
 
     /**

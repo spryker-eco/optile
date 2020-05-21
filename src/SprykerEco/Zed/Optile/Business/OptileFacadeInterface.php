@@ -137,4 +137,56 @@ interface OptileFacadeInterface
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponse
     ): void;
+
+    /**
+     * Specification:
+     * - Checks is given payment optile transfer has "charge" notification.
+     * - Returns "true" if notification exists and success or "false" otherwise.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderCharged(PaymentOptileTransfer $paymentOptileTransfer): bool;
+
+    /**
+     * Specification:
+     * - Checks is given payment optile transfer has "canceled" notification.
+     * - Returns "true" if notification exists and success or "false" otherwise.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderCanceled(PaymentOptileTransfer $paymentOptileTransfer): bool;
+
+    /**
+     * Specification:
+     * - Checks is given payment optile transfer has "charged" notification.
+     * - Returns "true" if notification exists and success or "false" otherwise.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderClosed(PaymentOptileTransfer $paymentOptileTransfer): bool;
+
+    /**
+     * Specification:
+     * - Checks is given payment optile transfer has "refunded" notification.
+     * - Returns "true" if notification exists and success or "false" otherwise.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     *
+     * @return bool
+     */
+    public function isOrderRefunded(PaymentOptileTransfer $paymentOptileTransfer): bool;
 }

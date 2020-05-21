@@ -12,33 +12,22 @@
             <state name="canceled"/>
             <state name="closed"/>
             <state name="refunded"/>
-            <state name="refunded fail"/>
             <state name="refund request sent"/>
             <state name="close request sent"/>
-            <state name="closing fail"/>
-            <state name="cancellation fail"/>
             <state name="cancel request sent"/>
-            <state name="charge fail"/>
             <state name="charge request sent"/>
+            <state name="reserved" reserved="true"/>
         </states>
 
         <transitions>
-            <transition>
+            <transition happy="true" condition="Optile/TrueCondition">
                 <source>new</source>
-                <target>charge request sent</target>
-                <event>send charge request</event>
+                <target>reserved</target>
             </transition>
 
             <transition happy="true" condition="Optile/IsCharged">
-                <source>charge request sent</source>
+                <source>reserved</source>
                 <target>charged</target>
-                <event>charge</event>
-            </transition>
-
-            <transition>
-                <source>charge request sent</source>
-                <target>charge fail</target>
-                <event>charge</event>
             </transition>
 
             <transition>
@@ -50,13 +39,6 @@
             <transition happy="true" condition="Optile/IsCanceled">
                 <source>cancel request sent</source>
                 <target>canceled</target>
-                <event>cancel</event>
-            </transition>
-
-            <transition>
-                <source>cancel request sent</source>
-                <target>cancellation fail</target>
-                <event>cancel</event>
             </transition>
 
             <transition>
@@ -74,13 +56,6 @@
             <transition happy="true" condition="Optile/IsClosed">
                 <source>close request sent</source>
                 <target>closed</target>
-                <event>close</event>
-            </transition>
-
-            <transition happy="true" condition="Optile/IsClosed">
-                <source>close request sent</source>
-                <target>closing fail</target>
-                <event>close</event>
             </transition>
 
             <transition>
@@ -92,26 +67,14 @@
             <transition happy="true" condition="Optile/IsRefunded">
                 <source>refund request sent</source>
                 <target>refunded</target>
-                <event>refund</event>
-            </transition>
-
-            <transition>
-                <source>refund request sent</source>
-                <target>refunded fail</target>
-                <event>refund</event>
             </transition>
         </transitions>
 
         <events>
-            <event name="send charge request" onEnter="true"/>
-            <event name="charge" manual="true" timeout="3minutes"/>
             <event name="send cancel request" manual="true" command="Optile/PaymentCancel"/>
-            <event name="cancel" manual="true" timeout="3minutes"/>
             <event name="ship" manual="true"/>
             <event name="send close request" manual="true" command="Optile/PaymentClose"/>
-            <event name="close" timeout="3minutes"/>
             <event name="send refund request" manual="true" command="Optile/PaymentRefund"/>
-            <event name="refund" timeout="3minutes"/>
         </events>
     </process>
 </statemachine>
