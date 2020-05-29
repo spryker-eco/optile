@@ -106,7 +106,8 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Returns optile item request transfer by given criteria or null if not found.
+     * - Finds OptileItemRequestLog by given criteria.
+     * - Returns `null` if  OptileItemRequestLog is not found.
      *
      * @api
      *
@@ -156,7 +157,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Finds charge notification by given reference
+     * - Finds "charged" notification by given reference
      * - Returns true if notification exists and has success status.
      * - Returns false otherwise.
      *
@@ -170,8 +171,9 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Checks is given order "canceled" notification.
-     * - Returns "true" if notification exists and success or "false" otherwise.
+     * - Finds "canceled" notification by given reference
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
      *
      * @api
      *
@@ -183,8 +185,9 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Checks is given order "charged" notification.
-     * - Returns "true" if notification exists and success or "false" otherwise.
+     * - Finds "closed" notification by given reference
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
      *
      * @api
      *
@@ -196,8 +199,9 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Checks is given order item has "refunded" notification.
-     * - Returns "true" if notification exists and success or "false" otherwise.
+     * - Finds "refunded" notification by given reference
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
      *
      * @api
      *

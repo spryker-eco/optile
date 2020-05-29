@@ -98,7 +98,7 @@ class OptileItInitializeStep extends AbstractBaseStep
 
         foreach ($quoteTransfer->getItems() as $orderItem) {
             $itemsData[] = [
-                "code" => $orderItem->getIdSalesOrderItem(),
+                'code' => $orderItem->getIdSalesOrderItem(),
                 'name' => $orderItem->getName(),
                 'quantity' => $orderItem->getQuantity(),
                 'amount' => $orderItem->getSumPriceToPayAggregation() / 100,

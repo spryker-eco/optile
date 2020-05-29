@@ -27,21 +27,21 @@ class OmsAutomaticTriggerHandler implements OmsAutomaticTriggerHandlerInterface
     /**
      * @var \SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeInterface
      */
-    protected $optileToOmsFacade;
+    protected $omsFacade;
 
     /**
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
      * @param \SprykerEco\Zed\Optile\Dependency\Facade\OptileToSalesFacadeInterface $salesFacade
-     * @param \SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeInterface $optileToOmsFacade
+     * @param \SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeInterface $omsFacade
      */
     public function __construct(
         OptileConfig $optileConfig,
         OptileToSalesFacadeInterface $salesFacade,
-        OptileToOmsFacadeInterface $optileToOmsFacade
+        OptileToOmsFacadeInterface $omsFacade
     ) {
         $this->optileConfig = $optileConfig;
         $this->salesFacade = $salesFacade;
-        $this->optileToOmsFacade = $optileToOmsFacade;
+        $this->omsFacade = $omsFacade;
     }
 
     /**
@@ -62,7 +62,7 @@ class OmsAutomaticTriggerHandler implements OmsAutomaticTriggerHandlerInterface
             $orderItemsId[] = $item->getIdSalesOrderItem();
         }
 
-        $this->optileToOmsFacade->triggerEventForOrderItems(
+        $this->omsFacade->triggerEventForOrderItems(
             $event,
             $orderItemsId,
             [$this->optileConfig->getOptileAutomaticOmsTrigger() => true]

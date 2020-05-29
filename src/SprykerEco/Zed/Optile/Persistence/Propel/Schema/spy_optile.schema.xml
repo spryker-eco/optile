@@ -26,9 +26,8 @@
         <behavior name="timestampable">
             <parameter name="disable_updated_at" value="true"/>
         </behavior>
-        <unique name="spy_optile_registration_id-customer_address">
+        <unique name="spy_payment_optile_registration-customer_registration_email">
             <unique-column name="customer_registration_email"/>
-            <unique-column name="customer_registration_id"/>
         </unique>
         <id-method-parameter value="spy_payment_optile_registration_pk_seq"/>
     </table>
@@ -75,9 +74,6 @@
         <column name="payment_reference" type="VARCHAR"/>
 
         <behavior name="timestampable"/>
-    <unique name="spy_payment_optile_notification-customer_registration_email">
-        <unique-column name="customer_registration_email"/>
-    </unique>
-    <id-method-parameter value="spy_payment_optile_notification_pk_seq"/>
+        <id-method-parameter value="spy_payment_optile_notification_pk_seq"/>
     </table>
 </database>

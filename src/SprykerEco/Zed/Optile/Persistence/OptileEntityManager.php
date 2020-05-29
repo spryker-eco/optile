@@ -61,6 +61,10 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
 
         $paymentOptileRegistrationEntity->save();
 
+        $optileNotificationRequestTransfer->setCustomerRegistrationId(
+            $paymentOptileRegistrationEntity->getIdRegistration()
+        );
+
         return $optileNotificationRequestTransfer;
     }
 
