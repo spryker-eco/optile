@@ -12,7 +12,7 @@ use SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeInterface;
 use SprykerEco\Zed\Optile\Dependency\Facade\OptileToSalesFacadeInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
 
-class OmsAutomaticTriggerHandler implements OmsAutomaticTriggerHandlerInterface
+class OmsEventTrigger implements OmsEventTriggerInterface
 {
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
@@ -50,7 +50,7 @@ class OmsAutomaticTriggerHandler implements OmsAutomaticTriggerHandlerInterface
      *
      * @return void
      */
-    public function triggerOmsForRemainingItems(string $orderReference, string $event): void
+    public function triggerOmsEventForRemainingItems(string $orderReference, string $event): void
     {
         $orderItemsId = [];
 

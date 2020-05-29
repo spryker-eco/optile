@@ -7,7 +7,7 @@
 
 namespace SprykerEco\Zed\Optile\Business\Oms;
 
-interface OmsAutomaticTriggerHandlerInterface
+interface OmsEventTriggerInterface
 {
     /**
      * @param string $orderReference
@@ -15,5 +15,5 @@ interface OmsAutomaticTriggerHandlerInterface
      *
      * @return void
      */
-    public function triggerOmsForRemainingItems(string $orderReference, string $event): void;
+    public function triggerOmsEventForRemainingItems(string $orderReference, string $event): void;
 }

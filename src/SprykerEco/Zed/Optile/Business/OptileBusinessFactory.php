@@ -22,8 +22,8 @@ use SprykerEco\Zed\Optile\Business\HttpClient\OptileGuzzleHttpClient;
 use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapper;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
-use SprykerEco\Zed\Optile\Business\Oms\OmsAutomaticTriggerHandler;
-use SprykerEco\Zed\Optile\Business\Oms\OmsAutomaticTriggerHandlerInterface;
+use SprykerEco\Zed\Optile\Business\Oms\OmsEventTrigger;
+use SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessorInterface;
 use SprykerEco\Zed\Optile\Business\Request\ApiClient\OptileApiClient;
@@ -276,10 +276,10 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Oms\OmsAutomaticTriggerHandlerInterface
+     * @return \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface
      */
-    public function createOmsAutomaticTriggerHandler(): OmsAutomaticTriggerHandlerInterface
+    public function createOmsAutomaticTriggerHandler(): OmsEventTriggerInterface
     {
-        return new OmsAutomaticTriggerHandler($this->getConfig(), $this->getSalesFacade(), $this->getOmsFacade());
+        return new OmsEventTrigger($this->getConfig(), $this->getSalesFacade(), $this->getOmsFacade());
     }
 }
