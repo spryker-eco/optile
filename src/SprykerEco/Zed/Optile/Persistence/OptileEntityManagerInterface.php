@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Optile\Persistence;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
 
@@ -48,4 +49,13 @@ interface OptileEntityManagerInterface
     public function savePaymentOptile(
         PaymentOptileTransfer $paymentOptileTransfer
     ): PaymentOptileTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer $optileOrderItemRequestLogTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer
+     */
+    public function saveOrderItemRequestLog(
+        OptileOrderItemRequestLogTransfer $optileOrderItemRequestLogTransfer
+    ): OptileOrderItemRequestLogTransfer;
 }

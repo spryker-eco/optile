@@ -15,9 +15,15 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
  * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
  */
-class OptileTrueCondition extends AbstractPlugin implements ConditionInterface
+class OptileTrueConditionPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
+     * {@inheritDoc}
+     *
+     * - Returns true, needed for Optile oms reservation.
+     *
+     * @api
+     *
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderItem
      *
      * @return bool

@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Optile\Business\Conditions;
 
-use Generated\Shared\Transfer\PaymentOptileTransfer;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface;
 
@@ -27,18 +26,19 @@ class IsOrderClosedCondition implements ConditionInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $paymentReference
      *
      * @return bool
      */
-    public function check(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function check(string $paymentReference): bool
     {
-        $notificationTransfers = $this->optileRepository->findNotificationsByPaymentReference($paymentOptileTransfer);
+        $notificationTransfers = $this->optileRepository->getNotificationsByPaymentReference($paymentReference);
 
         foreach ($notificationTransfers as $notificationTransfer) {
             if (
                 $notificationTransfer->getEntity() === NotificationProcessor::PAYMENT_NOTIFICATION_ENTITY_TYPE_KEY
                 && $notificationTransfer->getStatusCode() === NotificationProcessor::CLOSE_NOTIFICATION_SUCCESS_STATUS_CODE
+                && $notificationTransfer->getReasonCode() === NotificationProcessor::CLOSE_NOTIFICATION_SUCCESS_REASON_CODE
             ) {
                 return true;
             }

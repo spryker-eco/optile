@@ -44,6 +44,7 @@
         <property name="customerScore" type="int"/>
         <property name="longId" type="string"/>
         <property name="requestUrl" type="string"/>
+        <property name="salesOrderReference" type="string"/>
         <property name="requestPayload" type="array"/>
         <property name="customerIp" type="string"/>
         <property name="clientUserAgent" type="string"/>
@@ -84,6 +85,19 @@
         <property name="optileSelectNative" type="OptileSelectNative"/>
     </transfer>
 
+    <transfer name="OptileOrderItemRequestLog">
+        <property name="idPaymentOptileOrderItemRequestLog" type="int"/>
+        <property name="fkSalesOrderItem" type="int"/>
+        <property name="itemPaymentReference" type="string"/>
+        <property name="requestType" type="string"/>
+    </transfer>
+
+    <transfer name="OptileOrderItemRequestLogCriteria">
+        <property name="fkSalesOrderItem" type="int"/>
+        <property name="itemPaymentReference" type="string"/>
+        <property name="requestType" type="string"/>
+    </transfer>
+
     <transfer name="OptileSelectNative">
         <property name="paymentMethod" type="string"/>
     </transfer>
@@ -100,5 +114,6 @@
         <property name="paymentMethod" type="string"/>
         <property name="longId" type="string"/>
         <property name="chargeLongId" type="string"/>
+        <property name="refundLongId" type="string"/>
     </transfer>
 </transfers>

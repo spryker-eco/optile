@@ -10,6 +10,8 @@ namespace SprykerEco\Zed\Optile\Business;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
@@ -115,6 +117,21 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer|null
+     */
+    public function findOrderItemRequestLogByCriteria(
+        OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+    ): ?OptileOrderItemRequestLogTransfer {
+        return $this->getRepository()->findOrderItemRequestLogByCriteria($criteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
@@ -149,13 +166,13 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderCharged(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function isOrderCharged(string $notificationReference): bool
     {
-        return $this->getFactory()->createIsOrderChargedCondition()->check($paymentOptileTransfer);
+        return $this->getFactory()->createIsOrderChargedCondition()->check($notificationReference);
     }
 
     /**
@@ -163,13 +180,13 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderCanceled(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function isOrderCanceled(string $notificationReference): bool
     {
-        return $this->getFactory()->createIsOrderCanceledCondition()->check($paymentOptileTransfer);
+        return $this->getFactory()->createIsOrderCanceledCondition()->check($notificationReference);
     }
 
     /**
@@ -177,13 +194,13 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderRefunded(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function isOrderRefunded(string $notificationReference): bool
     {
-        return $this->getFactory()->createIsOrderRefundedCondition()->check($paymentOptileTransfer);
+        return $this->getFactory()->createIsOrderRefundedCondition()->check($notificationReference);
     }
 
     /**
@@ -191,12 +208,12 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderClosed(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function isOrderClosed(string $notificationReference): bool
     {
-        return $this->getFactory()->createIsOrderClosedCondition()->check($paymentOptileTransfer);
+        return $this->getFactory()->createIsOrderClosedCondition()->check($notificationReference);
     }
 }

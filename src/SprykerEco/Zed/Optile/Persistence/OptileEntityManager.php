@@ -8,10 +8,11 @@
 namespace SprykerEco\Zed\Optile\Persistence;
 
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileTransactionLogTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
-use Orm\Zed\Optile\Persistence\SpyPaymentOptile;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileNotification;
+use Orm\Zed\Optile\Persistence\SpyPaymentOptileOrderItemRequestLog;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileRegistration;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLog;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
@@ -74,11 +75,7 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $spyPaymentOptile = $this->getFactory()
             ->createOptilePaymentQuery()
             ->filterByPaymentReference($paymentOptileTransfer->getPaymentReference())
-            ->findOne();
-
-        if (!$spyPaymentOptile) {
-            $spyPaymentOptile = new SpyPaymentOptile();
-        }
+            ->findOneOrCreate();
 
         $spyPaymentOptile->fromArray(
             $paymentOptileTransfer->modifiedToArray(false)
@@ -111,5 +108,25 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         );
 
         return $optileTransactionLogTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer $optileOrderItemRequestLogTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer
+     */
+    public function saveOrderItemRequestLog(
+        OptileOrderItemRequestLogTransfer $optileOrderItemRequestLogTransfer
+    ): OptileOrderItemRequestLogTransfer {
+        $spyOptileOrderItemRequestLogEntity = new SpyPaymentOptileOrderItemRequestLog();
+
+        $spyOptileOrderItemRequestLogEntity->fromArray($optileOrderItemRequestLogTransfer->toArray());
+        $spyOptileOrderItemRequestLogEntity->save();
+
+        $optileOrderItemRequestLogTransfer->setIdPaymentOptileOrderItemRequestLog(
+            $spyOptileOrderItemRequestLogEntity->getIdSpyPaymentOptileOrderItemRequestLog()
+        );
+
+        return $optileOrderItemRequestLogTransfer;
     }
 }

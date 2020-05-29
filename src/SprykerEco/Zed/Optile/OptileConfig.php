@@ -19,6 +19,21 @@ class OptileConfig extends AbstractBundleConfig
     protected const MAX_3D_SECURE_CUSTOMER_SCORE = 1000;
 
     /**
+     * Flag specify that oms event was triggered by internal system (automatically).
+     */
+    protected const AUTOMATIC_OMS_TRIGGER = 'AUTOMATIC_OMS_TRIGGER';
+
+    /**
+     * Oms close request sent state name.
+     */
+    protected const OMS_EVENT_SEND_CLOSE_REQUEST = 'send close request';
+
+    /**
+     * Oms cancel request sent state name.
+     */
+    protected const OMS_EVENT_SEND_CANCEL_REQUEST = 'send cancel request';
+
+    /**
      * @api
      *
      * @return string
@@ -46,6 +61,36 @@ class OptileConfig extends AbstractBundleConfig
     public function getPaymentHandlerStepUrl(): string
     {
         return $this->get(OptileConstants::CONFIG_YVES_CHECKOUT_PAYMENT_HANDLER_STEP_URL);
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getOptileAutomaticOmsTrigger(): string
+    {
+        return static::AUTOMATIC_OMS_TRIGGER;
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getOmsEventNameSendCloseRequest(): string
+    {
+        return static::OMS_EVENT_SEND_CLOSE_REQUEST;
+    }
+
+    /**
+     * @api
+     *
+     * @return string
+     */
+    public function getOmsEventNameSendCancelRequest(): string
+    {
+        return static::OMS_EVENT_SEND_CANCEL_REQUEST;
     }
 
     /**

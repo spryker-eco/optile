@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Optile\Business\Conditions;
 
-use Generated\Shared\Transfer\PaymentOptileTransfer;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface;
 
@@ -27,13 +26,13 @@ class IsOrderChargedCondition implements ConditionInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $paymentReference
      *
      * @return bool
      */
-    public function check(PaymentOptileTransfer $paymentOptileTransfer): bool
+    public function check(string $paymentReference): bool
     {
-        $notificationTransfers = $this->optileRepository->findNotificationsByPaymentReference($paymentOptileTransfer);
+        $notificationTransfers = $this->optileRepository->getNotificationsByPaymentReference($paymentReference);
 
         foreach ($notificationTransfers as $notificationTransfer) {
             if (

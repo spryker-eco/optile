@@ -18,14 +18,22 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
 class IsClosedPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
+     * {@inheritDoc}
+     * - Finds optile payment.
+     * - Finds notifications by payment reference.
+     * - Returns success if closed notification exists and success.
+     * - Returns false otherwise.
+     *
      * @api
      *
-     * @inheritDoc
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderItem
+     *
+     * @return bool
      */
     public function check(SpySalesOrderItem $orderItem)
     {
         $optilePaymentTransfer = $this->getFacade()->findOptilePaymentByIdSalesOrder($orderItem->getFkSalesOrder());
 
-        return $this->getFacade()->isOrderClosed($optilePaymentTransfer);
+        return $this->getFacade()->isOrderClosed($optilePaymentTransfer->getPaymentReference());
     }
 }

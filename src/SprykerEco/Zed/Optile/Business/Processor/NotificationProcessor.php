@@ -20,7 +20,9 @@ class NotificationProcessor implements NotificationProcessorInterface
     public const CANCEL_NOTIFICATION_SUCCESS_STATUS_CODE = 'canceled';
     public const CHARGE_NOTIFICATION_SUCCESS_STATUS_CODE = 'preauthorized';
     public const CLOSE_NOTIFICATION_SUCCESS_STATUS_CODE = 'charged';
-    public const REFUND_NOTIFICATION_SUCCESS_STATUS_CODE = 'declined';
+    public const CLOSE_NOTIFICATION_SUCCESS_REASON_CODE = 'debited';
+    public const REFUND_NOTIFICATION_SUCCESS_STATUS_CODE = 'paid_out';
+    public const REFUND_NOTIFICATION_SUCCESS_REASON_CODE = 'refund_credited';
 
     /**
      * @var \SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface
@@ -45,6 +47,7 @@ class NotificationProcessor implements NotificationProcessorInterface
     ): OptileNotificationResponseTransfer {
         $this->saveRegistration($optileNotificationRequestTransfer);
         $this->saveChargeLongId($optileNotificationRequestTransfer);
+        $this->saveRefundLongId($optileNotificationRequestTransfer);
 
         $this->optileEntityManager->saveNotification($optileNotificationRequestTransfer);
 
@@ -59,15 +62,19 @@ class NotificationProcessor implements NotificationProcessorInterface
     protected function saveRegistration(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): void {
-        $isRegistrationNotification =
-            $optileNotificationRequestTransfer->getEntity() === static::CUSTOMER_REGISTRATION_NOTIFICATION_TYPE_KEY
-            && !empty($optileNotificationRequestTransfer->getCustomerRegistrationHash())
-            && !empty($optileNotificationRequestTransfer->getCustomerRegistrationEmail())
-            && !empty($optileNotificationRequestTransfer->getCustomerRegistrationId());
-
-        if ($isRegistrationNotification) {
-            $this->optileEntityManager->saveRegistration($optileNotificationRequestTransfer);
+        if ($optileNotificationRequestTransfer->getEntity() !== static::CUSTOMER_REGISTRATION_NOTIFICATION_TYPE_KEY) {
+            return;
         }
+
+        if (
+            empty($optileNotificationRequestTransfer->getCustomerRegistrationHash())
+            || empty($optileNotificationRequestTransfer->getCustomerRegistrationEmail())
+            || empty($optileNotificationRequestTransfer->getCustomerRegistrationId())
+        ) {
+            return;
+        }
+
+        $this->optileEntityManager->saveRegistration($optileNotificationRequestTransfer);
     }
 
     /**
@@ -78,14 +85,26 @@ class NotificationProcessor implements NotificationProcessorInterface
     protected function saveChargeLongId(
         OptileNotificationRequestTransfer $optileNotificationRequestTransfer
     ): void {
-        $ifChargeNotification =
-            $optileNotificationRequestTransfer->getEntity() === static::PAYMENT_NOTIFICATION_ENTITY_TYPE_KEY
-            && $optileNotificationRequestTransfer->getStatusCode() === static::CHARGE_NOTIFICATION_SUCCESS_STATUS_CODE;
-
-        if ($ifChargeNotification) {
+        if ($optileNotificationRequestTransfer->getStatusCode() === static::CHARGE_NOTIFICATION_SUCCESS_STATUS_CODE) {
             $paymentOptileTransfer = (new PaymentOptileTransfer())
                 ->setPaymentReference($optileNotificationRequestTransfer->getPaymentReference())
                 ->setChargeLongId($optileNotificationRequestTransfer->getLongId());
+
+            $this->optileEntityManager->savePaymentOptile($paymentOptileTransfer);
+        }
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileNotificationRequestTransfer $optileNotificationRequestTransfer
+     *
+     * @return void
+     */
+    protected function saveRefundLongId(OptileNotificationRequestTransfer $optileNotificationRequestTransfer): void
+    {
+        if ($optileNotificationRequestTransfer->getReasonCode() === static::CLOSE_NOTIFICATION_SUCCESS_REASON_CODE) {
+            $paymentOptileTransfer = (new PaymentOptileTransfer())
+                ->setPaymentReference($optileNotificationRequestTransfer->getPaymentReference())
+                ->setRefundLongId($optileNotificationRequestTransfer->getLongId());
 
             $this->optileEntityManager->savePaymentOptile($paymentOptileTransfer);
         }

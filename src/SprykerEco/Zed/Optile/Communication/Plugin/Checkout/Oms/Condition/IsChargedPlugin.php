@@ -19,6 +19,10 @@ class IsChargedPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
      * {@inheritDoc}
+     * - Finds optile payment.
+     * - Finds notifications by payment reference.
+     * - Returns success if charged notification exists and success.
+     * - Returns false otherwise.
      *
      * @api
      *
@@ -30,6 +34,6 @@ class IsChargedPlugin extends AbstractPlugin implements ConditionInterface
     {
         $optilePaymentTransfer = $this->getFacade()->findOptilePaymentByIdSalesOrder($orderItem->getFkSalesOrder());
 
-        return $this->getFacade()->isOrderCharged($optilePaymentTransfer);
+        return $this->getFacade()->isOrderCharged($optilePaymentTransfer->getPaymentReference());
     }
 }

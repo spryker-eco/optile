@@ -8,7 +8,7 @@
 namespace SprykerEco\Zed\Optile\Persistence;
 
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileNotificationQuery;
-use Orm\Zed\Optile\Persistence\SpyPaymentOptileOrderItemQuery;
+use Orm\Zed\Optile\Persistence\SpyPaymentOptileOrderItemRequestLogQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileRegistrationQuery;
 use Orm\Zed\Optile\Persistence\SpyPaymentOptileTransactionLogQuery;
@@ -38,14 +38,6 @@ class OptilePersistenceFactory extends AbstractPersistenceFactory
     }
 
     /**
-     * @return \Orm\Zed\Optile\Persistence\SpyPaymentOptileOrderItemQuery
-     */
-    public function createOptileOrderItemQuery(): SpyPaymentOptileOrderItemQuery
-    {
-        return SpyPaymentOptileOrderItemQuery::create();
-    }
-
-    /**
      * @return \Orm\Zed\Optile\Persistence\SpyPaymentOptileRegistrationQuery
      */
     public function createOptileRegistrationQuery(): SpyPaymentOptileRegistrationQuery
@@ -59,5 +51,13 @@ class OptilePersistenceFactory extends AbstractPersistenceFactory
     public function createOptileTransactionLogQuery(): SpyPaymentOptileTransactionLogQuery
     {
         return SpyPaymentOptileTransactionLogQuery::create();
+    }
+
+    /**
+     * @return \Orm\Zed\Optile\Persistence\SpyPaymentOptileOrderItemRequestLogQuery
+     */
+    public function createPaymentOptileItemRequestLogQuery(): SpyPaymentOptileOrderItemRequestLogQuery
+    {
+        return SpyPaymentOptileOrderItemRequestLogQuery::create();
     }
 }

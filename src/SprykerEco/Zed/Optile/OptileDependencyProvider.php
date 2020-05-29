@@ -10,12 +10,16 @@ namespace SprykerEco\Zed\Optile;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
+use SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeBridge;
+use SprykerEco\Zed\Optile\Dependency\Facade\OptileToSalesFacadeBridge;
 use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceBridge;
 
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
     public const GUZZLE_CLIENT = 'GUZZLE_CLIENT';
+    public const FACADE_SALES = 'FACADE_SALES';
+    public const FACADE_OMS = 'FACADE_OMS';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -27,6 +31,8 @@ class OptileDependencyProvider extends AbstractBundleDependencyProvider
         $container = parent::provideCommunicationLayerDependencies($container);
         $container = $this->addUtilEncodingService($container);
         $container = $this->addGuzzleClient($container);
+        $container = $this->addSalesFacade($container);
+        $container = $this->addOmsFacade($container);
 
         return $container;
     }
@@ -41,6 +47,34 @@ class OptileDependencyProvider extends AbstractBundleDependencyProvider
         $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
             return new OptileToUtilEncodingServiceBridge($container->getLocator()->utilEncoding()->service());
         });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addSalesFacade(Container $container): Container
+    {
+        $container->set(static::FACADE_SALES, function (Container $container) {
+            return new OptileToSalesFacadeBridge($container->getLocator()->sales()->facade());
+        });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addOmsFacade(Container $container): Container
+    {
+        $container[static::FACADE_OMS] = function (Container $container) {
+            return new OptileToOmsFacadeBridge($container->getLocator()->oms()->facade());
+        };
 
         return $container;
     }

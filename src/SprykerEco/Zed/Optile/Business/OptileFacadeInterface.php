@@ -10,6 +10,8 @@ namespace SprykerEco\Zed\Optile\Business;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
@@ -104,6 +106,20 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
+     * - Returns optile item request transfer by given criteria or null if not found.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer|null
+     */
+    public function findOrderItemRequestLogByCriteria(
+        OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+    ): ?OptileOrderItemRequestLogTransfer;
+
+    /**
+     * Specification:
      * - Creates payment optile entity in db.
      * - Fulfill payment optile entity with data from quote.
      * - Returns created optile payment transfer.
@@ -140,53 +156,54 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Checks is given payment optile transfer has "charge" notification.
-     * - Returns "true" if notification exists and success or "false" otherwise.
+     * - Finds charge notification by given reference
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderCharged(PaymentOptileTransfer $paymentOptileTransfer): bool;
+    public function isOrderCharged(string $notificationReference): bool;
 
     /**
      * Specification:
-     * - Checks is given payment optile transfer has "canceled" notification.
+     * - Checks is given order "canceled" notification.
      * - Returns "true" if notification exists and success or "false" otherwise.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderCanceled(PaymentOptileTransfer $paymentOptileTransfer): bool;
+    public function isOrderCanceled(string $notificationReference): bool;
 
     /**
      * Specification:
-     * - Checks is given payment optile transfer has "charged" notification.
+     * - Checks is given order "charged" notification.
      * - Returns "true" if notification exists and success or "false" otherwise.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderClosed(PaymentOptileTransfer $paymentOptileTransfer): bool;
+    public function isOrderClosed(string $notificationReference): bool;
 
     /**
      * Specification:
-     * - Checks is given payment optile transfer has "refunded" notification.
+     * - Checks is given order item has "refunded" notification.
      * - Returns "true" if notification exists and success or "false" otherwise.
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $notificationReference
      *
      * @return bool
      */
-    public function isOrderRefunded(PaymentOptileTransfer $paymentOptileTransfer): bool;
+    public function isOrderRefunded(string $notificationReference): bool;
 }

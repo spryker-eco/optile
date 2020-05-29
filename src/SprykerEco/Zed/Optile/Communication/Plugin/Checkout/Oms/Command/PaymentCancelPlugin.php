@@ -9,7 +9,6 @@ namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout\Oms\Command;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
-use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject;
 use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
 
@@ -17,10 +16,14 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
  */
-class PaymentCancelPlugin extends AbstractPlugin implements CommandByOrderInterface
+class PaymentCancelPlugin extends AbstractOptilePaymentPlugin implements CommandByOrderInterface
 {
     /**
      * {@inheritDoc}
+     * - Finds optile payment.
+     * - Makes Api call to cancel optile payment reservation.
+     * - Logs transaction to DB.
+     * - Triggers oms for remaining items.
      *
      * @api
      *
@@ -32,11 +35,16 @@ class PaymentCancelPlugin extends AbstractPlugin implements CommandByOrderInterf
      */
     public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): array
     {
+        if ($this->isAutomaticOmsTrigger($data)) {
+            return [];
+        }
+
         $optilePaymentTransfer = $this->getFacade()->findOptilePaymentByIdSalesOrder($orderEntity->getIdSalesOrder());
 
         $this->getFacade()->makeCancelRequest(
             (new OptileRequestTransfer())->setLongId($optilePaymentTransfer->getChargeLongId())
                 ->setPaymentReference($optilePaymentTransfer->getPaymentReference())
+                ->setSalesOrderReference($orderEntity->getOrderReference())
         );
 
         return [];

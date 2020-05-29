@@ -7,9 +7,11 @@
 
 namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout\Oms\Condition;
 
+use Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrderItem;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
+use SprykerEco\Zed\Optile\Business\Request\RefundRequest;
 
 /**
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
@@ -18,14 +20,26 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
 class IsRefundedPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
+     * {@inheritDoc}
+     * - Finds order item request log.
+     * - Finds notifications by item payment reference.
+     * - Returns success if refunded notification exists and success.
+     * - Returns false otherwise.
+     *
      * @api
      *
-     * @inheritDoc
+     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem $orderItem
+     *
+     * @return bool
      */
     public function check(SpySalesOrderItem $orderItem)
     {
-        $optilePaymentTransfer = $this->getFacade()->findOptilePaymentByIdSalesOrder($orderItem->getFkSalesOrder());
+        $refundOrderItemRequestLogTransfer = $this->getFacade()->findOrderItemRequestLogByCriteria(
+            (new OptileOrderItemRequestLogCriteriaTransfer())
+                ->setRequestType(RefundRequest::REFUND_REQUEST_TYPE)
+                ->setFkSalesOrderItem($orderItem->getIdSalesOrderItem())
+        );
 
-        return $this->getFacade()->isOrderRefunded($optilePaymentTransfer);
+        return $this->getFacade()->isOrderRefunded($refundOrderItemRequestLogTransfer->getItemPaymentReference());
     }
 }

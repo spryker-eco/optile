@@ -7,14 +7,12 @@
 
 namespace SprykerEco\Zed\Optile\Business\Conditions;
 
-use Generated\Shared\Transfer\PaymentOptileTransfer;
-
 interface ConditionInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\PaymentOptileTransfer $paymentOptileTransfer
+     * @param string $paymentReference
      *
      * @return bool
      */
-    public function check(PaymentOptileTransfer $paymentOptileTransfer): bool;
+    public function check(string $paymentReference): bool;
 }
