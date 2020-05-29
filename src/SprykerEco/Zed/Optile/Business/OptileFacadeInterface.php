@@ -157,7 +157,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Finds "charged" notification by given reference
+     * - Finds "charged" notification by given reference.
      * - Returns true if notification exists and has success status.
      * - Returns false otherwise.
      *
@@ -171,7 +171,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Finds "canceled" notification by given reference
+     * - Finds "canceled" notification by given reference.
      * - Returns true if notification exists and has success status.
      * - Returns false otherwise.
      *
@@ -185,7 +185,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Finds "closed" notification by given reference
+     * - Finds "closed" notification by given reference.
      * - Returns true if notification exists and has success status.
      * - Returns false otherwise.
      *
@@ -199,7 +199,7 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
-     * - Finds "refunded" notification by given reference
+     * - Finds "refunded" notification by given reference.
      * - Returns true if notification exists and has success status.
      * - Returns false otherwise.
      *

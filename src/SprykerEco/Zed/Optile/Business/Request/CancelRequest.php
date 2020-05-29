@@ -25,18 +25,18 @@ class CancelRequest implements OptileApiRequestInterface
     /**
      * @var \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface
      */
-    protected $omsAutomaticTriggerHandler;
+    protected $omsEventTrigger;
 
     /**
      * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
-     * @param \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface $omsAutomaticTriggerHandler
+     * @param \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface $omsEventTrigger
      */
     public function __construct(
         OptileConfig $optileConfig,
-        OmsEventTriggerInterface $omsAutomaticTriggerHandler
+        OmsEventTriggerInterface $omsEventTrigger
     ) {
         $this->optileConfig = $optileConfig;
-        $this->omsAutomaticTriggerHandler = $omsAutomaticTriggerHandler;
+        $this->omsEventTrigger = $omsEventTrigger;
     }
 
     /**
@@ -49,7 +49,7 @@ class CancelRequest implements OptileApiRequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
-        $this->omsAutomaticTriggerHandler->triggerOmsEventForRemainingItems(
+        $this->omsEventTrigger->triggerOmsEventForRemainingItems(
             $optileRequestTransfer->getSalesOrderReference(),
             $this->optileConfig->getOmsEventNameSendCancelRequest()
         );

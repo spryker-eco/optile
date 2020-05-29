@@ -122,7 +122,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createCancelRequest(): OptileApiRequestInterface
     {
-        return new CancelRequest($this->getConfig(), $this->createOmsAutomaticTriggerHandler());
+        return new CancelRequest($this->getConfig(), $this->createOmsEventTrigger());
     }
 
     /**
@@ -168,7 +168,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
      */
     public function createCloseRequest(): OptileApiRequestInterface
     {
-        return new CloseRequest($this->getConfig(), $this->createOmsAutomaticTriggerHandler());
+        return new CloseRequest($this->getConfig(), $this->createOmsEventTrigger());
     }
 
     /**
@@ -278,7 +278,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface
      */
-    public function createOmsAutomaticTriggerHandler(): OmsEventTriggerInterface
+    public function createOmsEventTrigger(): OmsEventTriggerInterface
     {
         return new OmsEventTrigger($this->getConfig(), $this->getSalesFacade(), $this->getOmsFacade());
     }
