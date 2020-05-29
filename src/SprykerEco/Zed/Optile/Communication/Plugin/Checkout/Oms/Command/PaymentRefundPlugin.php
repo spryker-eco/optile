@@ -9,6 +9,7 @@ namespace SprykerEco\Zed\Optile\Communication\Plugin\Checkout\Oms\Command;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Orm\Zed\Sales\Persistence\SpySalesOrder;
+use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject;
 use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
 
@@ -16,7 +17,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Command\CommandByOrderInterface;
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
  */
-class PaymentRefundPlugin extends AbstractOptilePaymentPlugin implements CommandByOrderInterface
+class PaymentRefundPlugin extends AbstractPlugin implements CommandByOrderInterface
 {
     /**
      * {@inheritDoc}
