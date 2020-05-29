@@ -9,11 +9,11 @@ namespace SprykerEco\Zed\Optile\Business;
 
 use GuzzleHttp\ClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface;
-use SprykerEco\Zed\Optile\Business\Conditions\IsOrderCanceledCondition;
-use SprykerEco\Zed\Optile\Business\Conditions\IsOrderChargedCondition;
-use SprykerEco\Zed\Optile\Business\Conditions\IsOrderClosedCondition;
-use SprykerEco\Zed\Optile\Business\Conditions\IsOrderRefundedCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderCanceledOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderChargedOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderClosedOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderRefundedOmsCondition;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
@@ -220,35 +220,35 @@ class OptileBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     * @return \SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface
      */
-    public function createIsOrderChargedCondition(): ConditionInterface
+    public function createIsOrderChargedCondition(): OmsConditionInterface
     {
-        return new IsOrderChargedCondition($this->getRepository());
+        return new IsOrderChargedOmsCondition($this->getRepository());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     * @return \SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface
      */
-    public function createIsOrderClosedCondition(): ConditionInterface
+    public function createIsOrderClosedCondition(): OmsConditionInterface
     {
-        return new IsOrderClosedCondition($this->getRepository());
+        return new IsOrderClosedOmsCondition($this->getRepository());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     * @return \SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface
      */
-    public function createIsOrderCanceledCondition(): ConditionInterface
+    public function createIsOrderCanceledCondition(): OmsConditionInterface
     {
-        return new IsOrderCanceledCondition($this->getRepository());
+        return new IsOrderCanceledOmsCondition($this->getRepository());
     }
 
     /**
-     * @return \SprykerEco\Zed\Optile\Business\Conditions\ConditionInterface
+     * @return \SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface
      */
-    public function createIsOrderRefundedCondition(): ConditionInterface
+    public function createIsOrderRefundedCondition(): OmsConditionInterface
     {
-        return new IsOrderRefundedCondition($this->getRepository());
+        return new IsOrderRefundedOmsCondition($this->getRepository());
     }
 
     /**

@@ -5,12 +5,12 @@
  * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
-namespace SprykerEco\Zed\Optile\Business\Conditions;
+namespace SprykerEco\Zed\Optile\Business\Oms\Conditions;
 
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
 use SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface;
 
-class IsOrderClosedCondition implements ConditionInterface
+class IsOrderChargedOmsCondition implements OmsConditionInterface
 {
     /**
      * @var \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface
@@ -37,8 +37,7 @@ class IsOrderClosedCondition implements ConditionInterface
         foreach ($notificationTransfers as $notificationTransfer) {
             if (
                 $notificationTransfer->getEntity() === NotificationProcessor::PAYMENT_NOTIFICATION_ENTITY_TYPE_KEY
-                && $notificationTransfer->getStatusCode() === NotificationProcessor::CLOSE_NOTIFICATION_SUCCESS_STATUS_CODE
-                && $notificationTransfer->getReasonCode() === NotificationProcessor::CLOSE_NOTIFICATION_SUCCESS_REASON_CODE
+                && $notificationTransfer->getStatusCode() === NotificationProcessor::CHARGE_NOTIFICATION_SUCCESS_STATUS_CODE
             ) {
                 return true;
             }

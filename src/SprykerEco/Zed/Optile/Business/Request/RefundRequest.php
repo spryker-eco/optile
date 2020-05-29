@@ -69,7 +69,7 @@ class RefundRequest implements OptileApiRequestInterface
             )
         );
 
-        $optileRequestTransfer->setPaymentReference(uniqid());
+        $optileRequestTransfer->setPaymentReference($this->getUniquePaymentReference($optileRequestTransfer));
         $optileRequestTransfer = $optileRequestTransfer->setRequestPayload($this->getPayload($optileRequestTransfer));
 
         return $optileRequestTransfer;
@@ -81,6 +81,23 @@ class RefundRequest implements OptileApiRequestInterface
     public function getRequestMethod(): string
     {
         return Request::METHOD_POST;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return string
+     */
+    protected function getUniquePaymentReference(OptileRequestTransfer $optileRequestTransfer): string
+    {
+        $uniquePrefix = '';
+
+        foreach ($optileRequestTransfer->getOrderItems() as $orderItemTransfer) {
+            /** @var \Orm\Zed\Sales\Persistence\Base\SpySalesOrderItem $orderItemTransfer */
+            $uniquePrefix.= "_{$orderItemTransfer->getIdSalesOrderItem()}";
+        }
+
+        return uniqid($uniquePrefix);
     }
 
     /**
