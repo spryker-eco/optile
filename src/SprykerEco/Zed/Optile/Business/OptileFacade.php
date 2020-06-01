@@ -10,6 +10,8 @@ namespace SprykerEco\Zed\Optile\Business;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
@@ -115,6 +117,21 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
      *
      * @api
      *
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer|null
+     */
+    public function findOrderItemRequestLogByCriteria(
+        OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+    ): ?OptileOrderItemRequestLogTransfer {
+        return $this->getRepository()->findOrderItemRequestLogByCriteria($criteriaTransfer);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
      * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
      *
@@ -142,5 +159,61 @@ class OptileFacade extends AbstractFacade implements OptileFacadeInterface
         CheckoutResponseTransfer $checkoutResponse
     ): void {
         $this->getFactory()->createCheckoutPostSaveHook()->execute($quoteTransfer, $checkoutResponse);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderCharged(string $notificationReference): bool
+    {
+        return $this->getFactory()->createIsOrderChargedCondition()->check($notificationReference);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderCanceled(string $notificationReference): bool
+    {
+        return $this->getFactory()->createIsOrderCanceledCondition()->check($notificationReference);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderRefunded(string $notificationReference): bool
+    {
+        return $this->getFactory()->createIsOrderRefundedCondition()->check($notificationReference);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderClosed(string $notificationReference): bool
+    {
+        return $this->getFactory()->createIsOrderClosedCondition()->check($notificationReference);
     }
 }

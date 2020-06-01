@@ -9,6 +9,7 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,11 +23,20 @@ class CancelRequest implements OptileApiRequestInterface
     protected $optileConfig;
 
     /**
-     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @var \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface
      */
-    public function __construct(OptileConfig $optileConfig)
-    {
+    protected $omsEventTrigger;
+
+    /**
+     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @param \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface $omsEventTrigger
+     */
+    public function __construct(
+        OptileConfig $optileConfig,
+        OmsEventTriggerInterface $omsEventTrigger
+    ) {
         $this->optileConfig = $optileConfig;
+        $this->omsEventTrigger = $omsEventTrigger;
     }
 
     /**
@@ -39,6 +49,11 @@ class CancelRequest implements OptileApiRequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
+        $this->omsEventTrigger->triggerOmsEventForRemainingItems(
+            $optileRequestTransfer->getSalesOrderReference(),
+            $this->optileConfig->getOmsEventNameSendCancelRequest()
+        );
+
         return (new OptileResponseTransfer())->setIsSuccess(true);
     }
 

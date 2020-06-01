@@ -8,6 +8,7 @@
 namespace SprykerEco\Yves\Optile\CheckoutPage\Process\Steps;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
+use Generated\Shared\Transfer\QuoteTransfer;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use SprykerEco\Client\Optile\OptileClientInterface;
 use SprykerShop\Yves\CheckoutPage\Process\Steps\AbstractBaseStep;
@@ -53,6 +54,8 @@ class OptileItInitializeStep extends AbstractBaseStep
      */
     public function execute(Request $request, AbstractTransfer $quoteTransfer)
     {
+        $items = $this->getItemsDataRequest($quoteTransfer);
+
         $optileInitResponseTransfer = $this->optileClient->makeListRequest(
             (new OptileRequestTransfer())
                 ->setTransactionId($quoteTransfer->getUuid())
@@ -63,6 +66,10 @@ class OptileItInitializeStep extends AbstractBaseStep
                 ->setPaymentCurrency($quoteTransfer->getCurrency()->getCode())
                 ->setPaymentReference($quoteTransfer->getUuid())
                 ->setCustomerScore($quoteTransfer->getCustomerScore())
+                ->setCustomerIp($request->getClientIp())
+                ->setClientUserAgent($request->headers->get('User-Agent'))
+                ->setClientAcceptableContentTypes($request->getAcceptableContentTypes())
+                ->setOrderItems($items)
         );
 
         $quoteTransfer->setOptileInitResponse($optileInitResponseTransfer);
@@ -78,5 +85,26 @@ class OptileItInitializeStep extends AbstractBaseStep
     public function postCondition(AbstractTransfer $quoteTransfer)
     {
         return true;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return array
+     */
+    protected function getItemsDataRequest(QuoteTransfer $quoteTransfer): array
+    {
+        $itemsData = [];
+
+        foreach ($quoteTransfer->getItems() as $orderItem) {
+            $itemsData[] = [
+                'code' => $orderItem->getIdSalesOrderItem(),
+                'name' => $orderItem->getName(),
+                'quantity' => $orderItem->getQuantity(),
+                'amount' => $orderItem->getSumPriceToPayAggregation() / 100,
+            ];
+        }
+
+        return $itemsData;
     }
 }

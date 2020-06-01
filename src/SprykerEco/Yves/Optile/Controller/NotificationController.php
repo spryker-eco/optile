@@ -10,7 +10,6 @@ namespace SprykerEco\Yves\Optile\Controller;
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method \SprykerEco\Yves\Optile\OptileFactory getFactory()
@@ -21,16 +20,10 @@ class NotificationController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function processNotificationAction(Request $request): Response
     {
-        if (!$request->isMethod(Request::METHOD_POST)) {
-            throw new NotFoundHttpException();
-        }
-
         $optileNotificationRequestTransfer = $this->getFactory()
             ->createOptileNotificationRequestMapper()
             ->mapExternalRequestToNotificationRequestTransfer($request);

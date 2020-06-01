@@ -9,12 +9,21 @@ namespace SprykerEco\Zed\Optile\Business\Request;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
+use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Optile\OptileConfig;
+use SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ListRequest implements OptileApiRequestInterface
 {
     protected const LISTS_URL_PATH = '%s/lists';
+    protected const ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY =
+        'Required fields: identification.longId, links.self  can\'t be empty';
+
+    protected const PRESELECTION_PAYLOAD = [
+        'deferral' => 'DEFERRED',
+        'direction' => 'CHARGE',
+    ];
 
     /**
      * @var \SprykerEco\Zed\Optile\OptileConfig
@@ -22,11 +31,28 @@ class ListRequest implements OptileApiRequestInterface
     protected $optileConfig;
 
     /**
-     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @var \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface
      */
-    public function __construct(OptileConfig $optileConfig)
-    {
+    protected $optileRepository;
+
+    /**
+     * @var \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface
+     */
+    protected $utilEncodingService;
+
+    /**
+     * @param \SprykerEco\Zed\Optile\OptileConfig $optileConfig
+     * @param \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface $optileRepository
+     * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
+     */
+    public function __construct(
+        OptileConfig $optileConfig,
+        OptileRepositoryInterface $optileRepository,
+        OptileToUtilEncodingServiceInterface $utilEncodingService
+    ) {
         $this->optileConfig = $optileConfig;
+        $this->optileRepository = $optileRepository;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
@@ -39,12 +65,9 @@ class ListRequest implements OptileApiRequestInterface
         array $responseData,
         OptileRequestTransfer $optileRequestTransfer
     ): OptileResponseTransfer {
-        if (
-            empty($responseData['identification']['longId']
-            || empty($responseData['links']['self']))
-        ) {
+        if (empty($responseData['identification']['longId'] || empty($responseData['links']['self']))) {
             return (new OptileResponseTransfer())->setIsSuccess(false)
-                ->setError('Required fields: identification.longId, links.self  can\'t be empty');
+                ->setError(static::ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY);
         }
 
         return (new OptileResponseTransfer())
@@ -74,7 +97,9 @@ class ListRequest implements OptileApiRequestInterface
             $optileRequestTransfer->setCustomerScore($this->optileConfig->getMax3dSecureScore());
         }
 
-        $this->setRequestPayload($optileRequestTransfer);
+        $requestPayload = $this->getRequestPayload($optileRequestTransfer);
+
+        $optileRequestTransfer->setRequestPayload($requestPayload);
 
         return $optileRequestTransfer;
     }
@@ -90,9 +115,9 @@ class ListRequest implements OptileApiRequestInterface
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
-     * @return \Generated\Shared\Transfer\OptileRequestTransfer
+     * @return array
      */
-    protected function setRequestPayload(OptileRequestTransfer $optileRequestTransfer): OptileRequestTransfer
+    protected function getRequestPayload(OptileRequestTransfer $optileRequestTransfer): array
     {
         $payload = [
             'transactionId' => $optileRequestTransfer->getTransactionId(),
@@ -104,7 +129,7 @@ class ListRequest implements OptileApiRequestInterface
                 'email' => $optileRequestTransfer->getCustomerEmail(),
             ],
             'payment' => [
-                'amount' => $optileRequestTransfer->getPaymentAmount(),
+                'amount' => $this->getPaymentAmount($optileRequestTransfer->getPaymentAmount()),
                 'currency' => $optileRequestTransfer->getPaymentCurrency(),
                 'reference' => $optileRequestTransfer->getPaymentReference(),
             ],
@@ -114,12 +139,89 @@ class ListRequest implements OptileApiRequestInterface
                 'summaryUrl' => $optileRequestTransfer->getCallbackPaymentHandlerUrl(),
                 'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
             ],
+            'clientInfo' => [
+                    'ip' => $optileRequestTransfer->getCustomerIp(),
+                    'userAgent' => $optileRequestTransfer->getClientUserAgent(),
+                    'acceptHeader' => $this->utilEncodingService->encodeJson(
+                        $optileRequestTransfer->getClientAcceptableContentTypes()
+                    ),
+              ],
+            'products' => $this->getOrderItemsPayload($optileRequestTransfer),
+            'customerScore' => $optileRequestTransfer->getCustomerScore(),
         ];
 
-        if ($optileRequestTransfer->getCustomerScore()) {
-            $payload['customerScore'] = $optileRequestTransfer->getCustomerScore();
+        $payload = $this->addPreselectToRequestPayload($payload);
+        $payload = $this->addRegistrationToRequestPayload($optileRequestTransfer, $payload);
+
+        return $payload;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     *
+     * @return array
+     */
+    protected function getOrderItemsPayload(OptileRequestTransfer $optileRequestTransfer): array
+    {
+        $products = [];
+
+        foreach ($optileRequestTransfer->getOrderItems() as $orderItem) {
+            $products[] = [
+                "code" => $orderItem['code'],
+                'name' => $orderItem['name'],
+                'quantity' => $orderItem['quantity'],
+                'amount' => $this->getPaymentAmount($orderItem['amount']),
+            ];
         }
 
-        return $optileRequestTransfer->setRequestPayload($payload);
+        return $products;
+    }
+
+    /**
+     * @param int $amount
+     *
+     * @return float
+     */
+    protected function getPaymentAmount(int $amount): float
+    {
+        return $amount / 100;
+    }
+
+    /**
+     * @param array $payload
+     *
+     * @return array
+     */
+    protected function addPreselectToRequestPayload(array $payload): array
+    {
+        if ($this->optileConfig->isPreselectEnabled()) {
+            $payload['preselection'] = static::PRESELECTION_PAYLOAD;
+        }
+
+        return $payload;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
+     * @param array $payload
+     *
+     * @return array
+     */
+    protected function addRegistrationToRequestPayload(
+        OptileRequestTransfer $optileRequestTransfer,
+        array $payload
+    ): array {
+        $customerRegistration = $this->optileRepository->findOptileCustomerRegistrationByEmail(
+            $optileRequestTransfer->getCustomerEmail()
+        );
+
+        if ($customerRegistration) {
+            $payload['customer']['registration'] = [
+                'id' => $customerRegistration->getCustomerRegistrationId(),
+                'password' => $customerRegistration->getCustomerRegistrationHash(),
+            ];
+        }
+
+        return $payload;
     }
 }

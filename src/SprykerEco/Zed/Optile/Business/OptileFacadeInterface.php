@@ -10,6 +10,8 @@ namespace SprykerEco\Zed\Optile\Business;
 use Generated\Shared\Transfer\CheckoutResponseTransfer;
 use Generated\Shared\Transfer\OptileNotificationRequestTransfer;
 use Generated\Shared\Transfer\OptileNotificationResponseTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer;
+use Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer;
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\OptileResponseTransfer;
 use Generated\Shared\Transfer\PaymentOptileTransfer;
@@ -104,6 +106,21 @@ interface OptileFacadeInterface
 
     /**
      * Specification:
+     * - Finds OptileItemRequestLog by given criteria.
+     * - Returns `null` if  OptileItemRequestLog is not found.
+     *
+     * @api
+     *
+     * @param \Generated\Shared\Transfer\OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\OptileOrderItemRequestLogTransfer|null
+     */
+    public function findOrderItemRequestLogByCriteria(
+        OptileOrderItemRequestLogCriteriaTransfer $criteriaTransfer
+    ): ?OptileOrderItemRequestLogTransfer;
+
+    /**
+     * Specification:
      * - Creates payment optile entity in db.
      * - Fulfill payment optile entity with data from quote.
      * - Returns created optile payment transfer.
@@ -137,4 +154,60 @@ interface OptileFacadeInterface
         QuoteTransfer $quoteTransfer,
         CheckoutResponseTransfer $checkoutResponse
     ): void;
+
+    /**
+     * Specification:
+     * - Finds "charged" notification by given reference.
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderCharged(string $notificationReference): bool;
+
+    /**
+     * Specification:
+     * - Finds "canceled" notification by given reference.
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderCanceled(string $notificationReference): bool;
+
+    /**
+     * Specification:
+     * - Finds "closed" notification by given reference.
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderClosed(string $notificationReference): bool;
+
+    /**
+     * Specification:
+     * - Finds "refunded" notification by given reference.
+     * - Returns true if notification exists and has success status.
+     * - Returns false otherwise.
+     *
+     * @api
+     *
+     * @param string $notificationReference
+     *
+     * @return bool
+     */
+    public function isOrderRefunded(string $notificationReference): bool;
 }
