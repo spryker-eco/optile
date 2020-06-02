@@ -3,11 +3,11 @@
     <table name="spy_payment_optile" phpName="SpyPaymentOptile">
         <column name="id_payment_optile" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" required="true" type="INTEGER"/>
-        <column name="payment_reference" type="VARCHAR"/>
-        <column name="payment_method" required="true" type="VARCHAR"/>
-        <column name="long_id" type="VARCHAR"/>
-        <column name="charge_long_id" type="VARCHAR"/>
-        <column name="refund_long_id" type="VARCHAR"/>
+        <column name="payment_reference" type="VARCHAR" size="100"/>
+        <column name="payment_method" required="true" type="VARCHAR" size="50"/>
+        <column name="long_id" type="VARCHAR" size="100"/>
+        <column name="charge_long_id" type="VARCHAR" size="100"/>
+        <column name="refund_long_id" type="VARCHAR" size="100"/>
 
         <foreign-key name="spy_payment_optile-fk_sales_order" foreignTable="spy_sales_order" phpName="SpySalesOrder">
             <reference foreign="id_sales_order" local="fk_sales_order"/>
@@ -19,9 +19,9 @@
 
     <table name="spy_payment_optile_registration">
         <column name="id_registration" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
-        <column name="customer_registration_email" type="VARCHAR"/>
-        <column name="customer_registration_hash" type="VARCHAR"/>
-        <column name="customer_registration_id" type="VARCHAR"/>
+        <column name="customer_registration_email" type="VARCHAR" size="100"/>
+        <column name="customer_registration_hash" type="VARCHAR" size="100"/>
+        <column name="customer_registration_id" type="VARCHAR" size="100"/>
 
         <behavior name="timestampable">
             <parameter name="disable_updated_at" value="true"/>
@@ -34,10 +34,10 @@
 
     <table name="spy_payment_optile_transaction_log">
         <column name="id_payment_optile_transaction_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
-        <column name="payment_reference" type="VARCHAR"/>
-        <column name="response_code" type="VARCHAR"/>
+        <column name="payment_reference" type="VARCHAR" size="100"/>
+        <column name="response_code" type="VARCHAR" size="20"/>
         <column name="request_payload" type="LONGVARCHAR"/>
-        <column name="request_url" type="LONGVARCHAR"/>
+        <column name="request_url" type="VARCHAR" size="255"/>
         <column name="response_payload" type="LONGVARCHAR"/>
 
         <behavior name="timestampable"/>
@@ -47,8 +47,8 @@
     <table name="spy_payment_optile_order_item_request_log">
         <column name="id_spy_payment_optile_order_item_request_log" type="INTEGER" primaryKey="true" autoIncrement="true"/>
         <column name="fk_sales_order_item" type="INTEGER" primaryKey="true"/>
-        <column name="item_payment_reference" type="VARCHAR"/>
-        <column name="request_type" type="VARCHAR"/>
+        <column name="item_payment_reference" type="VARCHAR" size="255"/>
+        <column name="request_type" type="VARCHAR" size="50"/>
 
         <foreign-key name="spy_payment_optile_order_item_request_log-fk_sales_order_item" foreignTable="spy_sales_order_item">
             <reference foreign="id_sales_order_item" local="fk_sales_order_item"/>
@@ -57,21 +57,21 @@
 
     <table name="spy_payment_optile_notification">
         <column name="id_payment_optile_notification" type="INTEGER" primaryKey="true" autoIncrement="true"/>
-        <column name="transaction_id" type="VARCHAR"/>
-        <column name="notification_id" type="VARCHAR"/>
-        <column name="currency" type="VARCHAR"/>
+        <column name="transaction_id" type="VARCHAR" size="100"/>
+        <column name="notification_id" type="VARCHAR" size="50"/>
+        <column name="currency" type="VARCHAR" size="20"/>
         <column name="rejection_count" type="INTEGER"/>
         <column name="amount" type="INTEGER"/>
-        <column name="customer_registration_hash" type="VARCHAR"/>
-        <column name="customer_registration_id" type="VARCHAR"/>
-        <column name="customer_registration_email" type="VARCHAR"/>
-        <column name="long_id" type="VARCHAR"/>
-        <column name="short_id" type="VARCHAR"/>
-        <column name="entity" type="VARCHAR"/>
-        <column name="status_code" type="VARCHAR"/>
-        <column name="timestamp" type="VARCHAR"/>
-        <column name="reason_code" type="VARCHAR"/>
-        <column name="payment_reference" type="VARCHAR"/>
+        <column name="customer_registration_hash" type="VARCHAR" size="100"/>
+        <column name="customer_registration_id" type="VARCHAR" size="100"/>
+        <column name="customer_registration_email" type="VARCHAR" size="100"/>
+        <column name="long_id" type="VARCHAR" size="100"/>
+        <column name="short_id" type="VARCHAR" size="30"/>
+        <column name="entity" type="VARCHAR" size="30"/>
+        <column name="status_code" type="VARCHAR" size="30"/>
+        <column name="timestamp" type="VARCHAR" size="50"/>
+        <column name="reason_code" type="VARCHAR" size="30"/>
+        <column name="payment_reference" type="VARCHAR" size="100"/>
 
         <behavior name="timestampable"/>
         <id-method-parameter value="spy_payment_optile_notification_pk_seq"/>
