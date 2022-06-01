@@ -16,10 +16,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ListRequest implements OptileApiRequestInterface
 {
+    /**
+     * @var string
+     */
     protected const LISTS_URL_PATH = '%s/lists';
-    protected const ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY =
-        'Required fields: identification.longId, links.self  can\'t be empty';
 
+    /**
+     * @var string
+     */
+    protected const ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY = 'Required fields: identification.longId, links.self  can\'t be empty';
+
+    /**
+     * @var array
+     */
     protected const PRESELECTION_PAYLOAD = [
         'deferral' => 'DEFERRED',
         'direction' => 'CHARGE',
@@ -61,10 +70,8 @@ class ListRequest implements OptileApiRequestInterface
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
-    public function handleResponse(
-        array $responseData,
-        OptileRequestTransfer $optileRequestTransfer
-    ): OptileResponseTransfer {
+    public function handleResponse(array $responseData, OptileRequestTransfer $optileRequestTransfer): OptileResponseTransfer
+    {
         if (empty($responseData['identification']['longId'] || empty($responseData['links']['self']))) {
             return (new OptileResponseTransfer())->setIsSuccess(false)
                 ->setError(static::ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY);
@@ -140,12 +147,12 @@ class ListRequest implements OptileApiRequestInterface
                 'notificationUrl' => $optileRequestTransfer->getCallbackNotificationUrl(),
             ],
             'clientInfo' => [
-                    'ip' => $optileRequestTransfer->getCustomerIp(),
-                    'userAgent' => $optileRequestTransfer->getClientUserAgent(),
-                    'acceptHeader' => $this->utilEncodingService->encodeJson(
-                        $optileRequestTransfer->getClientAcceptableContentTypes()
-                    ),
-              ],
+                'ip' => $optileRequestTransfer->getCustomerIp(),
+                'userAgent' => $optileRequestTransfer->getClientUserAgent(),
+                'acceptHeader' => $this->utilEncodingService->encodeJson(
+                    $optileRequestTransfer->getClientAcceptableContentTypes(),
+                ),
+            ],
             'products' => $this->getOrderItemsPayload($optileRequestTransfer),
             'customerScore' => $optileRequestTransfer->getCustomerScore(),
         ];
@@ -167,7 +174,7 @@ class ListRequest implements OptileApiRequestInterface
 
         foreach ($optileRequestTransfer->getOrderItems() as $orderItem) {
             $products[] = [
-                "code" => $orderItem['code'],
+                'code' => $orderItem['code'],
                 'name' => $orderItem['name'],
                 'quantity' => $orderItem['quantity'],
                 'amount' => $this->getPaymentAmount($orderItem['amount']),
@@ -207,12 +214,10 @@ class ListRequest implements OptileApiRequestInterface
      *
      * @return array
      */
-    protected function addRegistrationToRequestPayload(
-        OptileRequestTransfer $optileRequestTransfer,
-        array $payload
-    ): array {
+    protected function addRegistrationToRequestPayload(OptileRequestTransfer $optileRequestTransfer, array $payload): array
+    {
         $customerRegistration = $this->optileRepository->findOptileCustomerRegistrationByEmail(
-            $optileRequestTransfer->getCustomerEmail()
+            $optileRequestTransfer->getCustomerEmail(),
         );
 
         if ($customerRegistration) {

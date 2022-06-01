@@ -14,9 +14,9 @@ interface OptileToZedRequestClientInterface
     /**
      * @param string $url
      * @param \Spryker\Shared\Kernel\Transfer\TransferInterface $object
-     * @param array|int|null $requestOptions
+     * @param array<string, mixed> |int|null $requestOptions
      *
      * @return \Spryker\Shared\Kernel\Transfer\TransferInterface
      */
-    public function call($url, TransferInterface $object, $requestOptions = null);
+    public function call(string $url, TransferInterface $object, $requestOptions = null): TransferInterface;
 }

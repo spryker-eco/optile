@@ -15,6 +15,7 @@ use Spryker\Zed\Kernel\Communication\Controller\AbstractGatewayController;
 
 /**
  * @method \SprykerEco\Zed\Optile\Business\OptileFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Optile\Persistence\OptileRepositoryInterface getRepository()
  */
 class GatewayController extends AbstractGatewayController
 {

@@ -33,13 +33,13 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $spyNotification = new SpyPaymentOptileNotification();
 
         $spyNotification->fromArray(
-            $optileNotificationRequestTransfer->modifiedToArray(false)
+            $optileNotificationRequestTransfer->modifiedToArray(false),
         );
 
         $spyNotification->save();
 
         $optileNotificationRequestTransfer->setIdPaymentOptileNotification(
-            $spyNotification->getIdPaymentOptileNotification()
+            $spyNotification->getIdPaymentOptileNotification(),
         );
 
         return $optileNotificationRequestTransfer;
@@ -56,13 +56,13 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $paymentOptileRegistrationEntity = new SpyPaymentOptileRegistration();
 
         $paymentOptileRegistrationEntity->fromArray(
-            $optileNotificationRequestTransfer->modifiedToArray(false)
+            $optileNotificationRequestTransfer->modifiedToArray(false),
         );
 
         $paymentOptileRegistrationEntity->save();
 
         $optileNotificationRequestTransfer->setCustomerRegistrationId(
-            $paymentOptileRegistrationEntity->getIdRegistration()
+            (string)$paymentOptileRegistrationEntity->getIdRegistration(),
         );
 
         return $optileNotificationRequestTransfer;
@@ -82,13 +82,13 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
             ->findOneOrCreate();
 
         $spyPaymentOptile->fromArray(
-            $paymentOptileTransfer->modifiedToArray(false)
+            $paymentOptileTransfer->modifiedToArray(false),
         );
 
         $spyPaymentOptile->save();
 
         $paymentOptileTransfer->setIdPaymentOptile(
-            $spyPaymentOptile->getIdPaymentOptile()
+            $spyPaymentOptile->getIdPaymentOptile(),
         );
 
         return $paymentOptileTransfer;
@@ -108,7 +108,7 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $spyTransactionLog->save();
 
         $optileTransactionLogTransfer->setIdPaymentOptileTransactionId(
-            $spyTransactionLog->getIdPaymentOptileTransactionLog()
+            $spyTransactionLog->getIdPaymentOptileTransactionLog(),
         );
 
         return $optileTransactionLogTransfer;
@@ -128,7 +128,7 @@ class OptileEntityManager extends AbstractEntityManager implements OptileEntityM
         $spyOptileOrderItemRequestLogEntity->save();
 
         $optileOrderItemRequestLogTransfer->setIdPaymentOptileOrderItemRequestLog(
-            $spyOptileOrderItemRequestLogEntity->getIdSpyPaymentOptileOrderItemRequestLog()
+            $spyOptileOrderItemRequestLogEntity->getIdSpyPaymentOptileOrderItemRequestLog(),
         );
 
         return $optileOrderItemRequestLogTransfer;

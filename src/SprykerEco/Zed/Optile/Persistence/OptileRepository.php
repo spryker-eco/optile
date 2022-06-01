@@ -64,7 +64,7 @@ class OptileRepository extends AbstractRepository implements OptileRepositoryInt
     /**
      * @param string $paymentReference
      *
-     * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer[]
+     * @return array<\Generated\Shared\Transfer\OptileNotificationRequestTransfer>
      */
     public function getNotificationsByPaymentReference(string $paymentReference): array
     {
@@ -99,7 +99,7 @@ class OptileRepository extends AbstractRepository implements OptileRepositoryInt
 
         return (new OptileOrderItemRequestLogTransfer())->fromArray(
             $orderItemRequestLogEntity->toArray(),
-            true
+            true,
         );
     }
 }

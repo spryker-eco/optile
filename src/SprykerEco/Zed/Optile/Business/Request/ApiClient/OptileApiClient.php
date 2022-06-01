@@ -20,11 +20,22 @@ use SprykerEco\Zed\Optile\OptileConfig;
 
 class OptileApiClient implements OptileApiClientInterface
 {
+    /**
+     * @var string
+     */
     protected const SUCCESS_RESPONSE_CODE = 'OK';
+
+    /**
+     * @var array
+     */
     protected const BASE_OPTILE_REQUEST_HEADERS = [
         'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
         'Accept' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
     ];
+
+    /**
+     * @var string
+     */
     protected const ERROR_MESSAGE_WRONG_RESPONSE_CODE = 'Optile response code is not correct';
 
     /**
@@ -96,7 +107,7 @@ class OptileApiClient implements OptileApiClientInterface
             $response = $this->optileHttpClient->request(
                 $this->optileApiRequest->getRequestMethod(),
                 $optileRequestTransfer->getRequestUrl(),
-                $options
+                $options,
             );
         } catch (OptileHttpRequestException $exception) {
             return $optileResponseTransfer->setError($exception->getMessage());

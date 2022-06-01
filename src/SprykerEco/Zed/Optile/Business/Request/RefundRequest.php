@@ -16,7 +16,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RefundRequest implements OptileApiRequestInterface
 {
+    /**
+     * @var string
+     */
     protected const REFUND_REQUEST_PATH_TEMPLATE = '%s/charges/%s/payout';
+
+    /**
+     * @var string
+     */
     public const REFUND_REQUEST_TYPE = 'REFUND_REQUEST';
 
     /**
@@ -65,8 +72,8 @@ class RefundRequest implements OptileApiRequestInterface
             sprintf(
                 static::REFUND_REQUEST_PATH_TEMPLATE,
                 $this->optileConfig->getBaseApiUrl(),
-                $optileRequestTransfer->getLongId()
-            )
+                $optileRequestTransfer->getLongId(),
+            ),
         );
 
         $optileRequestTransfer->setPaymentReference($this->getUniquePaymentReference($optileRequestTransfer));
@@ -94,7 +101,7 @@ class RefundRequest implements OptileApiRequestInterface
 
         foreach ($optileRequestTransfer->getOrderItems() as $orderItemTransfer) {
             /** @var \Orm\Zed\Sales\Persistence\Base\SpySalesOrderItem $orderItemTransfer */
-            $uniquePrefix.= "_{$orderItemTransfer->getIdSalesOrderItem()}";
+            $uniquePrefix .= "_{$orderItemTransfer->getIdSalesOrderItem()}";
         }
 
         return uniqid($uniquePrefix);

@@ -19,6 +19,8 @@ class OptilePaymentHandlerController extends AbstractController
 {
     /**
      * @uses \SprykerShop\Yves\CheckoutPage\Plugin\Router\CheckoutPageRouteProviderPlugin::CHECKOUT_SUMMARY
+     *
+     * @var string
      */
     protected const SUMMARY_STEP_URL = 'checkout-summary';
 

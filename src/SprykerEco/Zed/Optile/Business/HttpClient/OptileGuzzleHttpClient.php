@@ -44,7 +44,7 @@ class OptileGuzzleHttpClient implements OptileHttpClientInterface
             throw new OptileHttpRequestException(
                 $exception->getMessage(),
                 $exception->getCode(),
-                $exception
+                $exception,
             );
         }
     }

@@ -28,7 +28,7 @@ class PaymentCancelPlugin extends AbstractPlugin implements CommandByOrderInterf
      *
      * @api
      *
-     * @param \Orm\Zed\Sales\Persistence\SpySalesOrderItem[] $orderItems
+     * @param array<\Orm\Zed\Sales\Persistence\SpySalesOrderItem> $orderItems
      * @param \Orm\Zed\Sales\Persistence\SpySalesOrder $orderEntity
      * @param \Spryker\Zed\Oms\Business\Util\ReadOnlyArrayObject $data
      *
@@ -45,7 +45,7 @@ class PaymentCancelPlugin extends AbstractPlugin implements CommandByOrderInterf
         $this->getFacade()->makeCancelRequest(
             (new OptileRequestTransfer())->setLongId($optilePaymentTransfer->getChargeLongId())
                 ->setPaymentReference($optilePaymentTransfer->getPaymentReference())
-                ->setSalesOrderReference($orderEntity->getOrderReference())
+                ->setSalesOrderReference($orderEntity->getOrderReference()),
         );
 
         return [];

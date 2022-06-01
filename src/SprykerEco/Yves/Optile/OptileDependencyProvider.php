@@ -11,8 +11,15 @@ use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use SprykerEco\Yves\Optile\Dependency\Client\OptileToQuoteClientBridge;
 
+/**
+ * @method \SprykerEco\Yves\Optile\OptileConfig getConfig()
+ */
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
+
+    /**
+     * @var string
+     */
     public const CLIENT_QUOTE = 'CLIENT_QUOTE';
 
     /**

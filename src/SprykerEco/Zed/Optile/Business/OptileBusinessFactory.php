@@ -9,11 +9,6 @@ namespace SprykerEco\Zed\Optile\Business;
 
 use GuzzleHttp\ClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface;
-use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderCanceledOmsCondition;
-use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderChargedOmsCondition;
-use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderClosedOmsCondition;
-use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderRefundedOmsCondition;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHook;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutDoSaveHookInterface;
 use SprykerEco\Zed\Optile\Business\Hook\CheckoutPostSaveHook;
@@ -22,6 +17,11 @@ use SprykerEco\Zed\Optile\Business\HttpClient\OptileGuzzleHttpClient;
 use SprykerEco\Zed\Optile\Business\HttpClient\OptileHttpClientInterface;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapper;
 use SprykerEco\Zed\Optile\Business\Mapper\OptileRequestMapperInterface;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderCanceledOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderChargedOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderClosedOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\IsOrderRefundedOmsCondition;
+use SprykerEco\Zed\Optile\Business\Oms\Conditions\OmsConditionInterface;
 use SprykerEco\Zed\Optile\Business\Oms\OmsEventTrigger;
 use SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface;
 use SprykerEco\Zed\Optile\Business\Processor\NotificationProcessor;
@@ -67,7 +67,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createListRequest(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -90,7 +90,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createChargeRequest(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -113,7 +113,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createCancelRequest(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -136,7 +136,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createRefundRequest(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -159,7 +159,7 @@ class OptileBusinessFactory extends AbstractBusinessFactory
             $this->createTransactionLogWriter(),
             $this->createOptileRequestMapper(),
             $this->createCloseRequest(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 

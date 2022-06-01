@@ -14,11 +14,29 @@ use SprykerEco\Zed\Optile\Dependency\Facade\OptileToOmsFacadeBridge;
 use SprykerEco\Zed\Optile\Dependency\Facade\OptileToSalesFacadeBridge;
 use SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceBridge;
 
+/**
+ * @method \SprykerEco\Zed\Optile\OptileConfig getConfig()
+ */
 class OptileDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
+
+    /**
+     * @var string
+     */
     public const GUZZLE_CLIENT = 'GUZZLE_CLIENT';
+
+    /**
+     * @var string
+     */
     public const FACADE_SALES = 'FACADE_SALES';
+
+    /**
+     * @var string
+     */
     public const FACADE_OMS = 'FACADE_OMS';
 
     /**

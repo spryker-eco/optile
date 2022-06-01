@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CloseRequest implements OptileApiRequestInterface
 {
+    /**
+     * @var string
+     */
     protected const CLOSE_REQUEST_PATH_TEMPLATE = '%s/charges/%s/closing';
 
     /**
@@ -51,7 +54,7 @@ class CloseRequest implements OptileApiRequestInterface
     ): OptileResponseTransfer {
         $this->omsEventTrigger->triggerOmsEventForRemainingItems(
             $optileRequestTransfer->getSalesOrderReference(),
-            $this->optileConfig->getOmsEventNameSendCloseRequest()
+            $this->optileConfig->getOmsEventNameSendCloseRequest(),
         );
 
         return (new OptileResponseTransfer())->setIsSuccess(true);
@@ -68,8 +71,8 @@ class CloseRequest implements OptileApiRequestInterface
             sprintf(
                 static::CLOSE_REQUEST_PATH_TEMPLATE,
                 $this->optileConfig->getBaseApiUrl(),
-                $optileRequestTransfer->getLongId()
-            )
+                $optileRequestTransfer->getLongId(),
+            ),
         );
 
         return $optileRequestTransfer;

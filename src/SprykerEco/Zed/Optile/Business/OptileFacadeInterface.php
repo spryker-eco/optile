@@ -107,7 +107,7 @@ interface OptileFacadeInterface
     /**
      * Specification:
      * - Finds OptileItemRequestLog by given criteria.
-     * - Returns `null` if  OptileItemRequestLog is not found.
+     * - Returns `null` if OptileItemRequestLog is not found.
      *
      * @api
      *

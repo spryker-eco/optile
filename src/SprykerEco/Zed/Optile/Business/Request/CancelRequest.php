@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CancelRequest implements OptileApiRequestInterface
 {
+    /**
+     * @var string
+     */
     protected const CANCEL_REQUEST_PATH_TEMPLATE = '%s/charges/%s';
 
     /**
@@ -51,7 +54,7 @@ class CancelRequest implements OptileApiRequestInterface
     ): OptileResponseTransfer {
         $this->omsEventTrigger->triggerOmsEventForRemainingItems(
             $optileRequestTransfer->getSalesOrderReference(),
-            $this->optileConfig->getOmsEventNameSendCancelRequest()
+            $this->optileConfig->getOmsEventNameSendCancelRequest(),
         );
 
         return (new OptileResponseTransfer())->setIsSuccess(true);
@@ -68,8 +71,8 @@ class CancelRequest implements OptileApiRequestInterface
             sprintf(
                 static::CANCEL_REQUEST_PATH_TEMPLATE,
                 $this->optileConfig->getBaseApiUrl(),
-                $optileRequestTransfer->getLongId()
-            )
+                $optileRequestTransfer->getLongId(),
+            ),
         );
 
         return $optileRequestTransfer;

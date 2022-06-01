@@ -14,14 +14,44 @@ use SprykerEco\Zed\Optile\Persistence\OptileEntityManagerInterface;
 
 class NotificationProcessor implements NotificationProcessorInterface
 {
+    /**
+     * @var string
+     */
     public const PAYMENT_NOTIFICATION_ENTITY_TYPE_KEY = 'payment';
+
+    /**
+     * @var string
+     */
     public const CUSTOMER_REGISTRATION_NOTIFICATION_TYPE_KEY = 'customer';
 
+    /**
+     * @var string
+     */
     public const CANCEL_NOTIFICATION_SUCCESS_STATUS_CODE = 'canceled';
+
+    /**
+     * @var string
+     */
     public const CHARGE_NOTIFICATION_SUCCESS_STATUS_CODE = 'preauthorized';
+
+    /**
+     * @var string
+     */
     public const CLOSE_NOTIFICATION_SUCCESS_STATUS_CODE = 'charged';
+
+    /**
+     * @var string
+     */
     public const CLOSE_NOTIFICATION_SUCCESS_REASON_CODE = 'debited';
+
+    /**
+     * @var string
+     */
     public const REFUND_NOTIFICATION_SUCCESS_STATUS_CODE = 'paid_out';
+
+    /**
+     * @var string
+     */
     public const REFUND_NOTIFICATION_SUCCESS_REASON_CODE = 'refund_credited';
 
     /**

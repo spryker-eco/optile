@@ -14,7 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ChargeRequest implements OptileApiRequestInterface
 {
+    /**
+     * @var string
+     */
     protected const CHARGE_REQUEST_PATH_TEMPLATE = '%s/lists/%s/charge';
+
+    /**
+     * @var string
+     */
     protected const ERROR_MESSAGE_LONG_ID_REQUIRED = 'Required field "longId" can\'t be empty';
 
     /**
@@ -63,8 +70,8 @@ class ChargeRequest implements OptileApiRequestInterface
             sprintf(
                 static::CHARGE_REQUEST_PATH_TEMPLATE,
                 $this->optileConfig->getBaseApiUrl(),
-                $optileRequestTransfer->getLongId()
-            )
+                $optileRequestTransfer->getLongId(),
+            ),
         );
 
         return $optileRequestTransfer;

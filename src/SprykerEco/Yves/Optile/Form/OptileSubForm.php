@@ -18,9 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @method \SprykerEco\Client\Optile\OptileClientInterface getClient()
+ * @method \SprykerEco\Yves\Optile\OptileConfig getConfig()
  */
 class OptileSubForm extends AbstractSubFormType implements SubFormInterface, SubFormProviderNameInterface
 {
+    /**
+     * @var string
+     */
     public const FORM_FIELD_LONG_ID = 'longId';
 
     /**
@@ -71,7 +75,7 @@ class OptileSubForm extends AbstractSubFormType implements SubFormInterface, Sub
     /**
      * @param \Symfony\Component\Form\FormView $view
      * @param \Symfony\Component\Form\FormInterface $form
-     * @param array $options
+     * @param array<string, mixed> $options
      *
      * @return void
      */

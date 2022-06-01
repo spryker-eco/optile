@@ -55,7 +55,7 @@ class OmsEventTrigger implements OmsEventTriggerInterface
         $orderItemsId = [];
 
         $orderItemCollectionTransfer = $this->salesFacade->getOrderItems(
-            (new OrderItemFilterTransfer())->setOrderReferences([$orderReference])
+            (new OrderItemFilterTransfer())->setOrderReferences([$orderReference]),
         );
 
         foreach ($orderItemCollectionTransfer->getItems() as $item) {
@@ -65,7 +65,7 @@ class OmsEventTrigger implements OmsEventTriggerInterface
         $this->omsFacade->triggerEventForOrderItems(
             $event,
             $orderItemsId,
-            [$this->optileConfig->getOptileAutomaticOmsTrigger() => true]
+            [$this->optileConfig->getOptileAutomaticOmsTrigger() => true],
         );
     }
 }

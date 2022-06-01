@@ -9,6 +9,13 @@ namespace SprykerEco\Shared\Optile;
 
 interface OptileConfig
 {
+    /**
+     * @var string
+     */
     public const PAYMENT_PROVIDER_NAME = 'Optile';
-    public const PAYMENT_METHOD_NAME = 'OptileSelectNative';
+
+    /**
+     * @var string
+     */
+    public const PAYMENT_METHOD_NAME = 'optileSelectNative';
 }

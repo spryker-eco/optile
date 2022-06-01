@@ -13,9 +13,16 @@ namespace SprykerEco\Shared\Optile;
 interface OptileConstants
 {
     /**
+     * @var string
+     */
+    public const OPTILE = 'OPTILE';
+
+    /**
      * Secret payment token can be obtained in optile merchant portal.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_OPTILE_PAYMENT_TOKEN = 'CONFIG_OPTILE_APPLICATION_TOKEN';
 
@@ -23,6 +30,8 @@ interface OptileConstants
      * Secret merchant code can be obtained in optile merchant portal.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_MERCHANT_CODE = 'CONFIG_MERCHANT_CODE';
 
@@ -30,6 +39,8 @@ interface OptileConstants
      * Cancel url callback.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_YVES_CHECKOUT_PAYMENT_CANCEL_URL = 'CONFIG_YVES_CHECKOUT_PAYMENT_FAILED_URL';
 
@@ -37,6 +48,8 @@ interface OptileConstants
      * Summary step url callback.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_YVES_CHECKOUT_SUMMARY_STEP_URL = 'CONFIG_YVES_CHECKOUT_SUMMARY_STEP_URL';
 
@@ -44,13 +57,17 @@ interface OptileConstants
      * Url where user will be directed after success payment, to process response from Optile.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_YVES_CHECKOUT_PAYMENT_HANDLER_STEP_URL = 'CONFIG_YVES_CHECKOUT_PAYMENT_HANDLER_STEP_URL';
 
     /**
-     * Notification handler url url callback.
+     * Notification handler url callback.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_YVES_CHECKOUT_NOTIFICATION_URL = 'CONFIG_YVES_CHECKOUT_NOTIFICATION_URL';
 
@@ -58,13 +75,17 @@ interface OptileConstants
      * Url for success payment.
      *
      * @api
+     *
+     * @var string
      */
-    public const CONFIG_YVES_PAYMENT_SUCCESS_URL = 'CONFIG_YVES_CHECKOUT_NOTIFICATION_URL';
+    public const CONFIG_YVES_PAYMENT_SUCCESS_URL = 'CONFIG_YVES_PAYMENT_SUCCESS_URL';
 
     /**
      * Main lists url.
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_BASE_API_URL = 'CONFIG_API_LIST_URL';
 
@@ -72,6 +93,8 @@ interface OptileConstants
      * Integration type (ex. Hosted, Select Native ...).
      *
      * @api
+     *
+     * @var string
      */
     public const CONFIG_YVES_CHECKOUT_INTEGRATION_TYPE = 'CONFIG_YVES_CHECKOUT_INTEGRATION_TYPE';
 
@@ -79,6 +102,8 @@ interface OptileConstants
      * Is preset flow enabled.
      *
      * @api
+     *
+     * @var string
      */
     public const IS_PRESET_ENABLED = 'IS_PRESET_ENABLED';
 
@@ -86,6 +111,8 @@ interface OptileConstants
      * Is preselect flow enabled.
      *
      * @api
+     *
+     * @var string
      */
     public const IS_PRESELECT_ENABLED = 'IS_PRESELECT_ENABLED';
 }

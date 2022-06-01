@@ -15,7 +15,14 @@ use SprykerEco\Client\Optile\Dependency\Client\OptileToZedRequestClientInterface
 
 class OptileStub implements OptileStubInterface
 {
+    /**
+     * @var string
+     */
     protected const ZED_GET_PROCESS_NOTIFICATION_REQUEST = '/optile/gateway/process-notification-request';
+
+    /**
+     * @var string
+     */
     protected const ZED_GET_MAKE_LIST_REQUEST = '/optile/gateway/make-list-request';
 
     /**
@@ -42,7 +49,7 @@ class OptileStub implements OptileStubInterface
         /** @var \Generated\Shared\Transfer\OptileNotificationResponseTransfer $optileNotificationResponseTransfer */
         $optileNotificationResponseTransfer = $this->zedRequestClient->call(
             static::ZED_GET_PROCESS_NOTIFICATION_REQUEST,
-            $optileNotificationRequestTransfer
+            $optileNotificationRequestTransfer,
         );
 
         return $optileNotificationResponseTransfer;
@@ -58,7 +65,7 @@ class OptileStub implements OptileStubInterface
         /** @var \Generated\Shared\Transfer\OptileResponseTransfer $optileResponseTransfer */
         $optileResponseTransfer = $this->zedRequestClient->call(
             static::ZED_GET_MAKE_LIST_REQUEST,
-            $optileRequestTransfer
+            $optileRequestTransfer,
         );
 
         return $optileResponseTransfer;

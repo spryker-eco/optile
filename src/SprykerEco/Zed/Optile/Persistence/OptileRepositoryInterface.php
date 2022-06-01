@@ -40,7 +40,7 @@ interface OptileRepositoryInterface
     /**
      * @param string $paymentOptileTransfer
      *
-     * @return \Generated\Shared\Transfer\OptileNotificationRequestTransfer[]
+     * @return array<\Generated\Shared\Transfer\OptileNotificationRequestTransfer>
      */
     public function getNotificationsByPaymentReference(
         string $paymentOptileTransfer

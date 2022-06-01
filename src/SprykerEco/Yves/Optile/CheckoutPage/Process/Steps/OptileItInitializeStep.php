@@ -9,17 +9,26 @@ namespace SprykerEco\Yves\Optile\CheckoutPage\Process\Steps;
 
 use Generated\Shared\Transfer\OptileRequestTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
+use Spryker\Service\UtilUuidGenerator\UtilUuidGeneratorServiceInterface;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use SprykerEco\Client\Optile\OptileClientInterface;
 use SprykerShop\Yves\CheckoutPage\Process\Steps\AbstractBaseStep;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @method \SprykerEco\Yves\Optile\OptileFactory getFactory()
+ */
 class OptileItInitializeStep extends AbstractBaseStep
 {
     /**
      * @var \SprykerEco\Client\Optile\OptileClientInterface
      */
     protected $optileClient;
+
+    /**
+     * @var \Spryker\Service\UtilUuidGenerator\UtilUuidGeneratorServiceInterface
+     */
+    protected $uuidGenerator;
 
     /**
      * @param string $stepRoute
@@ -29,11 +38,13 @@ class OptileItInitializeStep extends AbstractBaseStep
     public function __construct(
         string $stepRoute,
         string $escapeRoute,
-        OptileClientInterface $optileClient
+        OptileClientInterface $optileClient,
+        UtilUuidGeneratorServiceInterface $uuidGenerator
     ) {
         parent::__construct($stepRoute, $escapeRoute);
 
         $this->optileClient = $optileClient;
+        $this->uuidGenerator = $uuidGenerator;
     }
 
     /**
@@ -54,6 +65,8 @@ class OptileItInitializeStep extends AbstractBaseStep
      */
     public function execute(Request $request, AbstractTransfer $quoteTransfer)
     {
+        $quoteTransfer->setUuid($this->uuidGenerator->generateUuid5FromObjectId($quoteTransfer->getName().rand(00000,99999)));
+
         $items = $this->getItemsDataRequest($quoteTransfer);
 
         $optileInitResponseTransfer = $this->optileClient->makeListRequest(
@@ -69,7 +82,7 @@ class OptileItInitializeStep extends AbstractBaseStep
                 ->setCustomerIp($request->getClientIp())
                 ->setClientUserAgent($request->headers->get('User-Agent'))
                 ->setClientAcceptableContentTypes($request->getAcceptableContentTypes())
-                ->setOrderItems($items)
+                ->setOrderItems($items),
         );
 
         $quoteTransfer->setOptileInitResponse($optileInitResponseTransfer);

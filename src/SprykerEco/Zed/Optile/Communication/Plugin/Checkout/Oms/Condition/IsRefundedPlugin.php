@@ -37,7 +37,7 @@ class IsRefundedPlugin extends AbstractPlugin implements ConditionInterface
         $refundOrderItemRequestLogTransfer = $this->getFacade()->findOrderItemRequestLogByCriteria(
             (new OptileOrderItemRequestLogCriteriaTransfer())
                 ->setRequestType(RefundRequest::REFUND_REQUEST_TYPE)
-                ->setFkSalesOrderItem($orderItem->getIdSalesOrderItem())
+                ->setFkSalesOrderItem($orderItem->getIdSalesOrderItem()),
         );
 
         return $this->getFacade()->isOrderRefunded($refundOrderItemRequestLogTransfer->getItemPaymentReference());

@@ -24,12 +24,12 @@ class OptileToOmsFacadeBridge implements OptileToOmsFacadeInterface
 
     /**
      * @param string $eventId
-     * @param array $orderItemIds
-     * @param array $data
+     * @param array<int, mixed> $orderItemIds
+     * @param array<string, mixed> $data
      *
-     * @return array|null
+     * @return array<string, mixed> |null
      */
-    public function triggerEventForOrderItems($eventId, array $orderItemIds, array $data = [])
+    public function triggerEventForOrderItems(string $eventId, array $orderItemIds, array $data = [])
     {
         return $this->omsFacade->triggerEventForOrderItems($eventId, $orderItemIds, $data);
     }

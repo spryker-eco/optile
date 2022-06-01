@@ -15,6 +15,7 @@ use SprykerEco\Yves\Optile\Form\DataProvider\OptileSubFormDataProvider;
 use SprykerEco\Yves\Optile\Form\OptileSubForm;
 use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestMapper;
 use SprykerEco\Yves\Optile\Mapper\OptileNotificationRequestMapperInterface;
+use SprykerEco\Yves\Optile\QouteSetter\OptileQouteSetter;
 
 /**
  * @method \SprykerEco\Yves\Optile\OptileConfig getConfig()
@@ -43,6 +44,14 @@ class OptileFactory extends AbstractFactory
     public function createOptileNotificationRequestMapper(): OptileNotificationRequestMapperInterface
     {
         return new OptileNotificationRequestMapper();
+    }
+
+    /**
+     * @return \SprykerEco\Yves\Optile\QouteSetter\OptileQouteSetterInterface
+     */
+    public function createOptileQouteSetter()
+    {
+        return new OptileQouteSetter();
     }
 
     /**

@@ -12,19 +12,74 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OptileNotificationRequestMapper implements OptileNotificationRequestMapperInterface
 {
+    /**
+     * @var string
+     */
     protected const OPTILE_REFERENCE_KEY = 'reference';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_NOTIFICATION_ID_KEY = 'notificationId';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_REASON_CODE_KEY = 'reasonCode';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_ENTITY_KEY = 'entity';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_AMOUNT_KEY = 'amount';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_SHORT_ID_KEY = 'shortId';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_TIMESTAMP_KEY = 'timestamp';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_STATUS_CODE_KEY = 'statusCode';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_LONG_ID_KEY = 'longId';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_TRANSACTION_ID_KEY = 'transactionId';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_CURRENCY_ID_KEY = 'currency';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_CUSTOMER_REGISTRATION_ID_KEY = 'customerRegistrationId';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_CUSTOMER_REGISTRATION_PASSWORD_KEY = 'customerRegistrationPassword';
+
+    /**
+     * @var string
+     */
     protected const OPTILE_CUSTOMER_REGISTRATION_EMAIL_KEY = 'customerEmail';
 
     /**

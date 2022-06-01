@@ -15,21 +15,29 @@ class OptileConfig extends AbstractBundleConfig
 {
     /**
      * Max value in Optile system.
+     *
+     * @var int
      */
     protected const MAX_3D_SECURE_CUSTOMER_SCORE = 1000;
 
     /**
      * Flag specify that oms event was triggered by internal system (automatically).
+     *
+     * @var string
      */
     protected const AUTOMATIC_OMS_TRIGGER = 'AUTOMATIC_OMS_TRIGGER';
 
     /**
      * Oms close request sent state name.
+     *
+     * @var string
      */
     protected const OMS_EVENT_SEND_CLOSE_REQUEST = 'send close request';
 
     /**
      * Oms cancel request sent state name.
+     *
+     * @var string
      */
     protected const OMS_EVENT_SEND_CANCEL_REQUEST = 'send cancel request';
 
