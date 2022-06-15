@@ -35,23 +35,25 @@ class CloseRequest implements OptileApiRequestInterface
      * @param \SprykerEco\Zed\Optile\Business\Oms\OmsEventTriggerInterface $omsEventTrigger
      */
     public function __construct(
-        OptileConfig $optileConfig,
+        OptileConfig             $optileConfig,
         OmsEventTriggerInterface $omsEventTrigger
-    ) {
+    )
+    {
         $this->optileConfig = $optileConfig;
         $this->omsEventTrigger = $omsEventTrigger;
     }
 
     /**
-     * @param array $responseData
+     * @param array<string,mixed> $responseData
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
      */
     public function handleResponse(
-        array $responseData,
+        array                 $responseData,
         OptileRequestTransfer $optileRequestTransfer
-    ): OptileResponseTransfer {
+    ): OptileResponseTransfer
+    {
         $this->omsEventTrigger->triggerOmsEventForRemainingItems(
             $optileRequestTransfer->getSalesOrderReference(),
             $this->optileConfig->getOmsEventNameSendCloseRequest(),
@@ -84,5 +86,15 @@ class CloseRequest implements OptileApiRequestInterface
     public function getRequestMethod(): string
     {
         return Request::METHOD_POST;
+    }
+
+    /**
+     * @param array<string,mixed> $responseData
+     *
+     * @return bool
+     */
+    public function isFailedRequest(array $responseData): bool
+    {
+        return false;
     }
 }

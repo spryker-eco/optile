@@ -85,4 +85,14 @@ class CancelRequest implements OptileApiRequestInterface
     {
         return Request::METHOD_DELETE;
     }
+
+    /**
+     * @param array<string,mixed> $responseData
+     *
+     * @return bool
+     */
+    public function isFailedRequest(array $responseData): bool
+    {
+        return false;
+    }
 }

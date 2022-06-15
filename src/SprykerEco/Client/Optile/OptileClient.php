@@ -27,9 +27,8 @@ class OptileClient extends AbstractClient implements OptileClientInterface
      *
      * @return \Generated\Shared\Transfer\OptileNotificationResponseTransfer
      */
-    public function processNotificationRequest(
-        OptileNotificationRequestTransfer $optileNotificationRequestTransfer
-    ): OptileNotificationResponseTransfer {
+    public function processNotificationRequest(OptileNotificationRequestTransfer $optileNotificationRequestTransfer): OptileNotificationResponseTransfer
+    {
         return $this->getFactory()
             ->createOptileZedStub()
             ->processNotificationRequest($optileNotificationRequestTransfer);

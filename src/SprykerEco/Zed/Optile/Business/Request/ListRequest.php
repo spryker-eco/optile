@@ -19,6 +19,11 @@ class ListRequest implements OptileApiRequestInterface
     /**
      * @var string
      */
+    protected const SUCCESS_RESPONSE_CODE = 'OK';
+
+    /**
+     * @var string
+     */
     protected const LISTS_URL_PATH = '%s/lists';
 
     /**
@@ -27,7 +32,7 @@ class ListRequest implements OptileApiRequestInterface
     protected const ERROR_MESSAGE_LONG_ID_OR_SELF_LINK_EMPTY = 'Required fields: identification.longId, links.self  can\'t be empty';
 
     /**
-     * @var array
+     * @var array<string,string>
      */
     protected const PRESELECTION_PAYLOAD = [
         'deferral' => 'DEFERRED',
@@ -55,17 +60,18 @@ class ListRequest implements OptileApiRequestInterface
      * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
      */
     public function __construct(
-        OptileConfig $optileConfig,
-        OptileRepositoryInterface $optileRepository,
+        OptileConfig                         $optileConfig,
+        OptileRepositoryInterface            $optileRepository,
         OptileToUtilEncodingServiceInterface $utilEncodingService
-    ) {
+    )
+    {
         $this->optileConfig = $optileConfig;
         $this->optileRepository = $optileRepository;
         $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
-     * @param array $responseData
+     * @param array<string,mixed> $responseData
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
      * @return \Generated\Shared\Transfer\OptileResponseTransfer
@@ -228,5 +234,18 @@ class ListRequest implements OptileApiRequestInterface
         }
 
         return $payload;
+    }
+
+    /**
+     * @param array<string,mixed> $responseData
+     *
+     * @return bool
+     */
+    public function isFailedRequest(array $responseData): bool
+    {
+        return
+            empty($responseData['returnCode']['name'])
+            ||
+            $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE;
     }
 }

@@ -34,4 +34,12 @@ interface OptileApiRequestInterface
      * @return string
      */
     public function getRequestMethod(): string;
+
+
+    /**
+     * @param array $responseData
+     *
+     * @return bool
+     */
+    public function isFailedRequest(array $responseData): bool;
 }

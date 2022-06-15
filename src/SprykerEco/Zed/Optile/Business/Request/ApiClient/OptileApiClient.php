@@ -21,12 +21,7 @@ use SprykerEco\Zed\Optile\OptileConfig;
 class OptileApiClient implements OptileApiClientInterface
 {
     /**
-     * @var string
-     */
-    protected const SUCCESS_RESPONSE_CODE = 'OK';
-
-    /**
-     * @var array
+     * @var array<string,mixed>
      */
     protected const BASE_OPTILE_REQUEST_HEADERS = [
         'Content-Type' => 'application/vnd.optile.payment.enterprise-v1-extensible+json',
@@ -77,13 +72,14 @@ class OptileApiClient implements OptileApiClientInterface
      * @param \SprykerEco\Zed\Optile\Dependency\Service\OptileToUtilEncodingServiceInterface $utilEncodingService
      */
     public function __construct(
-        OptileHttpClientInterface $optileHttpClient,
-        OptileConfig $optileConfig,
-        TransactionLogWriterInterface $transactionLogWriter,
-        OptileRequestMapperInterface $optileRequestToTransactionLog,
-        OptileApiRequestInterface $optileApiRequest,
+        OptileHttpClientInterface            $optileHttpClient,
+        OptileConfig                         $optileConfig,
+        TransactionLogWriterInterface        $transactionLogWriter,
+        OptileRequestMapperInterface         $optileRequestToTransactionLog,
+        OptileApiRequestInterface            $optileApiRequest,
         OptileToUtilEncodingServiceInterface $utilEncodingService
-    ) {
+    )
+    {
         $this->optileHttpClient = $optileHttpClient;
         $this->optileConfig = $optileConfig;
         $this->transactionLogWriter = $transactionLogWriter;
@@ -116,10 +112,8 @@ class OptileApiClient implements OptileApiClientInterface
         $this->logOptileTransaction($response, $optileRequestTransfer);
         $responseData = $this->utilEncodingService->decodeJson($response->getBody(), true);
 
-        if (
-            empty($responseData['returnCode']['name'])
-            || $responseData['returnCode']['name'] != static::SUCCESS_RESPONSE_CODE
-        ) {
+
+        if ($this->optileApiRequest->isFailedRequest($responseData)) {
             return $optileResponseTransfer->setError(static::ERROR_MESSAGE_WRONG_RESPONSE_CODE);
         }
 
@@ -129,7 +123,7 @@ class OptileApiClient implements OptileApiClientInterface
     /**
      * @param \Generated\Shared\Transfer\OptileRequestTransfer $optileRequestTransfer
      *
-     * @return array
+     * @return array<string,mixed>
      */
     protected function buildRequestOptions(OptileRequestTransfer $optileRequestTransfer): array
     {
@@ -158,10 +152,8 @@ class OptileApiClient implements OptileApiClientInterface
      *
      * @return void
      */
-    protected function logOptileTransaction(
-        ResponseInterface $response,
-        OptileRequestTransfer $optileRequestTransfer
-    ): void {
+    protected function logOptileTransaction(ResponseInterface $response, OptileRequestTransfer $optileRequestTransfer): void
+    {
         $optileTransactionLogTransfer = $this->optileRequestToTransactionLog
             ->mapOptileRequestToTransactionLog($optileRequestTransfer);
 
